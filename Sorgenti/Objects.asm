@@ -11,7 +11,7 @@
 ;*********************************************************************
 
 		include	'TMap.i'
-		include	'system'
+		include	'System'
 
 ChunkyPointer	EQU	0
 
@@ -2896,7 +2896,7 @@ if (v - (result * result) >= (result - 1))
 return(result);
 }
 
-
+    ENDIF
 ;****************************************************************
 ;*** Routine in pseudo codice per eliminare un oggetto
 ;*** dalla lista di oggetti di un blocco

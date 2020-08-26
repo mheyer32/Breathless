@@ -15,7 +15,7 @@
 
 		opt	p=68020,ALINK,DEBUG,LINE
 
-		include	'system'
+		include	'System'
 
 
 ID		EQU	$5644434f	;'VDCO' = Virtual Dreams COmpression
@@ -49,9 +49,9 @@ OpenCustom
 		CALLSYS	Open		;I parametri sono già nei registri
 		tst.l	d0
 		beq	OCerrorout
-		move.l	d0,fp(a5)
+		move.l	d0,fh(a5)
 
-		move.l	fp(a5),d1
+		move.l	fh(a5),d1
 		lea	inputId(a5),a0
 		move.l	a0,d2
 		move.l	#4,d3
@@ -64,12 +64,12 @@ OpenCustom
 		beq	OCcompress
 
 		move.w	#0,flagcompress(a5)	;Se il file non è compresso
-		move.l	fp(a5),d1
+		move.l	fh(a5),d1
 		moveq	#0,d2
 		moveq	#-1,d3
 		CALLSYS	Seek			; ritorna alla posizione 0
 
-		move.l	fp(a5),d1
+		move.l	fh(a5),d1
 		move.l	a4,d2
 		move.l	d4,d3
 		CALLSYS	Read		;Legge intero file
@@ -81,13 +81,13 @@ OpenCustom
 OCcompress
 		move.w	#1,flagcompress(a5)	;Se il file è compresso inizializza lettura compressa
 
-		move.l	fp(a5),d1
+		move.l	fh(a5),d1
 		lea	outputsize(a5),a0
 		move.l	a0,d2
 		move.l	#4,d3
 		CALLSYS	Read		;Legge original size
 
-		move.l	fp(a5),d1
+		move.l	fh(a5),d1
 		lea	buffersize(a5),a0
 		move.l	a0,d2
 		move.l	#4,d3
@@ -98,7 +98,7 @@ OCcompress
 		cmp.l	d4,d1		;Test se la destinazione e' sufficientemente grande
 		bgt	OCerrorout
 
-		move.l	fp(a5),d1
+		move.l	fh(a5),d1
 		move.l	d4,d2
 		sub.l	buffersize(a5),d2
 		add.l	a4,d2
@@ -113,7 +113,7 @@ OCcompress
 		move.l	a4,a1			;a1=dest.
 		jsr	UnPack			;Decompressione
 
-OCout		move.l	fp(a5),d0
+OCout		move.l	fh(a5),d0
 
 OCerrorout	movem.l	(sp)+,d2-d7/a2-a4
 		rts
@@ -130,13 +130,13 @@ OpenCustom2
 		bra	OCerrorout
 
 OC2compress
-		move.l	fp(a5),d1
+		move.l	fh(a5),d1
 		lea	outputsize(a5),a0
 		move.l	a0,d2
 		move.l	#4,d3
 		CALLSYS	Read		;Legge original size
 
-		move.l	fp(a5),d1
+		move.l	fh(a5),d1
 		lea	buffersize(a5),a0
 		move.l	a0,d2
 		move.l	#4,d3
@@ -147,7 +147,7 @@ OC2compress
 		cmp.l	d4,d1		;Test se la destinazione e' sufficientemente grande
 		bgt	OCerrorout
 
-		move.l	fp(a5),d1
+		move.l	fh(a5),d1
 		move.l	a4,d2
 		move.l	buffersize(a5),d3
 		addq.l	#1,d3		;Legge anche byte tipo compressione
@@ -351,7 +351,7 @@ outputsize	ds.l	1	;Lun. del file originale
 buffersize	ds.l	1	;Lun. dei dati compressi
 bufferpun	ds.l	1	;Pun. buffer dati compressi
 inputId		ds.l	1	;Per testare l'Id del file
-fp		ds.l	1	;Pun. alla struct FileHandle
+fh		ds.l	1		;Pun. alla struct FileHandle
 flagcompress	ds.w	1	;Flag: Se=1 il file è compresso
 compressiontype	ds.w	1	;Tipo compressione
 

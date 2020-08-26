@@ -13,7 +13,7 @@
 
 		include	'TMap.i'
 		include	'MulDiv64.i'
-		include	'system'
+		include	'System'
 
 WINDOW_WIDTH	EQU	112
 WINDOW_HEIGHT	EQU	140

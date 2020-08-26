@@ -51,7 +51,7 @@ PlayerHit	movem.l	d0-d3/a0-a1/a6,-(sp)
 		lsr.l	#1,d3
 		add.l	d3,d1		;d1=75% dell'energia da togliere al player
 		clr.w	d3
-		lsl.w	#1,d1		:Mette nel flag X il bit piu' alto della parte decimale
+		lsl.w	#1,d1		;Mette nel flag X il bit piu' alto della parte decimale
 		swap	d1
 		addx.w	d3,d1		;Somma il flag X per arrotondare all'intero superiore
 		cmp.w	d2,d1		;Ci sono abbastanza scudi ?

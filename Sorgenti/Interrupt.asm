@@ -12,7 +12,6 @@
 		include 'System'
 		include 'TMap.i'
 
-		include	"exec/exec_lib.i"	;exec
 		include	"hardware/intbits.i"	;int bit definitions
 		include	"exec/interrupts.i"	;server structure
 

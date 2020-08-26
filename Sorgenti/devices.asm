@@ -8,7 +8,7 @@
 ;***********************************************************
 
 
-		include	'system'
+		include	'System'
 		include	'TMap.i'
 
 

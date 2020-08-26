@@ -14,9 +14,9 @@
 
 		incdir	inc:
 
-		include	"exec/exec_lib.i"
+		include	"lvo/exec_lib.i"
 		include "exec/exec.i"
-		include	"graphics/graphics_lib.i"
+		include	"lvo/graphics_lib.i"
 		include "hardware/custom.i"
 
 		xdef	c2p8_init
@@ -956,12 +956,12 @@ qblitfunc:	dc.l	blit31		; ptr to qblitfunc()
 
 	xdef	offset
 
-mode		dc.l	0		: conversion mode: 0=normal; 1=double width
+mode		dc.l	0		; conversion mode: 0=normal; 1=double width
 chunky:		dc.l	0		; ptr to original chunky data
 planes:		dc.l	0		; ptr to list of output plane ptrs
 width		dc.l	0		; width/16
 height		dc.l	0		; height
-mod		dc.l	0		: d channel module
+mod			dc.l	0		; d channel module
 pixels:		dc.l	0		; width*height
 pixels2:	dc.l	0		; width*height/2
 pixels4:	dc.l	0		; width*height/4

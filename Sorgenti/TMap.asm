@@ -15,11 +15,11 @@
 ;****************************************************************************
 
 
-	include 'system'
+	include 'System'
 ;	include 'Picasso/Picasso'
 	include 'TMap.i'
 
-	include	'misc/easystart.i'
+;	include	'misc/easystart.i'
 
 
 ;... Definizioni esterne
@@ -44,7 +44,7 @@
 
 ;* Inizio del programma ********************************
 
-		
+
 		movem.l	d0-d7/a0-a6,-(sp)
 
 		GETDBASE
@@ -149,7 +149,7 @@ clrbss		clr.l	(a0)+
 ;********************************************************************
 
 ErrorQuit
-		bsr	CleanupResources		
+		bsr	CleanupResources
 		movem.l	(sp)+,d0-d7/a0-a6
 		moveq	#30,d0
 		rts
@@ -467,7 +467,7 @@ OpenAgaScreen
 		lea	screen_rport(a5),a1
 		CALLSYS	InitRastPort
 		move.l	screen_bitmap1(a5),screen_rport+rp_BitMap(a5)
-	
+
 
 ; Calculate panel bitplane pointers
 
@@ -1015,7 +1015,7 @@ CASnodispport
 PrepareCleanup:
 
 ;		tst.l	ScrOutputType(a5)	;Test screen output type
-;		bne.s	PCout			;Se non è AGA, esce
+;		bne.s	PCout			;Se non ? AGA, esce
 ;
 ; Reset 256 colors palette
 ;
@@ -1153,7 +1153,7 @@ PaletteRGB32	dc.l	$01000000
 
 ;***************************************************************************
 
-	section	__MERGED,BSS
+	section	__MERGED,bss
 
 	xdef	ChunkyPointer,ChunkyBuffer,Yoffset
 
@@ -1161,8 +1161,8 @@ ChunkyPointer	ds.l	1	;pun. al buffer chunky pixel. DEVE essere il primo, in modo
 				; E' usato dalle routine di tracciamento.
 
 ChunkyBuffer	ds.l	1	;pun. al primo byte del buffer chunky pixel corrente.
-				;Se l'output è AGA, corrisponde a FakeChunkyPun;
-				;Se l'output è un vero schermo chunky pixel, corrisponde al buffer corrente in chunky pixel.
+				;Se l'output ? AGA, corrisponde a FakeChunkyPun;
+				;Se l'output ? un vero schermo chunky pixel, corrisponde al buffer corrente in chunky pixel.
 
 Yoffset		ds.l	WINDOW_MAX_HEIGHT	;Lista di offset alle righe dello schermo chunky pixel. DEVE avere offset rispetto ad a5 di massimo 127.
 
@@ -1276,7 +1276,7 @@ ResetMousePos	ds.b	1	;Se=TRUE, comunica all'input handler di
 		cnop	0,4
 
 ; the following two must stay together
-LastEClock	ds.l	2		
+LastEClock	ds.l	2
 NewEClock	ds.l	2
 ; the preceeding two must stay together
 

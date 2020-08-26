@@ -12,7 +12,7 @@
 ;***************************************************************
 
 		include	'TMap.i'
-		include	'system'
+		include	'System'
 
 WINDOW_WIDTH	EQU	112
 WINDOW_HEIGHT	EQU	140

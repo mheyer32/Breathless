@@ -37,7 +37,7 @@
 
 
 		include	'TMap.i'
-		include	'system'
+		include	'System'
 
 ChunkyPointer	EQU	0
 
