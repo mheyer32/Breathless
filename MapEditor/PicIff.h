@@ -11,6 +11,8 @@
 #ifndef	PICIFF_H
 #define	PICIFF_H
 
+#include <exec/types.h>
+#include <graphics/gfx.h>
 
 #define MakeIFFID(a,b,c,d) ((ULONG)(a)<<24|(ULONG)(b)<<16|(ULONG)(c)<<8|(ULONG)(d))
 #define PullIFFID(p) 		((ULONG)((p)[0]<<24)|(ULONG)((p)[1]<<16)|(ULONG)((p)[2]<<8)|(ULONG)(p)[3])

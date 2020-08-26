@@ -11,11 +11,13 @@
 #include	"MapEditor3d.h"
 #include	"Definitions.h"
 
+#include <stdio.h>
+#include <stdlib.h>
 //*****************************************************************************
 
 //*** Setta la barra del titolo della finestra Map
 
-void SetMapWinTitle() {
+void SetMapWinTitle(void) {
 
 	static char	MapWinTitle[80];
 	char		draw[20];
@@ -81,7 +83,7 @@ void MapWinDim() {
 
 //*** Calcola la posizione del mouse nella mappa
 
-void MouseMapPos() {
+void MouseMapPos(void) {
 
 	if ((MouseX<MapWinX1) || (MouseY<MapWinY1) ||
 		(MouseX>=MapWinX1+MapWinWidthR) || (MouseY>=MapWinY1+MapWinHeightR)) {
@@ -96,7 +98,7 @@ void MouseMapPos() {
 
 //*** Traccia la griglia della mappa
 
-void DrawMapGrid() {
+void DrawMapGrid(void) {
 
 	register long	i,j,w,cx,cy;
 

@@ -11,7 +11,11 @@
 #include	"MapEditor3d.h"
 #include	"Definitions.h"
 
+#include <proto/dos.h>
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 //*** Legge il file GLD relativo ad un livello
 //*** Se non ci sono errori restituisce FALSE.
@@ -46,7 +50,7 @@ int ReadMapGLD(struct GLNode *level) {
 
 	err=0;
 
-	if ((file = Open((STRPTR)filename, MODE_OLDFILE)) != NULL) {
+	if ((file = Open((STRPTR)filename, MODE_OLDFILE)) != 0) {
 		printf("OK\n");
 
 		Read(file,&l1,4);
@@ -81,12 +85,12 @@ int ReadMapGLD(struct GLNode *level) {
 			bpun->FloorHeight = fblock.FloorHeight;
 			bpun->CeilHeight = fblock.CeilHeight;
 
-			bpun->FloorTexture = (struct TextDirNode *)fblock.FloorTexture;
+            bpun->FloorTexture = (struct TextDirNode *)(LONG)fblock.FloorTexture;
 			if(fblock.CeilTexture<0) {
-				bpun->CeilTexture = (struct TextDirNode *)(-fblock.CeilTexture);
+				bpun->CeilTexture = (struct TextDirNode *)(LONG)(-fblock.CeilTexture);
 				bpun->SkyCeil = 1;
 			} else {
-				bpun->CeilTexture = (struct TextDirNode *)fblock.CeilTexture;
+				bpun->CeilTexture = (struct TextDirNode *)(LONG)fblock.CeilTexture;
 				bpun->SkyCeil = 0;
 			}
 			bpun->BlockNumber = i;
@@ -96,10 +100,10 @@ int ReadMapGLD(struct GLNode *level) {
 			bpun->Edge2 = (struct Edge *)fblock.Edge2;
 			bpun->Edge3 = (struct Edge *)fblock.Edge3;
 			bpun->Edge4 = (struct Edge *)fblock.Edge4;
-			bpun->Effect = (struct EffectDirNode *)fblock.Effect;
+			bpun->Effect = (struct EffectDirNode *)(ULONG)fblock.Effect;
 			bpun->Attributes = fblock.Attributes;
-			bpun->Trigger = (struct EffectDirNode *)fblock.Trigger;
-			bpun->Trigger2 = (struct EffectDirNode *)fblock.Trigger2;
+			bpun->Trigger = (struct EffectDirNode *)(ULONG)fblock.Trigger;
+			bpun->Trigger2 = (struct EffectDirNode *)(ULONG)fblock.Trigger2;
 
 			bpun->Next = (struct Block *)NULL;
 
@@ -335,7 +339,7 @@ int ReadMapGLD(struct GLNode *level) {
 			mapobj->y			= fmapobj.y;
 			mapobj->Heading		= (fmapobj.Heading)>>8;
 			mapobj->PlayerType	= 0;
-			mapobj->Effect		= (struct EffectDirNode *)fmapobj.Effect;
+            mapobj->Effect		= (struct EffectDirNode *)(ULONG)fmapobj.Effect;
 			mapobj->Next		= NULL;
 
 				//*** Cerca pun. all'effetto
@@ -414,7 +418,7 @@ int ReadTexturesGLD() {
 
 	err=0;
 
-	if((file = Open((STRPTR)filename, MODE_OLDFILE)) != NULL) {
+	if((file = Open((STRPTR)filename, MODE_OLDFILE)) != 0) {
 		Read(file,&l1,4);
 		if(l1 != TGLD_ID) {		// La ID è corretta ?
 			ShowErrorMessage(BADGLDFILE, filename);
@@ -526,7 +530,7 @@ int ReadObjectsGLD() {
 
 	err=0;
 
-	if((file = Open((STRPTR)filename, MODE_OLDFILE)) != NULL) {
+	if((file = Open((STRPTR)filename, MODE_OLDFILE)) != 0) {
 		Read(file,&l1,4);
 		if(l1 != OGLD_ID) {		// La ID è corretta ?
 			ShowErrorMessage(BADGLDFILE, filename);
@@ -651,7 +655,7 @@ int ReadGfxGLD() {
 
 	err=0;
 
-	if((file = Open((STRPTR)filename, MODE_OLDFILE)) != NULL) {
+	if((file = Open((STRPTR)filename, MODE_OLDFILE)) != 0) {
 		Read(file,&l1,4);
 		if(l1 != GGLD_ID) {		// La ID è corretta ?
 			ShowErrorMessage(BADGLDFILE, filename);
@@ -763,7 +767,7 @@ int ReadSoundsGLD() {
 
 	err=0;
 
-	if((file = Open((STRPTR)filename, MODE_OLDFILE)) != NULL) {
+	if((file = Open((STRPTR)filename, MODE_OLDFILE)) != 0) {
 		Read(file,&l1,4);
 		if(l1 != SGLD_ID) {		// La ID è corretta ?
 			ShowErrorMessage(BADGLDFILE, filename);
@@ -931,7 +935,7 @@ int ReadMainGLD() {
 
 	err=0;
 
-	if((file = Open((STRPTR)filename, MODE_OLDFILE)) != NULL) {
+	if((file = Open((STRPTR)filename, MODE_OLDFILE)) != 0) {
 		printf("OK\n");
 
 		Read(file,&l1,4);
@@ -1048,7 +1052,7 @@ int WriteMapGLD(struct GLNode *level) {
 
 	err=0;
 
-	if ((file = Open((STRPTR)filename, MODE_NEWFILE)) != NULL) {
+	if ((file = Open((STRPTR)filename, MODE_NEWFILE)) != 0) {
 		printf("OK\n");
 
 		t1=LGLD_ID;
@@ -1106,9 +1110,9 @@ int WriteMapGLD(struct GLNode *level) {
 		Write(file,&t1,4);		// Num. of edges
 		epun = EdgeList;
 		while(epun!=NULL) {
-			fedge.NormTexture =	(struct TextDirNode *)(epun->NormTexture->tdn_num);
-			fedge.UpTexture =	(struct TextDirNode *)(epun->UpTexture->tdn_num);
-			fedge.LowTexture =	(struct TextDirNode *)(epun->LowTexture->tdn_num);
+			fedge.NormTexture =	(struct TextDirNode *)(LONG)(epun->NormTexture->tdn_num);
+			fedge.UpTexture =	(struct TextDirNode *)(LONG)(epun->UpTexture->tdn_num);
+			fedge.LowTexture =	(struct TextDirNode *)(LONG)(epun->LowTexture->tdn_num);
 			fedge.Attribute =	epun->Attribute;
 			fedge.noused =		0;
 			Write(file,&fedge,16);
@@ -1234,13 +1238,13 @@ int WriteTexturesGLD() {
 	if(!MakeFileName(filename1, ProjectDir, ProjectPrefix, ProjectTextFileName, ".gld", FILENAME_LEN)) return(1);
 	if(!MakeFileName(filename2, ProjectDir, ProjectPrefix, ProjectTextFileName, ".newgld", FILENAME_LEN)) return(1);
 
-	if((oldfile = Open((STRPTR)filename1, MODE_OLDFILE)) == NULL) {
+	if((oldfile = Open((STRPTR)filename1, MODE_OLDFILE)) != 0) {
 		err=IoErr();
 		if(err!=0 && err!=ERROR_OBJECT_NOT_FOUND)
 			if(ErrorReport(err, REPORT_STREAM, (ULONG)oldfile, NULL)) return(TRUE);
 	}
 
-	if((newfile = Open((STRPTR)filename2, MODE_NEWFILE)) != NULL) {
+	if((newfile = Open((STRPTR)filename2, MODE_NEWFILE)) != 0) {
 		l1=TGLD_ID;
 		Write(newfile,&l1,4);
 		l1=0;
@@ -1417,13 +1421,13 @@ int WriteObjectsGLD() {
 
 	printf("WriteObjectsGLD(%ls)\n",filename1);
 
-	if((oldfile = Open((STRPTR)filename1, MODE_OLDFILE)) == NULL) {
+	if((oldfile = Open((STRPTR)filename1, MODE_OLDFILE)) != 0) {
 		err=IoErr();
 		if(err!=0 && err!=ERROR_OBJECT_NOT_FOUND)
 			if(ErrorReport(err, REPORT_STREAM, (ULONG)oldfile, NULL)) return(TRUE);
 	}
 
-	if((newfile = Open((STRPTR)filename2, MODE_NEWFILE)) != NULL) {
+	if((newfile = Open((STRPTR)filename2, MODE_NEWFILE)) != 0) {
 		l1=OGLD_ID;
 		Write(newfile,&l1,4);
 		l1=0;
@@ -1580,13 +1584,13 @@ int WriteGfxGLD() {
 
 	printf("WriteGfxGLD(%ls)  ",filename1);
 
-	if((oldfile = Open((STRPTR)filename1, MODE_OLDFILE)) == NULL) {
+	if((oldfile = Open((STRPTR)filename1, MODE_OLDFILE)) != 0) {
 		err=IoErr();
 		if(err!=0 && err!=ERROR_OBJECT_NOT_FOUND)
 			if(ErrorReport(err, REPORT_STREAM, (ULONG)oldfile, NULL)) return(TRUE);
 	}
 
-	if((newfile = Open((STRPTR)filename2, MODE_NEWFILE)) != NULL) {
+	if((newfile = Open((STRPTR)filename2, MODE_NEWFILE)) != 0) {
 		l1=GGLD_ID;
 		Write(newfile,&l1,4);
 		l1=0;
@@ -1805,13 +1809,13 @@ int WriteSoundsGLD() {
 
 	printf("WriteSoundsGLD(%ls)  ",filename1);
 
-	if((oldfile = Open((STRPTR)filename1, MODE_OLDFILE)) == NULL) {
+	if((oldfile = Open((STRPTR)filename1, MODE_OLDFILE)) != 0) {
 		err=IoErr();
 		if(err!=0 && err!=ERROR_OBJECT_NOT_FOUND)
 			if(ErrorReport(err, REPORT_STREAM, (ULONG)oldfile, NULL)) return(TRUE);
 	}
 
-	if((newfile = Open((STRPTR)filename2, MODE_NEWFILE)) != NULL) {
+	if((newfile = Open((STRPTR)filename2, MODE_NEWFILE)) != 0) {
 		l1=SGLD_ID;
 		Write(newfile,&l1,4);
 		l1=0;
@@ -1891,7 +1895,7 @@ int WriteSoundsGLD() {
 							}
 					}
 
-					if(fsound.sample == NULL) {
+					if(fsound.sample == 0) {
 						if(ReadTempSoundFile(snode->snd_name, snode->snd_flength, TRUE)) {
 							err = 1;
 							goto WSesci;
@@ -2027,7 +2031,7 @@ int WriteMainGLD() {
 
 	err=0;
 
-	if((file = Open((STRPTR)filename, MODE_NEWFILE)) != NULL) {
+	if((file = Open((STRPTR)filename, MODE_NEWFILE)) != 0) {
 		printf("OK\n");
 
 		l1=MGLD_ID;

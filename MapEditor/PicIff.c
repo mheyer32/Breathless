@@ -10,10 +10,13 @@
 
 #include	"PicIff.h"
 
+#include <proto/graphics.h>
+#include <stdio.h>
 
 FILE					*FileIFF;
 
 
+#define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
 // Cerca nel file il chunk id specificato
 

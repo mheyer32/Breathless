@@ -11,6 +11,10 @@
 #include	"MapEditor3d.h"
 #include	"Definitions.h"
 
+#include <proto/dos.h>
+
+#include <string.h>
+#include <stdio.h>
 
 //*****************************************************************************
 
@@ -87,7 +91,7 @@ int	ReadTempGfxFile(char *name, long length, int delflag) {
 		return(TRUE);
 	}
 
-	if ((file = (struct FileHandle *)Open((STRPTR)filename, MODE_OLDFILE)) != NULL) {
+	if ((file = (struct FileHandle *)Open((STRPTR)filename, MODE_OLDFILE)) != 0) {
 		do {
 			err=0;
 			if(Read((BPTR)file,GfxBuffer,length)<length) {

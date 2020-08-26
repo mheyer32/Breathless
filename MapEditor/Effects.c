@@ -11,6 +11,8 @@
 #include	"MapEditor3d.h"
 #include	"Definitions.h"
 
+#include <stdio.h>
+#include <string.h>
 //*****************************************************************************
 
 //*** Controlla gli effetti definiti per verificare se sono utilizzati.
@@ -64,7 +66,7 @@ void CheckEffectsList() {
 
 //*** Apre finestra Fx
 
-void OpenFxWindow() {
+void OpenFxWindow(void) {
 
 	register long	i;
 	int				cont;
@@ -164,7 +166,7 @@ void OpenFxWindow() {
 //*** Aggiunge una nuova lista di effetti
 //*** Ritorna FALSE se tutto ok
 
-int AddEffectList() {
+int AddEffectList(void) {
 
 	long					pos1, posnn;
 	struct EffectDirNode	*enode;
@@ -218,7 +220,7 @@ int AddEffectList() {
 //*** Aggiunge un effetto ad una lista di effetti
 //*** Ritorna FALSE se tutto ok
 
-int AddFx() {
+int AddFx(void) {
 
 	struct EffectDirNode	*enode, *senode, *lenode;
 	long					pos1, posnn;
@@ -383,7 +385,7 @@ int DeleteEffectList(struct EffectDirNode *delenode) {
 
 //*** Azzera e disabilita alcuni gadget della finestra Effects
 
-void ResetEffectGadgets() {
+void ResetEffectGadgets(void) {
 
 	register long			i;
 

@@ -11,7 +11,10 @@
 #include	"MapEditor3d.h"
 #include	"Definitions.h"
 
+#include <proto/asl.h>
 
+#include <stdio.h>
+#include <stdlib.h>
 //*****************************************************************************
 
 
@@ -311,7 +314,7 @@ int SetUpAll() {
 		return(1);
 	}
 
-	ReqToolsBase=(struct ReqToolsBase *)OpenLibrary((UBYTE *)"reqtools.library",38L);
+	ReqToolsBase=(struct Library *)OpenLibrary((UBYTE *)"reqtools.library",38L);
 	if(!ReqToolsBase) {
 		printf("C'e' bisogno della reqtools.library V38 o successiva!\n");
 		return(1);

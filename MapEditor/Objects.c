@@ -11,7 +11,9 @@
 #include	"MapEditor3d.h"
 #include	"Definitions.h"
 
+#include <proto/dos.h>
 
+#include <stdio.h>
 //*****************************************************************************
 
 
@@ -292,7 +294,7 @@ int	ReadTempObjFile(char *name, long length, int delflag) {
 		return(TRUE);
 	}
 
-	if ((file = (struct FileHandle *)Open((STRPTR)filename, MODE_OLDFILE)) != NULL) {
+	if ((file = (struct FileHandle *)Open((STRPTR)filename, MODE_OLDFILE)) != 0) {
 		do {
 			err=0;
 			if(Read((BPTR)file,GfxBuffer,length)<length) {
@@ -373,7 +375,7 @@ int ReadGLDObjFile(struct ObjDirNode *object) {
 
 	err=0;
 
-	if((file = Open((STRPTR)filename, MODE_OLDFILE)) != NULL) {
+	if((file = Open((STRPTR)filename, MODE_OLDFILE)) != 0) {
 		Read(file,&l1,4);
 		if(l1 != OGLD_ID) {		// La ID è corretta ?
 			ShowErrorMessage(BADGLDFILE, filename);

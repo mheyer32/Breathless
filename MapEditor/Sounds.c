@@ -11,6 +11,10 @@
 #include	"MapEditor3d.h"
 #include	"Definitions.h"
 
+#include <proto/dos.h>
+
+#include <string.h>
+#include <stdio.h>
 
 //*****************************************************************************
 
@@ -65,7 +69,7 @@ long ArrangeSoundsList() {
 	for(node2=ObjectsList.lh_Head; node2->ln_Succ; node2=node2->ln_Succ) {
 		onode=(struct ObjDirNode *)node2;
 		if(onode->odn_num) {
-			if(((l1=onode->odn_sound1) != NULL) && ((l1=onode->odn_sound1) != 0x20202020)) {
+			if(((l1=onode->odn_sound1) != 0) && ((l1=onode->odn_sound1) != 0x20202020)) {
 				for(node=SoundsList.lh_Head; node->ln_Succ; node=node->ln_Succ) {
 					lpun=(long *)(((struct SoundNode *)node)->snd_name);
 					if(*lpun==l1) {
@@ -74,7 +78,7 @@ long ArrangeSoundsList() {
 					}
 				}
 			}
-			if(((l1=onode->odn_sound2) != NULL) && ((l1=onode->odn_sound2) != 0x20202020)) {
+			if(((l1=onode->odn_sound2) != 0) && ((l1=onode->odn_sound2) != 0x20202020)) {
 				for(node=SoundsList.lh_Head; node->ln_Succ; node=node->ln_Succ) {
 					lpun=(long *)(((struct SoundNode *)node)->snd_name);
 					if(*lpun==l1) {
@@ -83,7 +87,7 @@ long ArrangeSoundsList() {
 					}
 				}
 			}
-			if(((l1=onode->odn_sound3) != NULL) && ((l1=onode->odn_sound3) != 0x20202020)) {
+			if(((l1=onode->odn_sound3) != 0) && ((l1=onode->odn_sound3) != 0x20202020)) {
 				for(node=SoundsList.lh_Head; node->ln_Succ; node=node->ln_Succ) {
 					lpun=(long *)(((struct SoundNode *)node)->snd_name);
 					if(*lpun==l1) {

@@ -11,6 +11,8 @@
 #ifndef	SUPPORT_H
 #define	SUPPORT_H
 
+#include <exec/lists.h>
+
 struct Node *FindNode(struct List *list, long num);
 struct Node *FindNodePos(struct List *list, char *name);
 long FindPosNum(struct List *list, struct Node *node);

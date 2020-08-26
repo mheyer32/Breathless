@@ -10,6 +10,10 @@
 
 #include	"Support.h"
 
+#include <proto/dos.h>
+
+#include <string.h>
+
 
 //********************************************
 //********** Exec support functions **********

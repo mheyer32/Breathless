@@ -16,7 +16,7 @@ extern struct IntuitionBase		*IntuitionBase;
 extern struct GfxBase			*GfxBase;
 extern struct Library			*GadToolsBase;
 extern struct Library			*AslBase;
-extern struct ReqToolsBase		*ReqToolsBase;
+extern struct Library           *ReqToolsBase;
 
 //*** Definizione di dati e strutture usate dal programma
 

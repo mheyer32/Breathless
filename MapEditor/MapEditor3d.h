@@ -12,8 +12,14 @@
 #include	"Support.h"
 #include	"Protos.h"
 
-#include	"libraries/reqtools.h"
-#include	"clib/reqtools_protos.h"
+#include    <proto/exec.h>
+#include    <proto/intuition.h>
+#include    <proto/gadtools.h>
+#include	<proto/reqtools.h>
+#include    <proto/graphics.h>
+#include    <clib/alib_protos.h>
+#include    <dos/dosextens.h>
+#include    <libraries/reqtools.h>
 
 //*****************************************************************************
 

@@ -9,10 +9,11 @@
 //*****************************************************************************
 
 #include	"MapEditor3d.h"
-
 #include	"FxList.h"
-
 #include	"Images.h"
+
+#include <stdio.h>
+#include <stdlib.h>
 
 //*****************************************************************************
 //***	Definizioni di variabili globali
@@ -26,7 +27,7 @@ struct IntuitionBase	*IntuitionBase=NULL;
 struct GfxBase			*GfxBase=NULL;
 struct Library			*GadToolsBase=NULL;
 struct Library			*AslBase=NULL;
-struct ReqToolsBase		*ReqToolsBase=NULL;
+struct Library  		*ReqToolsBase=NULL;
 
 
 
@@ -340,11 +341,11 @@ struct MenuItem			*MItem;
 
 //*** Definizione di alcune funzioni
 
-void SaveProject();
-void InitNewMap();
-void InitMap();
-void TurnOffMenu();
-void TurnOnMenu();
+void SaveProject(void);
+void InitNewMap(void);
+void InitMap(void);
+void TurnOffMenu(void);
+void TurnOnMenu(void);
 
 //*****************************************************************************
 //***	Visualizzazione di messaggi e richieste
@@ -378,8 +379,8 @@ void ShowProgress(long level, long maxlevel, char *title) {
 									WFLG_SMART_REFRESH|
 									WFLG_ACTIVATE,
 						WA_IDCMP,	NULL,
-						WA_Title,	title,
-						WA_CustomScreen, MainScr,
+                                     WA_Title,	(Tag)title,
+                                     WA_CustomScreen, (Tag)MainScr,
 						TAG_DONE,0);
 
 		if(!ProgressWin) {
@@ -388,7 +389,7 @@ void ShowProgress(long level, long maxlevel, char *title) {
 			return;
 		}
 
-		DrawBevelBox(ProgressWin->RPort,6,24,308,13, GT_VisualInfo,VInfo, TAG_DONE,0);
+        DrawBevelBox(ProgressWin->RPort,6,24,308,13, GT_VisualInfo,(Tag)VInfo, TAG_DONE,0);
 
 		TurnOffMenu();
 	}
@@ -443,7 +444,7 @@ int ShowMessageW(struct Window *win,char *str,int flag) {
 	return(EasyRequest(win,&es,NULL,NULL));
 }
 
-void ShowAbout() {
+void ShowAbout(void) {
 
 	struct EasyStruct es={
 		sizeof(struct EasyStruct),
@@ -459,7 +460,7 @@ void ShowAbout() {
 
 //*** Mostra informazioni sul progetto e sulla mappa correnti
 
-void ShowInfos() {
+void ShowInfos(void) {
 
 	char	testo[512],	str[80];
 	long	lentext,lenobj, lensnd, tot;
@@ -532,7 +533,7 @@ void ShowErrorMessage(int err, APTR message) {
 	}
 }
 
-void ShowWarningMessage() {
+void ShowWarningMessage(void) {
 
 	if(!ShowWarns_fl) return;
 
@@ -542,7 +543,7 @@ void ShowWarningMessage() {
 
 //*** Abilita tutti i menu
 
-void TurnOnMenu() {
+void TurnOnMenu(void) {
 
 	register int	i;
 
@@ -552,7 +553,7 @@ void TurnOnMenu() {
 
 //*** Disabilita tutti i menu
 
-void TurnOffMenu() {
+void TurnOffMenu(void) {
 
 	register int	i;
 
@@ -744,7 +745,7 @@ void MakeRGB32Table(UBYTE *palette) {
 
 //*** Apre finestra directories
 
-void OpenDirsWindow() {
+void OpenDirsWindow(void) {
 
 	int				cont;
 	ULONG			signals;
@@ -978,7 +979,7 @@ void DelLevelEntry(struct GLNode *glnode) {
 
 //*** Apre finestra Project
 
-void OpenProjectWindow() {
+void OpenProjectWindow(void) {
 
 	register long	i;
 	int				cont, action;
@@ -1240,7 +1241,7 @@ void OpenProjectWindow() {
 
 //*** Inizializza lista oggetti
 
-void InitObjList() {
+void InitObjList(void) {
 
 	struct ObjDirNode	*onode;
 
@@ -1287,7 +1288,7 @@ void InitObjList() {
 
 //*** Inizializza lista textures, inserendo una texture vuota fittizia
 
-void InitTextList() {
+void InitTextList(void) {
 
 	struct TextDirNode	*tnode;
 
@@ -1323,7 +1324,7 @@ void InitTextList() {
 
 //*** Inizializza lista effetti
 
-void InitEffectsList() {
+void InitEffectsList(void) {
 
 	struct EffectDirNode	*enode;
 
@@ -1380,7 +1381,7 @@ void InitEffectsList() {
 
 //*** Inizializza SoundsList, inserendo un sound vuoto
 
-void InitSoundsList() {
+void InitSoundsList(void) {
 
 	struct 	SoundNode	*snode;
 
@@ -1427,7 +1428,7 @@ void InitSoundsList() {
 
 //*** Inizializza GfxList, inserendo una entry vuota
 
-void InitGfxList() {
+void InitGfxList(void) {
 
 	struct 	GfxNode		*gnode;
 
@@ -1467,7 +1468,7 @@ void InitGfxList() {
 
 //*** Inizializza la finestra Block
 
-void InitBlockWin() {
+void InitBlockWin(void) {
 
 	struct TextDirNode	*nnode;
 
@@ -1561,7 +1562,7 @@ void InitBlockWin() {
 
 //*** Inizializza i dati per una nuova mappa (Blocks, Edges, etc.)
 
-void InitNewMap() {
+void InitNewMap(void) {
 
 	CurrBlockCode = 0;
 	LastBlock = 0;
@@ -1598,7 +1599,7 @@ void InitNewMap() {
 
 //*** Inizializza i dati della mappa per caricarne una nuova
 
-void InitMap() {
+void InitMap(void) {
 
 	CurrBlockCode = 0;
 	LastBlock = 0;
@@ -1632,7 +1633,7 @@ void InitMap() {
 
 //*** Azzera un eventuale project presente in memoria
 
-void ClearProject() {
+void ClearProject(void) {
 
 	FreeGLList();
 	FreeTextList();
@@ -1673,7 +1674,7 @@ void ClearProject() {
 //*** Apre un project
 //*** Restituisce FALSE se non ha aperto il project
 
-int OpenProject() {
+int OpenProject(void) {
 
 /*
 	if(AslRequestTags(FileReq, 	ASL_FuncFlags,FILF_NEWIDCMP,
@@ -1775,7 +1776,7 @@ int OpenProject() {
 //*** Selezione del nome del project.
 //*** Restituisce FALSE se non è stato selezionato alcun nome.
 
-int SelectPrjName() {
+int SelectPrjName(void) {
 
 /*
 	if(AslRequestTags(FileReq, 	ASL_FuncFlags,FILF_SAVE|FILF_NEWIDCMP,
@@ -1803,7 +1804,7 @@ int SelectPrjName() {
 //*** Salva il project (se modificato)
 //*** e la mappa correntemente in edit (se modificata)
 
-void SaveProject() {
+void SaveProject(void) {
 
 	if(!NamedPrj_fl)	SelectPrjName();
 
@@ -1841,7 +1842,7 @@ void SaveProject() {
 
 //*** Inizializza un nuovo progetto
 
-void InitNewProject() {
+void InitNewProject(void) {
 
 	ClearProject();
 
@@ -2414,7 +2415,7 @@ void DiscardWindowInput(ULONG winbit) {
 
 //*** Programma principale
 
-void main()
+void main(void)
 {
 	int		cont;
 	int		i,j;

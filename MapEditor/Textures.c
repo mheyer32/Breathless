@@ -11,6 +11,12 @@
 #include	"MapEditor3d.h"
 #include	"Definitions.h"
 
+#include <proto/dos.h>
+#include <proto/intuition.h>
+
+#include <string.h>
+#include <stdio.h>
+
 //*****************************************************************************
 
 
@@ -70,7 +76,7 @@ int ReadGLDTextFile(struct TextDirNode *tnode) {
 
 	if(tnode->tdn_type==0) return(0);
 
-	if((file = Open((STRPTR)filename, MODE_OLDFILE)) != NULL) {
+	if((file = Open((STRPTR)filename, MODE_OLDFILE)) != 0) {
 		Read(file,&l1,4);
 		if(l1 != TGLD_ID) {		// La ID è corretta ?
 			ShowErrorMessage(BADGLDFILE, filename);
