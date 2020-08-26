@@ -1,0 +1,89 @@
+[4;1mTMap                    24-Oct-97 11:53:05  Hunk Section                Page 1-1[0m
+
+[4m num[0m [4mhunk    [0m [4m    size[0m [4mfilename        [0m [4mpunit   [0m [4mtype    [0m [4m    base[0m [4m alv[0m
+   0 TEXT        1ce74 TMap.o           TMAP.ASM code            0    0
+                       TMapMain.o       TMAPMAIN code         1bac    0
+                       DrawScreen.o     DRAWSCRE code         a09c    0
+                       c2p8.o           C2P8.ASM code         b414    0
+                       3d.o             3D.ASM06 code         b9f0    0
+                       Interrupt.o      INTERRUP code         d9dc    0
+                       movement.o       MOVEMENT code         dba8    0
+                       sincos.o         SINCOS.A code         ee1c    0
+                       Text.o           TEXT.ASM code        11a2c    0
+                       Animations.o     ANIMATIO code        12694    0
+                       Objects.o        OBJECTS. code        12fb4    0
+                       Scores.o         SCORES.A code        16628    0
+                       devices.o        DEVICES. code        16c30    0
+                       Loader.o         LOADER.A code        171c4    0
+                       FileAccess.o     FILEACCE code        18048    0
+                       Terminal.o       TERMINAL code        18260    0
+                       Audio.o          AUDIO.AS code        19bd0    0
+                       Map.o            MAP.ASM  code        1a42c    2
+                       SecurityCode1.o  SECURITY code        1a988    0
+                       Player/Music.o   MUSIC.PR code        1a9e8    0
+                       Presentation.o   PRESENTA code        1c514    5
+   1 TABLES      363d4 DrawScreen.o     DRAWSCRE bss             0    0
+                       3d.o             3D.ASM06 bss          9bc4    0
+                       Animations.o     ANIMATIO bss         323d4    0
+   2 __MERGED        0 TMap.o           TMAP.ASM bss             0    0
+                       TMapMain.o       TMAPMAIN bss           bb4    0
+                       DrawScreen.o     DRAWSCRE bss           d0c    0
+                       3d.o             3D.ASM06 bss          4d2c    0
+                       Interrupt.o      INTERRUP bss          5fb8    0
+                       movement.o       MOVEMENT bss          5fc8    0
+                       Text.o           TEXT.ASM bss          6034    0
+                       Animations.o     ANIMATIO bss          6188    0
+                       Objects.o        OBJECTS. bss          7298    0
+                       Scores.o         SCORES.A bss          76d0    0
+                       Loader.o         LOADER.A bss          7730    0
+                       FileAccess.o     FILEACCE bss          7898    0
+                       Terminal.o       TERMINAL bss          78b0    0
+                       Audio.o          AUDIO.AS bss          7908    0
+                       Map.o            MAP.ASM  bss          7c7c    0
+                       Presentation.o   PRESENTA bss          7c88    0
+                       Last.o           LAST.ASM bss          7cd0    0
+   3 <noname>        0 Work:Aztec5/lib/ <noname> data            0    0
+[4;1mTMap                    24-Oct-97 11:53:05  File Section                Page 4-1[0m
+
+[4mfilename        [0m [4mpunit   [0m [4mhunk    [0m [4mtype    [0m [4m  offset:hunk[0m [4m    size[0m
+TMap.o           TMAP.ASM TEXT     code            0:0        1bac
+                          __MERGED bss             0:2         bb4
+TMapMain.o       TMAPMAIN TEXT     code         1bac:0        84f0
+                          __MERGED bss           bb4:2         158
+DrawScreen.o     DRAWSCRE TEXT     code         a09c:0        1378
+                          TABLES   bss             0:1        9bc4
+                          __MERGED bss           d0c:2        4020
+c2p8.o           C2P8.ASM TEXT     code         b414:0         5dc
+3d.o             3D.ASM06 TEXT     code         b9f0:0        1fec
+                          TABLES   bss          9bc4:1       28810
+                          __MERGED bss          4d2c:2        128c
+Interrupt.o      INTERRUP TEXT     code         d9dc:0         1cc
+                          __MERGED bss          5fb8:2          10
+movement.o       MOVEMENT TEXT     code         dba8:0        1274
+                          __MERGED bss          5fc8:2          6c
+sincos.o         SINCOS.A TEXT     code         ee1c:0        2c10
+Text.o           TEXT.ASM TEXT     code        11a2c:0         c68
+                          __MERGED bss          6034:2         154
+Animations.o     ANIMATIO TEXT     code        12694:0         920
+                          TABLES   bss         323d4:1        4000
+                          __MERGED bss          6188:2        1110
+Objects.o        OBJECTS. TEXT     code        12fb4:0        3674
+                          __MERGED bss          7298:2         438
+Scores.o         SCORES.A TEXT     code        16628:0         608
+                          __MERGED bss          76d0:2          60
+devices.o        DEVICES. TEXT     code        16c30:0         594
+Loader.o         LOADER.A TEXT     code        171c4:0         e84
+                          __MERGED bss          7730:2         168
+FileAccess.o     FILEACCE TEXT     code        18048:0         218
+                          __MERGED bss          7898:2          18
+Terminal.o       TERMINAL TEXT     code        18260:0        1970
+                          __MERGED bss          78b0:2          58
+Audio.o          AUDIO.AS TEXT     code        19bd0:0         85c
+                          __MERGED bss          7908:2         374
+Map.o            MAP.ASM  TEXT     code        1a42c:0         550
+                          __MERGED bss          7c7c:2           c
+SecurityCode1.o  SECURITY TEXT     code        1a988:0          60
+Player/Music.o   MUSIC.PR TEXT     code        1a9e8:0        1b2c
+Presentation.o   PRESENTA TEXT     code        1c514:0         940
+                          __MERGED bss          7c88:2          48
+Last.o           LAST.ASM __MERGED bss          7cd0:2           4

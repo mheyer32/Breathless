@@ -1,0 +1,3 @@
+run Work:Utility/Debug/mungwall SHOWHUNK NAMETAG PRESIZE 64 POSTSIZE 64
+run Work:Utility/Debug/enforcer RAWIO STACKCHECK
+run Work:Utility/Debug/sushi <>"CON:0/20/640/100/enforcer/AUTO/CLOSE/WAIT" NOPROMPT

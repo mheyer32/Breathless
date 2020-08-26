@@ -1,0 +1,729 @@
+@database Player61A.guide
+@author Jarno Paananen
+@$VER: 610.2 / 14.10.95
+@node MAIN "The Player 6.1A"
+
+
+ญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญ
+ญ		       The Player ฎ 6.1A 610.2 / 14.10.95		ญ
+ญ		       Copyright ฉ 1992-95 Jarno Paananen		ญ
+ญ			     Guru / Sahara Surfers			ญ
+ญ			 A Sahara Surfers Product 1995			ญ
+ญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญ
+
+
+   1.  @{" Foreword " link FOREWORD}
+   2.  @{" Distribution and copyrights " link DISTRIBUTION}
+   3.  @{" Requirements " link REQUIRES}
+   4.  @{" Features " link FEATURES}
+   5.  @{" P61con, the Converter " link CONVERTER}
+   6.  @{" P61, the Player " link PLAYER}
+   7.  @{" Using The Player in your own programs " link USING}
+   8.  @{" The Usecode-system " link USECODE}
+   9.  @{" Bugs? " link BUGS}
+   10. @{" Hellos " link HELLOS}
+   11. @{" Contact address " link CONTACT}
+@endnode
+
+@node FOREWORD "The Playerฎ 6.1A: Foreword"
+
+@{u}1. Foreword:@{uu}
+
+This little utility was first started just for fun about two years ago and
+was meant just to my own use, but when I noticed that there weren't a GOOD
+Protracker-compatible replay available and after I saw a few tries to fix
+this (ProPacker, Prorunner, etc.) I decided to give other people a chance
+to play their Protracker-tunes FAST!
+
+When designing the moduleformat, I also included packing and this 6.1
+packing method is the most efficient I've seen for this purpose (6.1 is
+even better, although not ready yet...)
+
+Afterwards features like the two delta-formats have been introduced to keep
+this player on the edge of development.
+
+I also made a converter to make it easier to use PT-modules.  It uses
+Reqtools and Powerpacker libraries (both by Nico Fran็ois) so it can also
+load Powerpacked modules.  The converter is made as easy as possible to the
+user.
+@endnode
+
+@node DISTRIBUTION "The Playerฎ 6.1A: Distribution and copyrights"
+
+@{u}2. Distribution and copyrights:@{uu}
+
+	This program and all other stuff coming in this package are
+			     FULLY copyrighted by
+
+		@{u}@{b}Jarno Paananen / Guru of Sahara Surfers.@{uu}@{ub}
+
+With the exception of Reqtools and Powerpacker libraries ฉ by @{b}Nico Fran็ois@{ub}
+(You have made a big favour to all programmers on the Amiga!)
+
+@{u}BUT!:@{uu}
+You're allowed to make additions or modifications or what so ever to fit
+the playroutine to your own needs.  That's why the sources are here.  But,
+please: credits for the author and a copy to myself, if possible, so I can
+add your new features to the future releases!
+
+
+@{u}Contents of this package:@{uu}
+
+P61Con				- The converter
+P61Con.info			- Da icon
+(P61				- The player)
+(P61.info			- Another icon)
+Player61A.guide			- Amigaguide format docs, this file
+Player61A.guide.info		- More same stuff
+Player61A.doc			- ASCII format docs
+Player61A.doc.info		- Do we have to take all these?
+Player61A.changes		- History of changes, bugfixes etc.
+610.2.G				- The main thing, Replay source
+(610.2_devpac2.asm		- Same for DevPac2)
+610.2_devpac3.asm		- And for DevPac3
+610.2.bin			- Binary version
+CIA_Example.G			- An example of how to use the CIA-version
+Player61.i			- Include file
+Vibtab				- Vibrato table
+Periods				- Periodtable with finetunes
+Periods.nft			- Same with no finetunes
+
+(  ) = Not included (= not up to date)
+
+NOTE!: Devpac versions need that the default jump size is word!
+Everything without size declaration means a word!
+
+
+The normal @{u}@{b}disclaimer:@{uu}@{ub}
+
+The author cannot be held liable for the suitability or accuracy of this
+manual and/or the program it describes.  Any damage directly or indirectly
+caused by the use or misuse of this manual and/or the program it describes
+is the sole responsibility of the user her/him self.
+
+
+A few words about distribution:
+
+This program is freeware.  You can distribute it as long as @{u}ALL@{uu} files
+are included and not more than a nominal fee for copying is asked.  This
+program can @{u}NOT@{uu} be used for commercial purposes without written
+permission from the author and a contribution for development costs (like
+Coca-Cola :-).  If you have suggestions or remarks about this program, or if
+you find any bugs, please let me know.
+
+THIS MEANS: IF YOU ARE GOING TO USE THIS IN COMMERCIAL SOFTWARE YOU SHOULD
+AT LEAST ASK ME FIRST AND I WOULD BE GLAD TO RECEIVE SOMETHING AS A
+COMPENSATION FOR THE TROUBLE THIS THING HAS CAUSED ME, BECAUSE MAKING THIS
+HASN'T BEEN JUST FUN AND SUNSHINE... 
+
+This was meant especially to software houses using this without my
+permission, like Team 17: Where the hell did you get that P41 you used in
+Super Frog from?!?  It was never released due to P50.  I just gave it to
+some friends for beta testing...  If you want to clear your conscience,
+contact me.
+
+To everyone: If you're going to use this player in your commercial
+software, you should know, that the one released is never the newest version
+and is always somewhat cut down.  If you contact (and pay...) me, you get
+misc stuff like sound effect engines with it, if you want.  And tidy
+conscience...
+
+
+
+The black list (programs using The Player without my permission (nor
+money :)
+
+All are using the beta of P41A:
+
+- Super Frog from Team 17 (see ya at Assembly'95...)
+- OverDrive from Team 17
+- Alien Breed II from Team 17
+- Action Pool from Team 17
+- Qwack from Team 17
+- Kick Off 3
+- Impossible Mission 2025 from MicroProse
+
+At @{u}least@{uu}.
+
+
+Thanks to these firms for contacting me before using The Player:
+
+Bloodhouse - Stardust (Hi Everyone!)
+	   - Super Stardust
+Core Design - Banshee (Hi S๘ren!)
+
+Why is this list shorter?
+@endnode
+
+@node REQUIRES "The Playerฎ 6.1A: Requires"
+
+@{u}3. Requirements:@{uu}
+
+- An Amiga computer (for PC use MIDAS!)
+- Reqtools and Powerpacker libraries
+- about 30 kB of memory for the converter, and if converting, 2 * (number
+  of patterns * 1024 + 1084) bytes for buffers
+- Works on 512kB machines, more memory recommended, especially for
+  converting.
+- Kickstart 1.2 or greater.
+- Kickstart 2.0-style colors recommended (looks better)
+@endnode
+
+@node FEATURES "The Playerฎ 6.1A: Features"
+
+@{u}4. Features:@{uu}
+
+- a very efficient method to pack the pattern data and play it VERY fast in
+  realtime
+
+- cut-down header compared to the original one (4 bytes info, 6 bytes/sample,
+  8 bytes/pattern, 1 byte/position plus one byte for stopmark)
+
+- removes all names, unused patterns, samples, data after loops, empty data
+  after unlooped samples, commands with no use and some smaller things
+
+- Delta format samples!  Samples have the same quality, but packing
+  efficiency is better with for example Imploder or Powerpacker.  Look below
+  for some stats!
+
+- 4-bit delta packing!  Packs samples in ratio 1:2 with very little loss of
+  quality.  Try it!
+
+- nearly impossible to rip without finding the call to the init routine,
+  except if the optional `P61A`-sign is used
+
+- works on every Amiga, tested under KS1.2-3.1, from WB or CLI/Shell,
+  detaches itself from CLI, supports WB icons, etc...
+
+- loads files packed with Powerpacker, FImp or XPK (all references to
+  Powerpacked files also apply to FImp and XPK files)
+
+Should support modules with 100 patterns (At least in PT2.x from Noxious)
+IF patterns are packed under 64kB in PASS 1... (pointers are only words)
+
+
+Commands implemented at the moment:
+  - NoiseTracker 2.0 commands (0-6,A-F)
+
+  - Tremolo (7), Sample offset (9), Fine slides (E1/E2), Set finetune (E5),
+    Pattern loop (E6), Retrig note (E9), Fine volume slides (EA/EB),
+    Note cut (EC), Note delay (ED), Pattern delay (EE), Invert loop (EF)
+
+  - finetune and tempo
+
+  - NOTE!:Patternbreak (D) does @{b}NOT@{ub} support break to a specified
+    line, linenumber is just ignored!  This is due to my packing system.
+
+
+@{u}Comparision to other players:@{uu}
+
+Tunes:	1. ( alcoholic score )
+	2. enigma year bkh-nhp
+	3. knulla kuk !!!
+	4. menuloader
+	5. scrambled mind
+	6. tapiiri
+
+Note that these are random tunes picked out from about 120Mb I
+have, and everyone should be able to test these results.
+
+
+Tune:			1	2	3	4	5	6
+ญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญ
+Original:		121024	249550	160218	23390	163738	19664
+P61A:			88704	204588	120062	16644	130650	6878
+P60A:			90118	205984	121834	16992	131420	7306
+NoisePacker 3.0:	93576*	214148*	128940*	17588	132736	10278*
+NoisePacker 2.02:	104560*	227770*	138218*	18292	140614	14094*
+ProPacker 1.0:		108028	226326	147302	20414	148742	14480
+ProRunner 2.0:		98974	218588	132894	19338	143136	11978
+Promizer 4.1:		103608	224778	136710	19762	147114	11260
+TrackerPacker 3.0:	90992	209900	124434	17074	131578	9144
+
+* = lacks some features (finetune, commands etc.)
+
+Obvious?  TrackerPacker gets quite close sometimes, but...
+
+@{u}Some notes concerning this:@{uu}
+
+(After reading the docs of Prorunner 2.0 I thought that maybe I should also
+write some advertisement bullshit here, but I decided to stay in the
+facts...)
+
+- P61A is the fastest replay of these...
+- Has the best packing as seen above...
+- 4- and 8-bit delta samples (the first one to have these)...
+- Fully system friendly if needed (allocates channels, CIA's etc.)...
+- Works on all Amigas (the first released one to check the VBR)...
+- Supports CIA-tempos (the first one with no processor waits)...
+- Fully PC-relative replay (released before Cosmos...)
+- Has the so-much-praised master volume control...
+- Usecode-system
+- User-friendly converter (unlike NP2.0, PP1.0 and PRU2.0)...
+- Versions for Asm-One, DevPac3 and DevPac2...
+
+
+Enough?  If you still want to use some of those other players, feel free...
+
+
+
+IF SOMEONE COULD SEND ME PROPACKER 2.x, PLEASE DO!
+
+
+@{u}Delta vs. normal samples:@{uu}
+Tune:  ((( the war )))  by Audiomonster / Melon Dezign
+
+Original P61 tune:	260182
+ญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญ
+		Normal	Delta	Diff.
+FImp:		184828	168650	16178
+PP:		184812	162612	22200
+xpkNUKE:	187340	166684	20656
+xpkSQSH:	148600	144124	4476
+
+Make your own conclusions.
+@endnode
+
+@node CONVERTER "The Playerฎ 6.1A: P61con, the Converter"
+
+@{u}5. P61con, the Converter:@{uu}
+
+Note!: Do _NOT_ merge hunks in this file, because it uses two SEPERATE
+code hunks for detaching.  If you do, it crashes straight away...
+
+Shell usage: P61con [-q][filename]
+
+-q	Be quiet.  The only way to stop playing is to give CTRL-C-signal to
+	the DETACHED piece of code.  Use TaskX or similar.
+filename to play.  No checkings made, so be sure it IS a P61-module!
+
+WB usage is normal.  Double clicking on a modules icon or click on module,
+shift and click on P61con to play it.
+
+   1.  @{" Converting ProTracker-modules " link CONVERT}
+   2.  @{" Playing modules " link PLAY}
+   3.  @{" Converting back to Protracker " link RIPPER}
+   4.  @{" Sample packer-selector " link SELECTOR}
+   5.  @{" Preferences " link PREFERENCES}
+@endnode
+
+@node CONVERT "The Playerฎ 6.1A: P61con, the Converter, Converting Protracker-modules"
+
+	@{u}1. Converting Protracker-modules:@{uu}
+
+First a normal Reqtools filerequster asks you to select one or more
+(supports batch-processing) modules.  If you select multiple modules, the
+directory for the modules to be saved is asked.  Then loading with the
+Powerpacker library.  If you chose one module, the name and path for the
+save are asked.  As the packing starts, an info requester with some bars and
+statistics pops up.  If you are converting only one module and have sample
+packing on, @{"Sample packer-selector" link SELECTOR} appears.  When the job
+is done, save and some statistics about the efficiency are shown.  If you
+have converted only one module, also the @{"Usecode" link USECODE} is here.
+@endnode
+
+@node PLAY "The Playerฎ 6.1A: P61con, the Converter, Playing modules"
+
+	@{u}2. Playing modules:@{uu}
+
+First the converter asks for a module and then loads it using the
+Powerpacker library so it can also be packed with the Powerpacker :)
+@{b}DOES NOT SUPPORT FILES WITH SAMPLES IN OTHER FILE!@{ub} If it finds P61
+from the memory, it informs it to play the module.  If not, a requester is
+shown with the name of the file and a stop gadget below.  The play routine
+is the system friendly tempo one, allocates channels with priority 127, a
+CIA-timer and returns if it couldn't get something.  Should work with every
+system friendly program.
+@endnode
+
+@node RIPPER "The Playerฎ 6.1A: P61con, the Converter, Converting back to Protracker"
+
+	@{u}3. Converting back to Protracker:@{uu}
+
+This option is disabled to partly because I want to give people some
+peace from Perverter and alike ie. protect their modules from ripping.
+(I of course have my own version, which has this option implemented and
+enabled...)  So you have to make your own reconverter is you want to
+listen the modules in PT-format.
+
+Usage is easy, just load P61A-module and save it as Protracker-module.  Be
+sure it IS a P61A-module, otherwise I can't quarantee the result...
+
+Damn! The new ProWizard (version 2.16) supports P61A-format so 
+in this version this feature is enabled, in request of Nemesis1 (Hi!).
+@endnode
+
+@node SELECTOR "The Playerฎ 6.1A: P61con, the Converter, Sample packer-selector"
+
+	@{u}4. Sample packer-selector:@{uu}
+
+When you have @{"sample packing-option" link PREFERENCES} on, a requester appears when you
+convert only one module.  It is used to select which samples are to be packed
+with @{"4-bit delta packing" link FEATURES} and has the following functions:
+
+Original	-Plays the original sample.  Stop with right mouse button!
+Packed		-Plays the sample after packing and depacking it.  This
+		 sounds same as the final packed sample.  Stop with right
+		 mouse button!
+Pack		-Marks the sample to be packed.
+Pack rest	-Marks this and the rest of the samples to be packed.
+Don't pack	-Marks the sample NOT to be packed.
+Don't pack rest	-Marks this and the rest of the samples NOT to be packed.
+
+Use of keyboard shortcuts is highly recommended!
+@endnode
+
+@node PREFERENCES "The Playerฎ 6.1A: P61con, the Converter, Preferences"
+
+	@{u}5. Preferences:@{uu}
+
+Default loading directory:	The directory converter first gives you,
+				when you load Protracker modules.
+
+Default saving directory:	The directory converter first gives you,
+				when you save ONE P61 module.
+
+Default batch directory:	The directory converter first gives you,
+				when you save multiple P61 modules.
+
+Prefices:			These are used to mask files in file-
+				requesters and put to the beginning of the
+				filename when saving.  Can be up to 7 chars
+				long.
+
+Two files:			If you want samples and rest of the tune to
+				be saved in separate files.
+
+P61A sign:			If you want the P61A sign to be inserted in
+				the beginning of the module.
+
+No samples:			If you're converting multiple modules with
+				same samples, this disables the saving of
+				samples.
+
+Tempo:				Whether the player should use tempo or not.
+
+Icon:				If you want the icon to be saved with the
+				module.
+
+Delta:				If you want to use 8-bit delta samples.
+
+Sample packing:			If you want to pack samples to 4-bit delta.
+@endnode
+
+@node PLAYER "The Playerฎ 6.1A: P61, the Player"
+
+@{u}6. P61, the Player:@{uu}
+
+This program was under work (and still is...) for quite a lot time.  The
+idea came from Simply / Parallax, due to the fact that Multiplayer can't
+play P50-modules without GMOD-header and that makes modules about 6kb
+larger...  So I had to get working.  Two days before Assembly'93 I rewrote
+this program completely in a big hurry, so please forgive me those bugs
+that @{u}will@{uu} appear.  Present program is the same, but plays P61-modules.
+
+The interface is now quite neat, small is beautiful?  Under KS3.0 those
+proportional gadgets are quite nice.  Functions should be familiar to all
+who have used some player program (Multiplayer, Smartplay etc.).  The only
+special feature is that if you try to load a Protracker module and you
+have P61con in memory waiting in its mainmenu, P61 gives this module to it
+to be packed.  P61con saves it to the ram-disk and informs P61 to load it.
+After loading P61 deletes the module from the ram-disk.
+@endnode
+
+@node USING "The Playerฎ 6.1A: Using The Player in your own programs"
+
+@{u}7. Using The Player in your own programs:@{uu}
+
+NOTE: The instructions for the binaryfile-versions expect you to have
+loaded the file to a label called "Player"
+
+The versions are in the same file and these topics describe the various
+possible versions to compile the source.  Also the binary versions have
+their instructions here.
+
+Completely PC-relative!
+
+   1.  @{" Normal VBlank-version " link VBLANK}
+   2.  @{" Non-lev6-version " link NONLEV6} (too slow. Contact me if interested)
+   3.  @{" CIA-version with tempo " link CIA}
+   4.  @{" 68020-versions " link 68020}
+   5.  @{" Player61.i " link INCLUDE}
+@endnode
+
+@node VBLANK "The Playerฎ 6.1A: Using The Player in your own programs, VBlank"
+
+	@{u}1. Normal VBlank version:@{uu}
+
+Options:
+	CIA = 0
+	system = 0
+	lev6 = 1
+
+	Exec = 1 if ExecBase is valid and 0 if not
+
+This should be easy for all you who've used the ugly Protracker routine or
+one of the millions of others.
+
+Call "P61_Init" with the address to the module in A0 and the address to the
+samples in A1 or if they are in the same file, clear A1.  If you have a
+module with samples packed, put address to the sample buffer in A2.  Uses
+all registers, so preserve them if you're going to use them afterwards.
+
+
+IF YOU ARE USING INVALID EXECBASE:
+ญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญ
+Check the Base yourself and put it to P61_VBR or Player+P61_UseVBR.  You
+can also get the VBR there, if using valid ExecBase.
+
+
+TO CHECK IF MODULE HAS PACKED SAMPLES:
+ญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญญ
+Check bit 6 ($40) of the offset 3 from the beginning (excluding optional
+sign).  If it is set, the module has packed samples.  Size of the required
+buffer is then at offset 4.
+
+
+To play the music, call P61_Music every frame (with NTSCs who want to play
+the tune in PAL-speed or vice versa, use the @{"CIA-version" link CIA}).
+
+To end the music and turn the DMAs off, call P61_End.
+
+With system option = 1, allocation of channels and lev6-timer are included.
+Returns non-zero in D0, if couldn't allocate something.
+
+With the binary file, P61_Init is Player+P61_InitOffset, P61_Music is
+Player+P61_MusicOffset and P61_End is Player+P61_EndOffset.
+
+The source can be compiled with at least Asm-One 1.09 by T.F.A.
+(the Best assembler around!).  A separate version for Devpac3 is also
+included.  This version should be easy to make work under any assembler
+with incbin command.
+
+The maximum rastertime taken is under 6 lines on a normal 68000 Amiga.
+Fast?  Invert loop can take it beyond that, though.  Everything has its
+costs.
+@endnode
+
+@node NONLEV6 "The Playerฎ 6.1A: Using The Player in your own programs, Non-lev6"
+
+	@{u}2. Non-lev6 version:@{uu}
+
+Options:
+	CIA = 0
+	system = 0
+	lev6 = 0
+
+This routine is basically the same as the @{"lev6-version" link VBLANK}, but you have to
+call P61_Setloop about 7 raster lines after P61_Music.  This system is done
+to enable the use of those 7 lines.  So if have a routine, which fits to
+these 7 lines, do it while waiting...
+
+This is not too much slower compared to the lev6-version, but I'd still
+advise you to use it if possible.  It makes your life a hell lot easier...
+@endnode
+
+@node CIA "The Playerฎ 6.1A: Using The Player in your own programs, CIA"
+
+	@{u}3. CIA version with tempo:@{uu}
+
+Options:
+	CIA = 1
+	system = 0/1
+	lev6 = 1
+
+	Exec = 1 if ExecBase is valid and 0 if not
+
+The first tempoplayer I know, which uses only the lev6-int and does @{u}NOT@{uu}
+use those fucking processor loops.  As fast as the normal @{"lev6-version!" link VBLANK}
+
+Otherwise normal init, but info for the setting of CIA is needed in D0:
+0 - Autodetect, if PAL/NTSC, uses ExecBase->VBlankFrequency.
+1 - Force PAL.  If you've destroyed the ExecBase, detect the timing
+    yourself and use these force modes.
+2 - Force NTSC
+
+No further actions needed.  Returns non-zero in D0, if it couldn't allocate
+something.  The player starts playing right away, so do @{u}NOT@{uu} call P61_Music.
+
+To end call the normal P61_End.
+
+To enable using of tempo, set P61_UseTempo to some non-zero value.
+
+If system is set to 1, allocations for timer and channels are included.
+Use if possible.
+
+NOTE: If you want to use this in your own program that needs synchronizing
+to the beam, do one of these:
+
+1. Do your routine in VBlank-interrupt.
+2. Do your routine in copper interrupt.
+3. If you do NOT have to wait for a specific line, wait for VBlank bit in
+   INTREQR ($1e) and clear it afterwards.
+4. If you have to wait for some specified line, disable Copper-interrupt
+   from INTENA ($9a), set Copper-interrupt bit in INTREQ ($9c) with Copper
+   at the specified line and wait for the bit in INTREQR ($1e) in our own
+   routine. Clear it afterwards.
+
+See the examples supplied.
+
+Otherwise this WILL steal some frames from you time to time...
+@endnode
+
+@node 68020 "The Playerฎ 6.1A: Using The Player in your own programs, 68020"
+
+	@{u}4. 68020-versions:@{uu}
+
+Options:
+	opt020 = 1
+
+These are a bit optimized versions for the 020+ machines.  The difference
+to the 000/010-versions is only a slight one and because those versions
+take only a half of a rasterline on a 25mhz A4000, I think these are nearly
+useless.  But if you really want to make a 020+ program or AGA-only stuff,
+this is for you...
+
+Can be compiled at least with Asm-One 1.15 by T.F.A.
+
+Interface is similar to the 000/010-versions.
+@endnode
+
+@node INCLUDE "The Playerฎ 6.1A: Using The Player in your own programs, Player6.i"
+
+	@{u}5. Player61.i:@{uu}
+
+This is the include file of all the structures needed, if you're going to 
+compile the source.  Also if you are making some additions to this player
+(like quadrascopes, etc.  (these kind of things are maybe coming, I already
+have quite a bunch of 'em linked to this player)) you can look for the
+information there.  First I was going to release this only as a binary
+version, but after thinking a few more moments, I decided to make this
+include file and release the source, just to make supporting and developing
+of this product possible.
+@endnode
+
+@node USECODE "The Playerฎ 6.1A: The Usecode-system"
+
+@{u}8. The Usecode-system:@{uu}
+
+This system was created for fun on a sunny afternoon.  I got a crazy idea
+of putting a code of which features a module needs to the beginning of the
+source and let conditional compiling take care of the rest.
+
+The main idea is to reduce the lenght of this massive player to the real
+needs of the module.  So only the commands the module needs are saved to
+the player.  Also if the module doesn't use finetune, a smaller periodtable
+is used.  And finally if the module doesn't use vibrato or tremolo, the
+512 bytes long vibrato table is left out.
+
+What you have to do is:
+
+Take down the Usecode shown in the requester after the converter has packed
+your module (if only one module is being processed or from the filenote)
+and put this code to the beginning of the source into the place for it.
+Compile and you have a customised version for this module only.  Usecode -1
+leaves all features ie. compiles the full version.
+
+for example: 
+	use = $9f0f
+@endnode
+
+@node BUGS "The Playerฎ 6.1A: Bugs?"
+
+@{u}9. Bugs?:@{uu}
+
+Some of you might still remember (in horror...) the previous versions of
+this marvelous :) player.  Those 4.x-versions were all more or less beta-
+versions and that showed...  (previous versions weren't even released, thank
+god..)
+
+This version has gone through quite a hell of beta-testing, by myself,
+my Good friends Janne Juhola (Simply/Parallax), Steffan Schumacher 
+(Metal/Parallax), Kari-Pekka Koljonen (Moonstone/Hippopotamus Design),
+AND ESPECIALLY Mikko Karvonen (Yolk/Parallax)!
+
+Also thanks for reporting bugs / wanted features go to:
+
+- Dr.Jekyll / Andromeda
+- Shayera / Spoon
+
+And the rest I can't remember at the moment, sorry!
+@endnode
+
+@node HELLOS "The Playerฎ 6.1A: Hellos"
+
+@{u}10. Hellos:@{uu}
+
+A bit more hellos than in the converter to:
+
+To all who make those nice multiformat-player-programs (Multiplayer,
+Smartplay, etc.): If you want some information about this format to be
+included in your program, or anything else, just let me know!
+
+To Turbo and Marley of Infect (authors of Exotic ripper): You did it!  I
+just ask how?!?  You say it's deep search and it surely is.  Fab prog!
+The pattern format changed once again...  Some peace from Perverter and
+the like...
+
+To Gryzor (author of ProWizard): Hi! So how did it feel to make support
+for P61? Well, now I can use the same program for all modules again, so at
+least something positive... Great program anyway!
+
+
+
+And hellos especially to:
+
+- Janne Oksanen / Stratos of Sahara Surfers -
+Nothing special to say, but hello.
+
+- Petteri Kangaslampi / Alfred of Sahara Surfers -
+LIVE rules...  Thanks for help with the new format!  Hopefully Midas
+comes off great!
+
+- Kari-Pekka Koljonen / Moonstone of Hippopotamus Design -
+Great sendings (when coming...).  Happy with this?
+HiP is Really Cool!
+
+- John Hinge / Shayera of Spoon -
+Sorry for huge delay, but hopefully this gives some compensation...
+
+
+- All of you waiting for (e-)mail from me: please have patience...
+  (or recontact me!)
+@endnode
+
+@node CONTACT "The Playerฎ 6.1A: Contact address"
+
+@{u}11. Contact address:@{uu}
+
+I'm improving this utility for my own use (they made me release this!),
+but send me some $$$ (Finnish marks, please) or two disks with a return
+envelope WITH stamps (or International Response Coupon) and I'll send you
+the newest version (Mention which version you have, so I won't send the
+same version!)  @{u}@{b}IF THESE CONDITIONS ARE NOT MET, ABSOLUTELY NO REPLY IS
+GUARANTEED!@{ub}@{uu}
+
+		 Also for licences for commercial use!
+
+	TO:						(@{u}NO swapping!@{uu})
+			       J.Paananen
+			      Puskalantie 6
+			    FIN-37120 Nokia
+				Finland
+
+		  Or by phone: +358-31-3422147 / Jarno
+
+		      Or preferably via Internet:
+
+			  jpaana@kauhajoki.fi
+			     (Main account)
+
+			 jpaana@freenet.hut.fi
+			      (redirected)
+			     (fool-proof ;)
+
+NOTICE!!!
+
+Also my other account (Jarno_Paananen@sonata.fipnet.fi) died by the end
+of March, so use only one of these!
+@endnode

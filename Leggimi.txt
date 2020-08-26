@@ -1,0 +1,42 @@
+Breathless  ed  i  sorgenti  sono  stati gentilmente concessi da Power
+Computing  Ltd.  e dai Fields of Vision, che ne detengono i diritti di
+pubblicazione.   I suddetti autorizzano la pubblicazione del gioco sul
+CD  "Amy  Resource  Volume  5"  di  Luca  Danelon ad uso esclusivo del
+pubblico  italiano.  Non si autorizza la pubblicazione del gioco al di
+fuori  dell'Italia,  ne  tanto  meno  si autorizza la diffusione dello
+stesso  attraverso  altri  mezzi.  I Fields of Vision precisano di non
+ricevere  alcun  compenso  in denaro per la pubblicazione del gioco su
+questo  CD,  e  la  considerano un ultimo omaggio alla comunita' Amiga
+italiana.   Ringraziano  inoltre  Luca  Danelon  per aver loro offerto
+questa opportunita'.
+
+I  sorgenti  di  Breathless  e  del Map Editor possono essere usati da
+chiunque purche' non ne se tragga alcun profitto, diretto o indiretto.
+Inoltre  devono  essere  distribuiti nel loro archivio originale senza
+alcuna   modifica.    Se   qualcuno  dovesse  realizzare  un  prodotto
+-RIGOROSAMENTE  FREEWARE-  ha  l'obbligo  morale di mandare ai FoV una
+copia.   I  sorgenti  sono  forniti  "as  is"  e non e' previsto alcun
+supporto.
+
+ATTENZIONE!   Nei sorgenti di Breathless, nella directory Player, c'e'
+una  versione modificata del player di moduli di Jarno Paananen che ne
+detiene   i   diritti.   Per  correttezza  verso  l'autore  includiamo
+l'archivio  originale  da  lui  distribuito.   L'uso del player, anche
+nella   versione  leggermente  modificata,  e'  soggetto  al  consenso
+dell'autore.
+
+Abbiamo  preferito  non includere l'eseguibile del Map Editor, perche'
+si tratta di un programma realizzato ad uso esclusivo del team, quindi
+non  destinato  al  pubblico.  Pertanto e' ricco di bug e imperfezioni
+che   potrebbero   anche   causare  qualche  problema  ad  un  incauto
+utilizzatore.  Inoltre, per correttezza, abbiamo evitato di fornire un
+prodotto  non  finito.   Avvertiamo  chiunque volesse cimentarsi con i
+sorgenti  di Breathless e del Map Editor che i Fields of Vision, nelle
+persone  di  Pierpaolo Di Maio e Alberto Longo, non hanno purtroppo il
+tempo  per  fornire  alcun supporto tecnico e/o spiegazioni in merito.
+Consigliamo  comunque  di  dare  una  lettura agli articoli di Alberto
+Longo  pubblicati  nei  mesi  scorsi nella rubrica "Transaction" della
+rivista italiana "Amiga Magazine".
+
+Pierpaolo Di Maio - pierdim@tin.it
+Alberto Longo - alblon@tin.it

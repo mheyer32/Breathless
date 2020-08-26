@@ -1,0 +1,5 @@
+FROM TMap.o+TMapMain.o+DrawScreen.o+c2p8.o+3d.o+Interrupt.o+movement.o+sincos.o+Text.o+Animations.o+Objects.o+Scores.o+devices.o+Loader.o+FileAccess.o+Terminal.o+Audio.o+Map.o+SecurityCode1.o+Player/Music.o+Presentation.o+Last.o
+LIB Work:Aztec5/lib/libs/amiga.lib
+TO TMap
+ADDSYM
+MAP TMap.map f,h

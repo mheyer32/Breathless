@@ -1,0 +1,397 @@
+ннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннн
+н		       The Player о 6.1A 610.2 / 14.10.95		н
+н		       Copyright й 1992-95 Jarno Paananen		н
+н			     Guru / Sahara Surfers			н
+н			 A Sahara Surfers Product 1995			н
+ннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннн
+
+Releases, new features, changes, bugfixes and everything else:
+
++ = New feature
+* = Change
+- = Bugfix
+! = Major event
+
+
+610.2 / 14.10.95
+нннннннннннннннн
+	- Fixed some nearly harmless Enforcer hits (read from 0 and
+	  possible byte writes to 0 and $100). Thanks Andreas!
+	* Cleaned up for release ;)  Hi Stelios!
+
+	! Has it been this long since the previous release?!?
+
+610.1 / 30.03.95
+нннннннннннннннн
+	- The converter still crashed if some samples had loop length
+	  zero.  This was the case when loading modules produced by
+	  Fasttracker I on the PC.
+	* Updated file loader.
+	+ Updated the Devpac3-version to P61A.
+
+
+610.1 / 19.03.95
+нннннннннннннннн
+	- Still that !#@*ing sample offset... should now finally be
+	  fixed.  Thanks once again Yolk!
+
+
+610.1 / 08.02.95
+нннннннннннннннн
+	- There was a bug in the reconverter with delta samples, fixed.
+	- Filerequester bugged with null-path (=current dir). Thanks
+	  Tetsuo!
+	! My birthday is still at the 17th!
+
+
+610.1 / 15.01.95
+нннннннннннннннн
+	- Fixed a bug concerning speeds other than 1 and pattern delay...
+	  As you may guess, this one appeared after last fixes... damn I
+	  hate this... Thanks anyway Yolk, once again...
+
+	- Also fixed still another sample offset compatibility problem...
+	  WHY ON EARTH CAN'T THE PROTRACKER SAMPLE OFFSET COMMAND BE
+	  LOGICAL?  Implementing all those bugs, "features" and stuff
+	  drives me crazy...  Thanks anyway, you know who, Yolk!
+
+
+610.1 / 08.01.95
+нннннннннннннннн
+	! Happy new year everyone!
+
+	- Fixed a bug concerning speed 1 and pattern delay.  Thanks
+	  Shayera!
+	- The replay didn't work with modules consisting of only
+	  8-bit delta samples...  This one appeared after last changes
+	  and insufficient beta testing struck back... anyway, fixed.
+	- Fixed still another Protracker sample offset compatibility
+	  problem, thanks Yolk!
+
+
+610.1 / 23.12.94
+нннннннннннннннн
+	+ Sample packing selector now has sample number and name
+	  information.  The first number is P61 sample number and
+	  second is Protracker sample number.
+	+ You can now use both 4 and 8-bit deltas in one module.
+	  This was in theory possible already sometime ago, but had
+	  some unknown bugs, so I had to disable it.  If both options
+	  are set, those samples that aren't 4-bit delta'ed are 8-bit
+	  delta'ed, simply.
+	+ New P61_SetPosition routine for jumping in the song.
+	+ Some new info variables, namely:
+		- P61_Position (P61_Pos): Current song position
+		- P61_Pattern (P61_Patt): Current pattern
+		- P61_Row (P61_CRow): Current row in pattern
+
+		Name in parenthesis is the actual label and the
+		other is the name in the include file.
+	* Fading option set on by default in the source.
+	* Some range checks (in pattern jump etc.) added.
+
+
+610.0 / 17.12.94
+нннннннннннннннн
+	- Fixed a couple of bugs pointed out by Parallax members
+	  (Hi all! In this case especially Yolk ;) and the NET
+	  community (why don't you mail me for those bugs?  It
+	  might help fixing them...)
+
+	  These were namely:
+		- Sample offset had some bugs I thought I already
+		  fixed some time ago.
+		- Set tempo might have set too fast speed in some
+		  rare conditions.
+		- In system killer CIA-mode the timers might not
+		  have worked correctly (although I haven't noticed
+		  any bugs... thanks anyway Dr.Jekyll!)
+
+
+610.0 / 29.10.94
+нннннннннннннннн
+	* Sample packing selector now turns the filter off.  Thanks
+	  Shayera!
+	- Interrupt handling fixed to be more stable on 040-machines.
+	* Little changes I can't remember.
+	- Some fixes I can't remember either.
+
+! As you can see from the update rate, I'm pretty busy at the moment due
+to my approaching graduation exams.  So please be patient with your
+e-mails and letters, I try to answer them as soon as possible even if it
+means several weeks (or months...). Thank you.
+
+
+610.0 / 07.07.94
+нннннннннннннннн
+	* Vibrato table is now only 512 bytes long.
+	* CIAA-support dropped because it was too inaccurate due to
+	  level 2 interrupt.  Was used only under system and in nearly
+	  emergency situation.  Under KS2.0 it should be used by system
+	  anyway, so there was no real loss here.
+
+610.0 / 06.07.94
+нннннннннннннннн
+	! P61A-packing (finally) implemented!  The format is (as always)
+	  totally incompatible with older versions.
+
+
+600.3 / 07.05.94
+нннннннннннннннн
+	(Long time, no see!)
+	+ Module's filenote now contains info about original length of the
+	  module, the usecode and the sample buffer length needed!
+	+ Converter now converts command 8 to command E8.  Only the lower
+	  nybble of the info is used, naturally.
+
+	  Thank John 'Shayera' Hinge for these!
+
+	- Fixed a bug in XPK-loader.  Thans K-P!
+
+600.3 / 17.03.94
+нннннннннннннннн
+	+ System friendly non-cia version implemented.  Just use CIA = 0 and
+	  system = 1.  Thanks for this go to S°ren Hannibal!  (You were
+	  right, not a single line of new code, just some conditional
+	  compiling...)
+       (* Some new packers included in the comparision in the docs.  Check
+	  it out..)
+
+600.3 / 16.03.94
+нннннннннннннннн
+	+ Adapted some great improvements from Eksec / Infect (THANKS!):
+	  - You can now pass the VBR to the P60_Init (Use P60_VBR label or
+	    Player+P60_UseVBR)
+	  - CIA-Timing (in system killer mode) changed to use both CIA-B A
+	    and B timers.  Now the tempos are _really_ accurate.  System
+	    friendly version still uses only one timer.  At least now.
+	* Player6.i changed once again
+       (* Documents reformated to use 75 columns instead of 80)
+
+600.2 / 14.02.94
+нннннннннннннннн
+	- Fixed a bug with sample offset.  Also changes in Player6.i.
+	  Thanks Thies!
+	* Some minor rewrite in documents
+	! PS3M is released!
+	! btw, my birthday is 17.2. (I'll be 18!!!), so all kinds of
+	  presents are welcome!
+
+600.2 / 22.01.94
+нннннннннннннннн
+	* Some minor optimizations.
+	! "Soon" to be released: PS3M (Play S3M) for playing those
+	  wonderful S3M-modules on your favorite machine!  Most of the code
+	  is ready, "only" looser-interface is missing...
+
+600.2 / 13.01.94
+нннннннннннннннн
+	+ Added support for timing using unused E8-command.  Label P60_E8
+	  contains the last info nybble played, so you can use it to
+	  synchronize your routines and other events to the music.  Command
+	  8 could not be used, 'cause it is used for arpeggios...  Thanks
+	  Shayera!
+
+600.2 / 11.01.94
+нннннннннннннннн
+	* P60A-to-MOD-converter now also supports modules with 4-bit
+	  samples.
+
+600.2 / 10.01.94
+нннннннннннннннн
+	* 4-bit-delta-system rewritten for adding support for 5-7 bit
+	  deltas in the (near?) future.  The sound quality improved as a
+	  side effect, but the packing also slowed down.  Everything has
+	  its costs, but I think this is worth it anyway...  You really
+	  should try it.
+
+600.2 / 02.01.94
+нннннннннннннннн
+	+ XPK-support added.  All references to Powerpacked files or FImped
+	  files also apply to XPK-files.  Notice the new version number at
+	  last...
+
+600.1 / 01.01.94
+нннннннннннннннн
+	* To celebrate the new year, Devpac-versions updated to P60 and
+	  some optimizations made with the replay.
+	* Some changes in Player6.i due to those DevPacs
+
+600.1 / 18.12.93
+нннннннннннннннн
+	- Some fixes with P60-2-mod-converter.  Ok, Simply?
+
+600.1 / 07.12.93
+нннннннннннннннн
+	- Fixed a bug when trying to use both normal and 4-bit delta
+	  format.  Thanx Commander Z!
+
+600.1 / 06.12.93
+нннннннннннннннн
+	* To honor Finland's 76th birthday, some fixes with file-
+	  requesters.
+
+600.1 / 13.11.93
+нннннннннннннннн
+	- Some error handling bugs in P60 fixed.  Thanx once again, Simply!
+	+ Some new error messages, mostly between P60 and P60con.  Also
+	  communication between those two is now much better.
+	* The clock in P60 is now updated when the window is inactive.  Also
+	  pause works fine now.  Sorry for the flicking titlebar under
+	  KS1.3, but that's not my fault...  Is it ok now, Simply?
+
+600.1 / 12.11.93
+нннннннннннннннн
+	* Reduced memory consumption on chip-only machines
+	- Finally fixed The Freezing Bug!
+	* If no samples are packed, even if the option is on, packing info
+	  is no more included.
+
+600.1 / 09.11.93
+нннннннннннннннн
+	- Fixed a bug in sample packing-selector.  Sample offsets were
+	  calculated from P60-module, but samples were still as in PT-
+	  module.
+
+600.1 / 29.10.93
+нннннннннннннннн
+	* Some changes with sample offset (command 9) to make it totally
+	  Protracker-compatible.  Has anyone noticed how illogical
+	  Protracker can be?
+
+600.1 / 25.10.93
+нннннннннннннннн
+	- MAJOR! bug fixed with total systemkillers.  The bug occured only
+	  when options were system=0, CIA=0, Exec=0 and ExecBase was
+	  destroyed.  The cause was a "tiny" possibility that a lev6-irq
+	  might occur between P60_Init and P60_Music and this hanged the
+	  system, because the irq was done through system lev6-handler...
+	  So this was The Bug, Sami Karjalainen and Fraction.  Million
+	  thanks to you both and even more apologies for all the trouble
+	  this has caused you...
+
+600.1 / 21.10.93
+нннннннннннннннн
+	+ Exec-option implemented.  Use if you have destroyed your ExecBase!
+	+ Implemented some listing for the options used.
+
+600.1 / 20.10.93
+нннннннннннннннн
+	- Fixed bugs with "two files"-option.  Thanx Sami!
+
+600.1 / 15.10.93
+нннннннннннннннн
+	- Fixed a bug in memory management of P60.
+
+600.1 / 06.10.93
+нннннннннннннннн
+	- Found and fixed a bug in UseCode-system.  Tsunami: This was it!
+	  Should work correctly now.
+
+600.1 / 02.10.93
+нннннннннннннннн
+	+ Added clock to P60.
+
+600.1 / 21.09.93
+нннннннннннннннн
+	- Bug with SizeWindow fixed by making checkings to the screen
+	  limits.  No more crashes under <V36 Kickstarts.
+
+600.1 / 05.09.93
+нннннннннннннннн
+	- Some last minute bugfixes.
+	* New icon!
+
+600.1 / 03.09.93
+нннннннннннннннн
+	+ Option to choose which samples to pack.  Improves the sound
+	  quality drastically.
+
+600.0 / 19.08.93
+нннннннннннннннн
+	+ Option to pack samples implemented.  Idea is from Dweezil / CNCD,
+	  but the code is completely my own.
+	* Changes in fileformat.  P50to60-converter implemented.
+
+505.0 / 09.08.93
+нннннннннннннннн
+	+ Made invert loop, slows down a bit (~1 line per channel).
+	- Infamous bug with pattern loop fixed.
+
+505.0 / 30.07.93
+нннннннннннннннн
+	! Ready to be released at Assembly'93?
+
+505.0 / 29.07.93
+нннннннннннннннн
+	* P50 rewritten.
+	+ Background textures here and there (Your idea, Simply...)
+	- Some trash occured in the bars window, said Simply.  Fixed.
+
+505.0 / 28.07.93
+нннннннннннннннн
+	* Replay made even faster, again with pattern loop.
+	+ Opt020-feature finally made.
+	+ DevPac-version made.
+
+505.0 / 27.07.93
+нннннннннннннннн
+	- P50con and P50 didn't free their own segments correctly.  Fixed.
+
+505.0 / 26.07.93
+нннннннннннннннн
+	* Pattern loop changed to a better place in the replay --> faster!
+	- Bug with multiple pattern breaks fixed.
+	+ FImp-support implemented.  All files can be FImped as well as
+	  Powerpacked, except the config file :)
+
+505.0 / 20.07.93
+нннннннннннннннн
+	- Bug in delta-decoder fixed, decoded one word too much.
+	- Bug with pattern breaks in the last row fixed.
+	* Preferences format standardized, check your tempo-settings!
+
+505.0 / 08.07.93
+нннннннннннннннн
+	! After complete HD-disaster, back on the track!
+	- Minor bugs corrected here and there.
+	+ After calling P50_End, filter is returned to its original
+	  state instead of just turning it on.
+
+505.0 / 22.06.93
+нннннннннннннннн
+	+ Delta-format samples implemented.  Fully compatible fileformat,
+	  but pre-versions can't play these delta-modules :)
+
+505.0 / 19.06.93
+нннннннннннннннн
+	* Major rewrite in packing system.  Parts 2 and 3 merged into one
+	  faster routine.
+	+ Mainmenu and prefswindow now open centered to any sized
+	  Workbench screen and take note of the titlebar font.
+	- Bug in useless-patterns-remover fixed.
+
+504.0 / 14.06.93
+нннннннннннннннн
+	+ P50, the Player and support for it implemented.
+	* Mainmenu and prefswindow now opens where it was left.
+	- Bug in about engine fixed (thanx Murk!).
+
+503.1 / 10.06.93
+нннннннннннннннн
+	- Bug with CurrentDir fixed.
+
+503.1 / 26.05.93
+нннннннннннннннн
+	- Multiple bugs with `P50A`-Sign fixed (thanx Slender!)
+	- Bug with an used empty sample between other samples fixed.
+
+503.1 / 20.05.93
+нннннннннннннннн
+	! Official prerelease!
+
+
+
+Known bugs:
+ннннннннннн
+	- None.  (At the moment...)

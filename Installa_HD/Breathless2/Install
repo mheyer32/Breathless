@@ -1,0 +1,445 @@
+;
+; Breathless Installer Utility
+;
+; This script is Copyright ©1995 by FIELDS of VISION Software Design
+;
+
+(
+	; Setup English strings
+
+	(set #intro
+		(cat
+			"- BREATHLESS -\n"
+			"\n"
+			"Copyright ©1995\n" 
+			"by\n"
+			"FIELDS of VISION Software Design\n"
+		)
+	)
+
+	(set #askdir
+		(cat	"Select where you would like to install "
+			"Breathless. A drawer called 'Breathless' will "
+			"be created here."
+		)
+	)
+
+	(set #askdir_help
+		(cat
+			"Breathless executable and all necessary files will "
+			"be installed in the directory of your choice. You "
+			"may wish to create a new directory by using the "
+			"'Make New Drawer' gadget.\n\n"
+		)
+	)
+
+	(set #overwrite
+		(cat
+			"The 'Breathless' directory already exists, overwrite?"
+		)
+	)
+
+	(set #overwrite_help
+		(cat
+			"You may stop the install to "
+			"avoid overwriting your current "
+			"version of Breathless.\n\n"
+			"Continuing the install will "
+			"overwrite your current files."
+		)
+	)
+
+	(set #yes
+		(cat
+			"Yes"
+		)
+	)
+
+	(set #no
+		(cat
+			"No"
+		)
+	)
+
+	(set #quit
+		(cat
+			"Quit"
+		)
+	)
+
+	(set #disk1
+		(cat
+			"\nPlease insert disk 1 into any drive"
+		)
+	)
+
+	(set #helpdisk1
+		(cat
+			"Search for disk labeled 'Disk1' and "
+			"insert it into any drive."
+		)
+	)
+			
+	(set #disk2
+		(cat
+			"\nPlease insert disk 2 into any drive"
+		)
+	)
+
+	(set #helpdisk2
+		(cat
+			"Search for disk labeled 'Disk2' and "
+			"insert it into any drive."
+		)
+	)
+
+	(set #disk3
+		(cat
+			"\nPlease insert disk 3 into any drive"
+		)
+	)
+
+	(set #helpdisk3
+		(cat
+			"Search for disk labeled 'Disk3' and "
+			"insert it into any drive."
+		)
+	)
+
+	(set #installed
+		(cat
+			"Breathless will be installed in "
+		)
+	)
+
+	(set #installing
+		(cat
+			"Installing Breathless..."
+		)
+	)
+
+	(set #creating
+		(cat
+			"Creating 'Breathless' directory"
+		)
+	)
+
+	(set #copyingexe
+		(cat
+			"Copying Breathless executable..."
+		)
+	)
+
+	(set #copyingother
+		(cat
+			"Copying support files..."
+		)
+	)
+
+	(set #copying2disk
+		(cat
+			"Copying 2nd disk files..."
+		)
+	)
+
+	(set #copying3disk
+		(cat
+			"Copying 3rd disk files..."
+		)
+	)
+
+	(set #setup1
+		(cat
+			"Now I must insert following command in your "
+			"User-Startup."
+		)
+	)
+
+	(set #setup2
+		(cat
+			""
+		)
+	)
+
+	(set #setup_help
+		(cat
+			"Breathless installation requires inserting an "
+			"Assign command in your User-Startup to properly "
+			"setup Breathless environment."
+		)
+	)
+
+	(set #copying3disk
+		(cat
+			"Copying 3rd disk files..."
+		)
+	)
+
+	(set #goodbye
+		(cat
+			"Thank you! Enjoy with Breathless!"
+		)
+	)
+
+	; Start! Show intro message...
+
+	(message #intro)
+
+	; Ask where to install breathless directory...
+
+	(set destdir
+		(askdir
+			(prompt #askdir)
+			(help #askdir_help)
+			(default @default-dest)
+			(disk)
+		)
+	)
+
+	(set destdir
+		(tackon destdir "Breathless")
+	)
+
+	(set @default-dest destdir)
+
+	; See whether this directory exists, if so warn the user
+
+	(if (exists @default-dest) 
+		(
+			(if (= 0 (askbool
+					(prompt #overwrite)
+					(help #overwrite_help)
+					(choices #yes #quit)
+				))
+
+				(
+
+				; User wishes to quit
+
+				(exit (quiet))
+				)
+
+			)
+		)
+	)
+
+	; Prompt for choosed dir
+
+	(message #installed @default-dest)
+
+	; Start copy
+
+	(complete 0)
+
+	(working #installing)
+
+	; Create the directory if it doesn't exist
+
+	(if (= 0 (exists @default-dest))
+		(
+			(makedir @default-dest
+				(prompt #creating)
+				(infos)
+			)
+		)
+	)
+
+	; Ask for 1st disk
+
+	(askdisk
+		(prompt #disk1)	
+		(help #helpdisk1)
+		(dest "BREATHLESS1")
+	)
+
+	; Install the Breathless executable file
+
+	(working #copyingexe)
+
+	(copyfiles
+		(source "BREATHLESS1:Breathless")
+		(dest @default-dest)
+		(infos)
+	)
+
+	; Install other files
+
+	(working #copyingother)
+
+	(copyfiles
+		(source "BREATHLESS1:BREATHLESS.GLD")
+		(dest @default-dest)
+	)
+
+	(copyfiles
+		(source "BREATHLESS1:BLES0002.GLD")
+		(dest @default-dest)
+	)
+
+	(copyfiles
+		(source "BREATHLESS1:BLES0004.GLD")
+		(dest @default-dest)
+	)
+
+	(copyfiles
+		(source "BREATHLESS1:BLES0006.GLD")
+		(dest @default-dest)
+	)
+
+	(copyfiles
+		(source "BREATHLESS1:BLES0007.GLD")
+		(dest @default-dest)
+	)
+
+	(copyfiles
+		(source "BREATHLESS1:BLES0008.GLD")
+		(dest @default-dest)
+	)
+
+	(copyfiles
+		(source "BREATHLESS1:BLES0009.GLD")
+		(dest @default-dest)
+	)
+
+	(copyfiles
+		(source "BREATHLESS1:BLES0010.GLD")
+		(dest @default-dest)
+	)
+
+	(copyfiles
+		(source "BREATHLESS1:BLES0011.GLD")
+		(dest @default-dest)
+	)
+
+	(copyfiles
+		(source "BREATHLESS1:BLES0012.GLD")
+		(dest @default-dest)
+	)
+
+	(copyfiles
+		(source "BREATHLESS1:BLES0013.GLD")
+		(dest @default-dest)
+	)
+
+	(copyfiles
+		(source "BREATHLESS1:BLES0014.GLD")
+		(dest @default-dest)
+	)
+
+	(copyfiles
+		(source "BREATHLESS1:BLES0015.GLD")
+		(dest @default-dest)
+	)
+
+	(copyfiles
+		(source "BREATHLESS1:BLES0016.GLD")
+		(dest @default-dest)
+	)
+
+	(copyfiles
+		(source "BREATHLESS1:BLES0017.GLD")
+		(dest @default-dest)
+	)
+
+	(copyfiles
+		(source "BREATHLESS1:BLES0018.GLD")
+		(dest @default-dest)
+	)
+
+	(copyfiles
+		(source "BREATHLESS1:BLES0019.GLD")
+		(dest @default-dest)
+	)
+
+	(copyfiles
+		(source "BREATHLESS1:BLES0020.GLD")
+		(dest @default-dest)
+	)
+
+	(copyfiles
+		(source "BREATHLESS1:BLES0021.GLD")
+		(dest @default-dest)
+	)
+
+	(copyfiles
+		(source "BREATHLESS1:BLES0022.GLD")
+		(dest @default-dest)
+	)
+
+	(copyfiles
+		(source "BREATHLESS1:BLES0023.GLD")
+		(dest @default-dest)
+	)
+
+	(copyfiles
+		(source "BREATHLESS1:BLES0024.GLD")
+		(dest @default-dest)
+	)
+
+	(copyfiles
+		(source "BREATHLESS1:BLES0025.GLD")
+		(dest @default-dest)
+	)
+
+	(complete 30)
+
+	; Ask for 2nd disk
+
+	(askdisk
+		(prompt #disk2)
+		(help #helpdisk2)
+		(dest "BREATHLESS2")
+	)
+
+	; Install all files from 2nd disk
+
+	(working #copying2disk)
+
+	(copyfiles
+		(source "BREATHLESS2:BLES0001.GLD")
+		(dest @default-dest)
+	)
+
+	(complete 60)
+
+	; Ask for 3rd disk
+
+	(askdisk
+		(prompt #disk3)
+		(help #helpdisk3)
+		(dest "BREATHLESS3")
+	)
+
+	; Install all files from 3rd disk
+
+	(working #copying3disk)
+
+	(copyfiles
+		(source "BREATHLESS3:BLES0003.GLD")
+		(dest @default-dest)
+	)
+
+	(complete 90)
+
+;	Updates User-StartUp
+
+	(startup "Breathless"
+		(prompt
+			(cat
+				#setup1
+				"Assign Breathless: \"" @default-dest "\"\n\n"
+				#setup2
+			)
+		)
+		(help #setup_help)
+		(command
+			"Assign Breathless: \"" @default-dest "\"\n"
+		)
+	)
+
+	(complete 100)
+
+	; Say goodbye
+
+	(message #goodbye)
+)
