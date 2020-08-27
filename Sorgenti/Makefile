@@ -27,7 +27,9 @@ LFLAGS += -g -ggdb
 
 # Our application sources
 OBJS  = TMap.o \
+	Presentation.o \
 	TMapMain.o \
+	Map.o \
 	DrawScreen.o \
 	c2p8.o\
 	3d.o \
@@ -43,10 +45,8 @@ OBJS  = TMap.o \
 	FileAccess.o \
 	Terminal.o \
 	Audio.o \
-	Map.o \
 	SecurityCode1.o \
 	Player/Music.o \
-	Presentation.o \
 	Last.o
 
 # Make all of the applications

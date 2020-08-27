@@ -455,7 +455,7 @@ MMdpout
 
 	;*** Attende pressione tasto Tab
 
-MMtomm		bsr	KeyboardInput
+MMtomm		jsr	KeyboardInput
 
 		GFXBASE
 		CALLSYS	WaitTOF
