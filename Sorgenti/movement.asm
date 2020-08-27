@@ -85,7 +85,7 @@ spup		move.w	PlayerRunSpeed(a5),d2
 no_spup
 
 		clr.w	RotMaxSpeed(a5)
-		tst.w	PlayerFalling(a5)	;Se sta cadendo, nessun input è accettato
+		tst.w	PlayerFalling(a5)	;Se sta cadendo, nessun input  accettato
 		bne	nomoving
 		clr.w	WalkMaxSpeed(a5)
 
@@ -96,12 +96,12 @@ no_spup
 
 		moveq	#0,d4
 
-		tst.b	sideright(a5)		;Test se c'è movimento laterale/destra
+		tst.b	sideright(a5)		;Test se c' movimento laterale/destra
 		bne.s	moveright2		; Se si, salta
-		tst.b	sideleft(a5)		;Test se c'è movimento laterale/sinistra
+		tst.b	sideleft(a5)		;Test se c' movimento laterale/sinistra
 		bne.s	moveleft		; Se si, salta
 
-		tst.w	sidemove(a5)		;Test se c'è movimento laterale
+		tst.w	sidemove(a5)		;Test se c' movimento laterale
 		beq.s	no_side
 
 moveright	tst.w	joyright(a5)		;Test move right
@@ -170,7 +170,7 @@ nomoving
 
 		move.w	WalkMaxSpeed(a5),d0
 		move.w	PlayerSpeed(a5),d2
-		cmp.w	d0,d2			;Test se massima velocità <> velocità attuale
+		cmp.w	d0,d2			;Test se massima velocit <> velocit attuale
 		beq.s	DMspeedok
 		bgt.s	DMwalkdec
 		add.w	PlayerAccel(a5),d2	;accelera
@@ -186,7 +186,7 @@ DMwalkacc	move.w	d2,PlayerSpeed(a5)
 DMspeedok
 
 ;		move.w	PlayerSpeed(a5),d2
-;		cmp.w	WalkMaxSpeed(a5),d2	;Test se massima velocità <> velocità attuale
+;		cmp.w	WalkMaxSpeed(a5),d2	;Test se massima velocit <> velocit attuale
 ;		beq.s	DMspeedok
 ;		bgt.s	DMwalkdec
 ;		add.w	PlayerAccel(a5),d2	;accelera
@@ -195,7 +195,7 @@ DMspeedok
 ;DMwalkacc	move.w	d2,PlayerSpeed(a5)
 ;DMspeedok
 
-	;*** Gestione velocità e accelerazione verticale
+	;*** Gestione velocit e accelerazione verticale
 
 		moveq	#0,d4			;d4=MaxSpeedY
 		move.l	CPlayerY(a5),d0
@@ -241,7 +241,7 @@ DMYok2
 		move.l	lookupdown(a5),d0
 		lsl.l	#2,d0			;d0=LUDMaxSpeed
 		move.l	LUDSpeed(a5),d2
-		cmp.l	d0,d2			;Test se massima velocità <> velocità attuale
+		cmp.l	d0,d2			;Test se massima velocit <> velocit attuale
 		beq.s	DMludspeedok
 		bgt.s	DMluddec
 		addq.l	#1,d2			;accelera
@@ -353,7 +353,7 @@ DMokmouse
 		bgt.s	DMnoinipdw
 		move.w	#60,PostDeathWait(a5)
 DMnoinipdw	clr.w	OscCont(a5)		;Resetta OscCont
-		tst.w	PlayerFalling(a5)	;Stà cadendo ?
+		tst.w	PlayerFalling(a5)	;St cadendo ?
 		bne.s	DMnodeath		;Se si, salta
 		clr.w	PlayerSpeed(a5)
 		clr.w	WalkMaxSpeed(a5)
@@ -416,7 +416,7 @@ DMnoaggdir
 		ext.l	d6
 		muls.l	d6,d0
 		muls.l	d6,d1
-		asr.l	#4,d0		;PlayerSpeed è moltiplicata per 16
+		asr.l	#4,d0		;PlayerSpeed  moltiplicata per 16
 		asr.l	#4,d1
 		add.l	d2,d0		;d0=Nuova posizione X del player
 		add.l	d3,d1		;d1=Nuova posizione Z del player
@@ -500,7 +500,7 @@ DMnochangeblock	move.w	d0,CPlayerBlock(a5)
 		lea	(a0,d0.w*8),a0		;a0=Pun. blocco su cui si trova il Player
 		move.l	a0,CPlayerBlockPun(a5)
 
-	;***** Test se il player stà cadendo da un'altezza troppo elevata
+	;***** Test se il player st cadendo da un'altezza troppo elevata
 
 		move.w	bl_FloorHeight(a1),d2	;Calcola il dislivello del pavimento
 		sub.w	bl_FloorHeight(a0),d2
@@ -556,7 +556,7 @@ DMmv1
 		clr.l	d2
 		move.b	bl_Effect(a0),d2	;Codice lista effetti <> 0 ?
 		beq.s	DMnoeffect		; Se=0, esce
-		move.b	bl_Attributes(a0),d1	;Test se l'effetto è comandato da uno switch
+		move.b	bl_Attributes(a0),d1	;Test se l'effetto  comandato da uno switch
 		and.b	#$f0,d1
 		bne.s	DMnoeffect		;Se si, esce
 ;		ACTIVE_ENEMY
@@ -567,7 +567,7 @@ DMtrigloop	move.w	(a3)+,d1		;d1=Trigger number
 		move.w	(a3)+,d0		;Codice effetto
 		lea	TriggerBlockListPun(a5),a2
 		lea	(a2,d1.w*8),a2
-		cmp.w	4(a2),d0		;Test se l'effetto di questo trigger number è già attivo
+		cmp.w	4(a2),d0		;Test se l'effetto di questo trigger number  gi attivo
 		bne.s	DMtrigok		; Se no, tutto ok
 		addq.l	#6,a3
 		bra.s	DMtrigloop		; Se si, passa al prossimo
@@ -588,7 +588,7 @@ DMeffectfound					;Inizializza struttura effetto
 		move.w	(a3)+,(a1)+		;ef_param2
 	addq.l	#2,a3		;Salta key
 		addq.l	#1,Effects(a5)		;Incrementa il numero di effetti attivi
-		move.w	d0,4(a2)		;Segnala che l'effetto di questo trigger number e' già attivo e non può essere abilitato
+		move.w	d0,4(a2)		;Segnala che l'effetto di questo trigger number e' gi attivo e non pu essere abilitato
 		bra.s	DMtrigloop
 DMnoeffect
 DMnomove
@@ -629,18 +629,18 @@ DMokosc		move.w	OscCont(a5),d2		;d2=contatore oscillazione
 	bpl.s	DMstsp			; Se si, salta
 	cmp.b	#46,d2
 	ble.s	DMstep
-	clr.b	stepfl(a5)		;Segnala che può emettere il suono del passo
+	clr.b	stepfl(a5)		;Segnala che pu emettere il suono del passo
 	bra.s	DMnostep
 DMstsp	cmp.b	#50,d2		;Old=24
 	bge.s	DMstep
-	clr.b	stepfl(a5)		;Segnala che può emettere il suono del passo
+	clr.b	stepfl(a5)		;Segnala che pu emettere il suono del passo
 	bra.s	DMnostep
 DMstep	tst.b	stepfl(a5)
 	bne.s	DMnostep
 	move.l	GlobalSound5(a5),a0
 	moveq	#0,d1
 	jsr	PlaySoundFX
-	st	stepfl(a5)		;Segnala che il suono del passo è stato già emesso
+	st	stepfl(a5)		;Segnala che il suono del passo  stato gi emesso
 	move.w	PlayerSpeed(a5),d1
 DMnostep
 		ext.w	d0
@@ -672,9 +672,9 @@ DMout
 ; a0 contiene il pun. nella mappa al blocco su cui si trova il player
 ; d6 contiene l'altezza del pavimento del blocco su cui si trova il player
 ; d7 contiene l'altezza del soffitto del blocco su cui si trova il player
-; d5 è l'output. Ogni bit corrisponde ad una direzione
-; \1 è l'offset rispetto ad a0 del blocco da testare
-; \2 è il/i bit di d5 da settare nel caso in cui ci sia una collisione
+; d5  l'output. Ogni bit corrisponde ad una direzione
+; \1  l'offset rispetto ad a0 del blocco da testare
+; \2  il/i bit di d5 da settare nel caso in cui ci sia una collisione
 
 TESTBLOCK	MACRO
 
@@ -684,9 +684,9 @@ TESTBLOCK	MACRO
 		lea	(a4,d4.w*8),a3		;a3=Pun. al blocco
 		move.w	bl_FloorHeight(a3),d4	;Calcola il dislivello del pavimento
 		sub.w	d6,d4
-		bmi.s	TBdisc\@		;Se il dislivello è in discesa, salta
-		cmp.w	#PLAYER_MAX_RISE,d4	;Test se il dislivello è troppo grande
-		bgt.s	TBstop\@		;Se è troppo grande, non va bene
+		bmi.s	TBdisc\@		;Se il dislivello  in discesa, salta
+		cmp.w	#PLAYER_MAX_RISE,d4	;Test se il dislivello  troppo grande
+		bgt.s	TBstop\@		;Se  troppo grande, non va bene
 		move.w	d7,d4
 		cmp.w	bl_CeilHeight(a3),d4	;Verifica quale soffitto e' piu' basso
 		blt.s	TBj1\@
@@ -967,14 +967,14 @@ CCOcoll
 ;		bge.s	CCOnext			; Se si, salta
 		cmp.w	#$0300,d4		;Si tratta di un pick thing ?
 		blt.s	CCOnopickth		; Se no, salta
-		tst.b	d4			;E' stato già raccolto ?
+		tst.b	d4			;E' stato gi raccolto ?
 		bmi.s	CCOnext			; Se si, salta
 		clr.l	d2
 		move.w	obj_value(a2),d2
 		jsr	CollectItem
 		tst.w	d0			;Tutto ok ?
 		bmi.s	CCOnext			; Se no, salta
-		move.b	#-1,obj_subtype(a2)	;Segnala che l'oggetto è stato raccolto
+		move.b	#-1,obj_subtype(a2)	;Segnala che l'oggetto  stato raccolto
 		jsr	SprDelayPrintMessage
 		move.l	obj_image(a2),a0
 		move.l	o_sound1(a0),a0
@@ -1055,7 +1055,7 @@ InitPlayerPos
 
 	;*** !!!PROTEZIONE!!!
 	;*** Controlla se la routine tra DSprotection e DSProtectionEnd
-	;*** è integra.
+	;***  integra.
 		xref	Protection2,DSprotection,DSprotectionEnd
 		sub.l	a3,a3
 		move.l	#$864,d1
@@ -1142,7 +1142,7 @@ SwitchManagement
 		move.w	CPlayerHeading(a5),d0
 
 	;*** Serie di test per verificare verso quale blocco
-	;*** è rivolto il player.
+	;***  rivolto il player.
 					;*** Test left
 		cmp.w	#(1024-224),d0
 		blt.s	SMj1
@@ -1191,13 +1191,13 @@ SMtest
 SMbpos		move.l	Blocks(a5),a0
 		lsl.w	#2,d0
 		lea	(a0,d0.w*8),a0		;a0=Pun. blocco
-		and.b	bl_Attributes(a0),d1	;Test se è attivo lo switch
+		and.b	bl_Attributes(a0),d1	;Test se  attivo lo switch
 		beq	SMout			;Se no, salta
 
 	;*** Gestione cambiamento texture dello switch
 		move.l	(a0,d2.l),a2		;a2=Pun. all'edge
 		move.l	ed_NormTexture(a2),d0	;d0=Pun. normal texture
-		beq.s	SMnoct1			; Salta se non c'è normal texture
+		beq.s	SMnoct1			; Salta se non c' normal texture
 		move.l	d0,a1
 		cmp.w	#1,tx_Animation(a1)	;  Texture animata ?
 		bgt.s	SMnoct1			;   se si, salta
@@ -1228,7 +1228,7 @@ SMtrigloop	move.w	(a3)+,d1		;d1=Trigger number
 		move.w	(a3)+,d0		;Codice effetto
 		lea	TriggerBlockListPun(a5),a2
 		lea	(a2,d1.w*8),a2
-		cmp.w	4(a2),d0		;Test se l'effetto di questo trigger number è già attivo
+		cmp.w	4(a2),d0		;Test se l'effetto di questo trigger number  gi attivo
 		bne.s	SMtrigok		; Se no, tutto ok
 		addq.l	#6,a3
 		bra.s	SMtrigloop		; Se si, passa al prossimo
@@ -1249,9 +1249,9 @@ SMeffectfound					;Inizializza struttura effetto
 		move.w	(a3)+,(a1)+		;ef_param2
 		clr.w	d1
 		move.b	(a3)+,d1		;d1=key
-		beq.s	SMnokeyneeded		;Se=0, non è necessaria alcuna chiave
+		beq.s	SMnokeyneeded		;Se=0, non  necessaria alcuna chiave
 		lea	GreenKey(a5),a4
-		tst.b	-1(a4,d1.w)		;Test se la chiave è posseduta
+		tst.b	-1(a4,d1.w)		;Test se la chiave  posseduta
 		bne.s	SMusekey		;Se si, salta
 		clr.w	-14(a1)			;Disabilita effetto
 		addq.w	#3,d1
@@ -1259,10 +1259,10 @@ SMeffectfound					;Inizializza struttura effetto
 		jsr	SprDelayPrintMessage
 		bra.s	SMout
 SMusekey	lea	GreenKeyFL(a5),a4
-		st.b	-1(a4,d1.w)		;Segnala che la chiave è stata usata
+		st.b	-1(a4,d1.w)		;Segnala che la chiave  stata usata
 SMnokeyneeded	addq.l	#1,a3			;Salta byte non usato
 		addq.l	#1,Effects(a5)		;Incrementa il numero di effetti attivi
-		move.w	d0,4(a2)		;Segnala che l'effetto di questo trigger number e' già attivo e non può essere abilitato
+		move.w	d0,4(a2)		;Segnala che l'effetto di questo trigger number e' gi attivo e non pu essere abilitato
 
 		move.l	GlobalSound2(a5),a0
 		moveq	#0,d1
@@ -1271,7 +1271,7 @@ SMnokeyneeded	addq.l	#1,a3			;Salta byte non usato
 		bra.s	SMtrigloop
 SMnoeffect
 
-			;***** Controlla se qualche chiave è stata usata,
+			;***** Controlla se qualche chiave  stata usata,
 			;***** nel qual caso la elimina.
 		lea	GreenKeyFL(a5),a0
 		lea	GreenKey(a5),a1
@@ -1375,7 +1375,7 @@ OscillationAmp
 ;
 ; La prima word corrisponde all'angolo da sommare alla direzione dello
 ; sguardo per ottenere la direzione di movimento.
-; La seconda word indica il segno della velocità massima.
+; La seconda word indica il segno della velocit massima.
 
 movingdirtable:
 		dc.w	0,0
@@ -1396,8 +1396,8 @@ movingdirtable:
 ; attuale e a quella precedente.
 ; Si accede alla matrice indirizzando le righe tramite la nuova
 ; direzione e le colonne tramite quella vecchia.
-; Se il byte letto è positivo, bisogna azzerare PlayerSpeed;
-; Se il byte letto è negativo, bisogna negare PlayerSpeed;
+; Se il byte letto  positivo, bisogna azzerare PlayerSpeed;
+; Se il byte letto  negativo, bisogna negare PlayerSpeed;
 ; Altrimenti non bisogna fare nulla.
 
 updspeedtable:	;old	 1, 2, 3, 4, 5, 6, 7, 8, 9,10
@@ -1430,10 +1430,10 @@ MouseSensitivity ds.w	1	;Sensibilita' mouse (0...8): .25, .5, .75, 1, 1.25, 1.5,
 		xdef	PlayerRotWalkSpeed,PlayerRotRunSpeed
 		xdef	PlayerAccel,PlayerRotAccel
 
-PlayerWalkSpeed		ds.w	1	;Velocità di camminata del player
-PlayerRunSpeed		ds.w	1	;Velocità di corsa del player
-PlayerRotWalkSpeed	ds.w	1	;Velocità di rotazione del player mentre cammina
-PlayerRotRunSpeed	ds.w	1	;Velocità di rotazione del player mentre corre
+PlayerWalkSpeed		ds.w	1	;Velocit di camminata del player
+PlayerRunSpeed		ds.w	1	;Velocit di corsa del player
+PlayerRotWalkSpeed	ds.w	1	;Velocit di rotazione del player mentre cammina
+PlayerRotRunSpeed	ds.w	1	;Velocit di rotazione del player mentre corre
 PlayerAccel		ds.w	1	;Accelerazione camminata/corsa player
 PlayerRotAccel		ds.w	1	;Accelerazione rotazione player
 
@@ -1457,7 +1457,7 @@ joyleft		ds.w	1
 joyright	ds.w	1
 joyfire		ds.w	1	;Contatore numero pressioni tasto
 
-joyfireP	ds.w	1	;TRUE se il tasto è premuto
+joyfireP	ds.w	1	;TRUE se il tasto  premuto
 
 sidemove	ds.w	1
 speedup		ds.w	1
@@ -1488,7 +1488,7 @@ olddir		ds.b	1	;Vecchia direzione:
 stepfl		ds.b	1
 
 FallingHeight	ds.w	1	;Altezza da cui sta cadendo il player
-PlayerFalling	ds.w	1	;Se<>0, il player stà cadendo
+PlayerFalling	ds.w	1	;Se<>0, il player st cadendo
 OscCont		ds.w	1
 
 PlayerEyesHeight ds.w	1	;Altezza degli occhi del player relativa a PlayerY

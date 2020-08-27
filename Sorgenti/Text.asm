@@ -44,7 +44,7 @@ ScPloopcon	divul.l	d5,d6:d2
 ScPconend	cmp.l	a1,a2		;Se il numero non entra nella stringa
 		beq.s	ScPconexit	; esce
 		move.b	d6,-(a2)	;Inserisce nella stringa
-ScPfill		cmp.l	a1,a2		;Se la stringa non è piena
+ScPfill		cmp.l	a1,a2		;Se la stringa non  piena
 		beq.s	ScPconexit
 		move.b	#0,-(a2)	;Finisce di riempirla
 		bra.s	ScPfill

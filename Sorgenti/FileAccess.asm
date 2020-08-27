@@ -31,7 +31,7 @@ CALLSYS		MACRO
 		ENDM
 
 ;****************************************************************************
-;Apre un file testando se è compresso o meno
+;Apre un file testando se  compresso o meno
 ;
 ;Parametri passati nei registri:
 ;
@@ -46,7 +46,7 @@ OpenCustom
 
 ;		lea	dati,a5
 
-		CALLSYS	Open		;I parametri sono già nei registri
+		CALLSYS	Open		;I parametri sono gi nei registri
 		tst.l	d0
 		beq	OCerrorout
 		move.l	d0,fh(a5)
@@ -63,7 +63,7 @@ OpenCustom
 		cmp.l	#ID,inputId(a5)
 		beq	OCcompress
 
-		move.w	#0,flagcompress(a5)	;Se il file non è compresso
+		move.w	#0,flagcompress(a5)	;Se il file non  compresso
 		move.l	fh(a5),d1
 		moveq	#0,d2
 		moveq	#-1,d3
@@ -79,7 +79,7 @@ OpenCustom
 
 
 OCcompress
-		move.w	#1,flagcompress(a5)	;Se il file è compresso inizializza lettura compressa
+		move.w	#1,flagcompress(a5)	;Se il file  compresso inizializza lettura compressa
 
 		move.l	fh(a5),d1
 		lea	outputsize(a5),a0
@@ -352,7 +352,7 @@ buffersize	ds.l	1	;Lun. dei dati compressi
 bufferpun	ds.l	1	;Pun. buffer dati compressi
 inputId		ds.l	1	;Per testare l'Id del file
 fh		ds.l	1		;Pun. alla struct FileHandle
-flagcompress	ds.w	1	;Flag: Se=1 il file è compresso
+flagcompress	ds.w	1	;Flag: Se=1 il file  compresso
 compressiontype	ds.w	1	;Tipo compressione
 
 		cnop	0,4

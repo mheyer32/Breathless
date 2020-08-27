@@ -81,7 +81,7 @@
 
 ;****************************************************************************
 ; Routine di lettura configurazione gioco
-; La lettura/scrittura della configurazione non è permessa sui dischetti
+; La lettura/scrittura della configurazione non  permessa sui dischetti
 ; Restituisce d0=0 se tutto ok
 
 ReadConfig
@@ -95,7 +95,7 @@ ReadConfig
 		move.l	#MODE_OLDFILE,d2
 		CALLSYS	Open
 		move.l	d0,file(a5)
-		beq	RCout		;Esce senza errori se non c'è il file
+		beq	RCout		;Esce senza errori se non c' il file
 		move.l	d0,a4		;Conserva in a4 il pun. al file
 
 		move.l	a4,d1
@@ -167,7 +167,7 @@ ConfigVarPointers
 
 ;****************************************************************************
 ; Routine di scrittura configurazione gioco
-; La lettura/scrittura della configurazione non è permessa sui dischetti
+; La lettura/scrittura della configurazione non  permessa sui dischetti
 
 WriteConfig
 		lea	configname(pc),a2
@@ -179,7 +179,7 @@ WriteConfig
 		move.l	#MODE_NEWFILE,d2
 		CALLSYS	Open
 		move.l	d0,file(a5)
-		beq	WCout		;Esce senza errori se non può creare il file
+		beq	WCout		;Esce senza errori se non pu creare il file
 		move.l	d0,a4		;Conserva in a4 il pun. al file
 
 		move.l	a4,d1
@@ -868,7 +868,7 @@ LMout
 ; Da per scontato che il file sia corretto.
 
 ReadTextures
-		tst.b	TextDirFlag(a5)	;Test se la dir è stata caricata
+		tst.b	TextDirFlag(a5)	;Test se la dir  stata caricata
 		bne.s	RDdirok		; Se si, salta
 		bsr	ReadTexturesDir
 RDdirok
@@ -909,7 +909,7 @@ RTopenok
 		move.l	numleveltext(a5),d7
 		subq.w	#1,d7
 
-		addq.l	#4,a4			;Salta primo puntatore, perchè la texture num. 0 è inutilizzata
+		addq.l	#4,a4			;Salta primo puntatore, perch la texture num. 0  inutilizzata
 
 	;*** Loop di lettura textures
 RTrloop
@@ -940,7 +940,7 @@ RTfound		move.l	8(a0),d4		;d4=offset
 		CALLSYS	Read			;Legge texture
 
 		move.l	a2,(a4)			;Scrive pun. alla texture appena letta
-		addq.l	#4,(a4)+		;Il pun. alla texture deve puntare 2 word più avanti
+		addq.l	#4,(a4)+		;Il pun. alla texture deve puntare 2 word pi avanti
 		add.l	d5,a2
 
 		dbra	d7,RTrloop
@@ -964,7 +964,7 @@ RTout
 ; Da per scontato che il file sia corretto.
 
 ReadObjects
-		tst.b	ObjDirFlag(a5)	;Test se la dir è stata caricata
+		tst.b	ObjDirFlag(a5)	;Test se la dir  stata caricata
 		bne.s	ROdirok		; Se si, salta
 		bsr	ReadObjectsDir
 ROdirok
@@ -1003,7 +1003,7 @@ ROopenok
 		move.l	ObjectImages(a5),a4	;a4=Pun. alla lista di pun. agli oggetti
 		move.l	FirstObjectImage(a5),a2	;a2=Pun. agli oggetti
 		move.l	numlevelobj(a5),d7
-		addq.l	#4,a4			;Salta primo puntatore, perchè l'oggetto num. 0 è inutilizzato
+		addq.l	#4,a4			;Salta primo puntatore, perch l'oggetto num. 0  inutilizzato
 		bra.s	ROnext
 
 	;*** Loop di lettura oggetti
@@ -1211,7 +1211,7 @@ LLDidok
 
 LLDloopel1	tst.l	(a0)
 		bmi.s	LLDelout		;Se<0, fine elenco liste effetti ed esce
-		beq.s	LLDemptylist		;Se=0, la lista è vuota e va alla prossima lista
+		beq.s	LLDemptylist		;Se=0, la lista  vuota e va alla prossima lista
 LLDloopel2	lea	10(a0),a0		;Si sposta sul prossimo effetto della lista attuale
 		tst.l	(a0)			;Se non e' uguale a zero
 		bne.s	LLDloopel2		; continua
@@ -1316,7 +1316,7 @@ LLDnoobj
 		bra.s	LLDobjnext
 LLDloopobj	clr.l	d0
 		move.w	(a0)+,d0	;Codice oggetto
-		bne.s	LLDobjnopl	;Se non è il player, salta
+		bne.s	LLDobjnopl	;Se non  il player, salta
 		subq.l	#1,ObjectNumber(a5)	;Sottrae un oggetto dalla lista
 		move.w	(a0)+,CPlayerX(a5)
 		move.w	(a0)+,CPlayerZ(a5)
@@ -1571,7 +1571,7 @@ disk3path	dc.b	'BREATHLESS3:',0	;Path dei file per disk 3
 nomeMGLD	dc.b	'Breathless.gld',0
 disknomeMGLD	dc.b	'BREATHLESS1:Breathless.gld',0
 
-nomeWTOM	dc.b	'S:BREATHLESS_WTOM',0	;Se è presente questo file, il caricamento avviene da dischetti
+nomeWTOM	dc.b	'S:BREATHLESS_WTOM',0	;Se  presente questo file, il caricamento avviene da dischetti
 
 errmes1		dc.b	'Error opening file.',0
 errmes2		dc.b	'Read error.',0
@@ -1595,8 +1595,8 @@ linefeed	dc.b	10
 
 DiskFlag	ds.b	1	;Se=TRUE, il caricamento avviene da floppy
 
-TextDirFlag	ds.b	1	;Se=TRUE, la dir delle texture è stata già caricata
-ObjDirFlag	ds.b	1	;Se=TRUE, la dir degli oggetti è stata già caricata
+TextDirFlag	ds.b	1	;Se=TRUE, la dir delle texture  stata gi caricata
+ObjDirFlag	ds.b	1	;Se=TRUE, la dir degli oggetti  stata gi caricata
 
 		ds.b	1	;Usato per allineare
 

@@ -152,10 +152,10 @@ P61_frames	dc.l	0
 P61_diri	dc	1
 
 *********************************
-*        Player 6.1A о		*
+*        Player 6.1A 		*
 *      All in one-version	*
 *        Version 610.2		*
-*   й 1992-95 Jarno Paananen	*
+*    1992-95 Jarno Paananen	*
 *     All rights reserved	*
 *********************************
 
@@ -255,16 +255,16 @@ P61_ohi	movem.l	(sp)+,d2-d7/a2-a6
 	rts
 	endc
 
-;нннннннннннннннннннннннннннннннннннннннннннннннн
-;н Call P61_Init to initialize the playroutine	н
-;н D0 --> Timer detection (for CIA-version)	н
-;н A0 --> Address to the module			н
-;н A1 --> Address to samples/0 if in the module	н
-;н A2 --> Address to sample buffer		н
-;н D0 <-- 0 if succeeded			н
-;н A6 <-- $DFF000				н
-;н 		Uses D0-A6			н
-;нннннннннннннннннннннннннннннннннннннннннннннннн
+;
+; Call P61_Init to initialize the playroutine	
+; D0 --> Timer detection (for CIA-version)	
+; A0 --> Address to the module			
+; A1 --> Address to samples/0 if in the module	
+; A2 --> Address to sample buffer		
+; D0 <-- 0 if succeeded			
+; A6 <-- $DFF000				
+; 		Uses D0-A6			
+;
 
 P61_Init
 ;	cmp.l	#"P61A",(a0)+
@@ -715,11 +715,11 @@ P61_ciaaddr
 	dc.l	$bfd500,$bfd700
 	endc
 
-;нннннннннннннннннннннннннннннннннннннннннннннннн
-;н     	Call P61_End to stop the music		н
-;н   A6 --> Customchip baseaddress ($DFF000)	н
-;н		Uses D0/D1/A0/A1/A3		н
-;нннннннннннннннннннннннннннннннннннннннннннннннн
+;
+;     	Call P61_End to stop the music		
+;   A6 --> Customchip baseaddress ($DFF000)	
+;		Uses D0/D1/A0/A1/A3		
+;
 
 P61_End	moveq	#0,d0
 	move	d0,$a8(a6)
@@ -818,13 +818,13 @@ MFnoch						;A
 	endc
 	
 
-;нннннннннннннннннннннннннннннннннннннннннннннннн
-;н Call P61_SetPosition to jump to a specific	н
-;н	      position in the song.		н
-;н D0.l --> Position				н
-;н Starts from the beginning if out of limits.	н
-;н          	Uses A0/A1/A3/D0-D3		н
-;нннннннннннннннннннннннннннннннннннннннннннннннн
+;
+; Call P61_SetPosition to jump to a specific	
+;	      position in the song.		
+; D0.l --> Position				
+; Starts from the beginning if out of limits.	
+;          	Uses A0/A1/A3/D0-D3		
+;
 
 	ifne	jump
 P61_SetPosition
@@ -869,12 +869,12 @@ P61_SetPosition
 	rts
 	endc
 
-;нннннннннннннннннннннннннннннннннннннннннннннннн
-;н Call P61_Music every frame to play the music	н
-;н	  _NOT_ if CIA-version is used!		н
-;н A6 --> Customchip baseaddress ($DFF000)	н
-;н          	Uses A0-A5/D0-D7		н
-;нннннннннннннннннннннннннннннннннннннннннннннннн
+;
+; Call P61_Music every frame to play the music	
+;	  _NOT_ if CIA-version is used!		
+; A6 --> Customchip baseaddress ($DFF000)	
+;          	Uses A0-A5/D0-D7		
+;
 
 P61_Music
 	lea	P61_cn(pc),a3

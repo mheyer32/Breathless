@@ -325,12 +325,12 @@ LSclearloop2	clr.l	(a0)+
 
 	;*** Stampa codice di accesso
 
-;		cmp.w	#1,CurrentGame(a5)	;Se è il primo game
+;		cmp.w	#1,CurrentGame(a5)	;Se  il primo game
 ;		beq.s	LSnolevcode		; non stampa il codice
-;		cmp.w	#1,CurrentLevel(a5)	;Se non è il primo livello
+;		cmp.w	#1,CurrentLevel(a5)	;Se non  il primo livello
 ;		bne.s	LSnolevcode		; non stampa il codice
 
-		cmp.w	#1,CurrentGame(a5)	;Se è il primo livello del primo game
+		cmp.w	#1,CurrentGame(a5)	;Se  il primo livello del primo game
 		bne.s	LSnofg			; non stampa il codice
 		cmp.w	#1,CurrentLevel(a5)
 		beq.s	LSnolevcode
@@ -361,8 +361,8 @@ LSnolevcode
 
 
 	;*** !!!PROTEZIONE!!!
-	;*** Se è il secondo livello del secondo, terzo o quarto mondo,
-	;*** segnala che bisogna controllare se è stata rimossa la protezione
+	;*** Se  il secondo livello del secondo, terzo o quarto mondo,
+	;*** segnala che bisogna controllare se  stata rimossa la protezione
 
 		move.w	CurrentGame(a5),d0
 		cmp.w	#2,d0			;E' il game 2, 3 o 4 ?
@@ -377,7 +377,7 @@ LSnogame2
 
 
 
-;	;*** Stampa nome rivista a cui è stato mandato il gioco
+;	;*** Stampa nome rivista a cui  stato mandato il gioco
 ;		move.l	a4,a1
 ;		moveq	#56,d0
 ;		move.l	#34,d1
@@ -708,7 +708,7 @@ RDRout
 ShowPic		movem.l	d0-d7/a0-a5,-(sp)
 
 		jsr	LoadPic
-		bne	SPout			;Esce se c'è errore
+		bne	SPout			;Esce se c' errore
 		move.l	a0,PicPun(a5)		;Salva pun. pic
 
 		moveq	#0,d2
@@ -735,7 +735,7 @@ SPout
 ShowMainPic	movem.l	d0-d7/a0-a5,-(sp)
 
 		jsr	LoadPic
-		bne	SPout			;Esce se c'è errore
+		bne	SPout			;Esce se c' errore
 		move.l	a0,PicPun(a5)		;Salva pun. pic
 
 		moveq	#0,d2
@@ -935,7 +935,7 @@ CSclearloop2	move.l	d0,(a0)+
 
 ChangeScreen	movem.l	d0-d7/a0-a5,-(sp)
 
-		cmp.w	ActualScr(a5),d2	;Test se lo schermo è già mostrato
+		cmp.w	ActualScr(a5),d2	;Test se lo schermo  gi mostrato
 		beq.s	CSout			; Se si, salta
 		move.w	d2,ActualScr(a5)
 
@@ -988,7 +988,7 @@ CSout
 ;* Richiede:
 ;*	d2.l = Numero 50esimi da attendere
 ;*
-;* Restituisce flag Z=1 se è stato premuto LMB
+;* Restituisce flag Z=1 se  stato premuto LMB
 
 		xdef	Waiting
 
@@ -1092,9 +1092,9 @@ VersionLogo
 
 ActualScr	ds.w	1	;Numero (0,1,2) del buffer mostrato
 
-DiskReqFlag	ds.b	1	;Se=TRUE, è attiva una richiesta di cambio disco
+DiskReqFlag	ds.b	1	;Se=TRUE,  attiva una richiesta di cambio disco
 
-PresFirstTime	ds.b	1	;Se=FALSE, è la prima volta che esegue la presentazione
+PresFirstTime	ds.b	1	;Se=FALSE,  la prima volta che esegue la presentazione
 
 savepixeltype	ds.l	1
 
@@ -1102,13 +1102,13 @@ PicPun		ds.l	1	;Pun. immagine caricata
 
 ShowCredits	ds.b	1	;Se=TRUE, deve visualizzare pagina credits
 
-StartGame	ds.b	1	;Se=TRUE, è stata selezionata la voce "Start Game"
+StartGame	ds.b	1	;Se=TRUE,  stata selezionata la voce "Start Game"
 
 
 	;*** !!!PROTEZIONE!!!
 		xdef	Protection2
 
-Protection2	ds.b	1	;Se>0, è il tipo di controllo di protezione da effettuare
+Protection2	ds.b	1	;Se>0,  il tipo di controllo di protezione da effettuare
 				;   1 : Controlla checksum tra DSprotection e DSProtectionEnd
 				;   2 : Controlla checksum tra SecurityCode1 e SecurityCode1End
 				;   3 : Come la 2

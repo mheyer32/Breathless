@@ -273,7 +273,7 @@ TMnoendgame
 ;		jsr	LevelCodeOut		;Init codice livello
 TMfml
 		jsr	LoadLevelData		;Carica dati livello
-		bne	TMexit			; Esce se c'è errore
+		bne	TMexit			; Esce se c' errore
 
 		jsr	PressKeyMessage
 
@@ -347,7 +347,7 @@ TMainloop
 		tst.w	RedScreenCont(a5)
 		bmi.s	TMnoresetpalette
 		beq.s	TMresetpalette
-		tst.w	pause(a5)		;Test se è in pausa
+		tst.w	pause(a5)		;Test se  in pausa
 		beq.s	TMnoresetpalette
 TMresetpalette	lea	Palette(a5),a0
 		bsr	LoadPalette
@@ -358,7 +358,7 @@ TMresetpalette	lea	Palette(a5),a0
 		move.w	#-1,RedScreenCont(a5)
 TMnoresetpalette
 
-		tst.w	pause(a5)		;Test se è in pausa
+		tst.w	pause(a5)		;Test se  in pausa
 		beq.s	TMnopause
 		jsr	ResetMoveVars
 		tst.b	showmap(a5)		;Test se deve mostrare mappa
@@ -416,7 +416,7 @@ TMnochangescreen
 		jsr	AutoMapping
 
 		move.l	animcounter(a5),d0
-		cmp.l	storecount(a5),d0	;Test se è passato almeno un 50esimo
+		cmp.l	storecount(a5),d0	;Test se  passato almeno un 50esimo
 		bgt.s	TM50ok			; Se si, salta
 		GFXBASE
 		CALLSYS	WaitTOF
@@ -662,10 +662,10 @@ KeyboardInput
 		lea	KeyQueueIndex1(a5),a0
 		move.l	(a0)+,d1		;d1=KeyQueueIndex1
 		cmp.l	(a0)+,d1		;Confronta con KeyQueueIndex2
-		beq	KIout			;Se sono uguali, allora la coda è vuota
+		beq	KIout			;Se sono uguali, allora la coda  vuota
 		move.w	(a0,d1.l),d0		;d0=scancode tasto
 		addq.l	#2,d1			;Sposta l'indice
-		and.w	#$7f,d1			;Assicura la circolarità dell'indice
+		and.w	#$7f,d1			;Assicura la circolarit dell'indice
 		move.l	d1,KeyQueueIndex1(a5)	;Memorizza l'indice
 
 		tst.w	showmap(a5)
@@ -738,16 +738,16 @@ KIwp		cmp.w	#($19+$80),d0		;Premuto tasto 'p' ?
 
 KIchangeweapon
 		lea	PlayerWeapons(a5),a1
-		tst.b	(a1,d0.w)			;Test se l'arma è posseduta
+		tst.b	(a1,d0.w)			;Test se l'arma  posseduta
 		beq.s	KIcwout				; Se no, salta
-		cmp.w	PlayerActiWeapon(a5),d0		;Arma già attiva ?
+		cmp.w	PlayerActiWeapon(a5),d0		;Arma gi attiva ?
 		beq.s	KIcwout				; Se si, salta
 		move.l	GlobalSound2(a5),a0
 		moveq	#0,d1
 		jsr	PlaySoundFX
 ChangeWeapon
 		lea	PlayerWeapons(a5),a1
-		tst.b	(a1,d0.w)			;Test se l'arma è posseduta
+		tst.b	(a1,d0.w)			;Test se l'arma  posseduta
 		beq.s	KIcwout				; Se no, salta
 		move.w	PlayerActiWeapon(a5),d2		;d2=precedente arma attiva
 		move.w	d0,PlayerActiWeapon(a5)		;Attiva l'arma
@@ -961,7 +961,7 @@ InitMap
 
 	;*** !!!PROTEZIONE!!!
 	;*** Controlla se la routine tra SecurityCode1 e SecurityCode1End
-	;*** è integra.
+	;***  integra.
 		xref	Protection2,SecurityCode1,SecurityCode1End
 		sub.l	a4,a4
 		lea	Protection2-$153(a5),a0
@@ -1020,11 +1020,11 @@ IMloop1
 IMloop2		move.l	ed_NormTexture(a1),d0
 		move.l	(a2,d0.w*4),ed_NormTexture(a1)	;Normal texture pun.
 		move.l	ed_UpTexture(a1),d0
-		bne.s	IMutnz				;Se la upper texture non è zero, salta
+		bne.s	IMutnz				;Se la upper texture non  zero, salta
 		addq.w	#1,d0				;Altrimenti prende la texture uno
 IMutnz		move.l	(a2,d0.w*4),ed_UpTexture(a1)	;Upper texture pun.
 		move.l	ed_LowTexture(a1),d0
-		bne.s	IMltnz				;Se la lower texture non è zero, salta
+		bne.s	IMltnz				;Se la lower texture non  zero, salta
 		addq.w	#1,d0				;Altrimenti prende la texture uno
 IMltnz		move.l	(a2,d0.w*4),ed_LowTexture(a1)	;Lower texture pun.
 		add.w	#ed_SIZE,a1
@@ -1098,14 +1098,14 @@ IObjloop0	move.l	(a0)+,d0	;Legge pun. prossimo oggetto
 		move.l	d0,a3
 
 		move.b	o_objtype(a3),d1
-		cmp.b	#4,d1		;L'oggetto è un proiettile ?
+		cmp.b	#4,d1		;L'oggetto  un proiettile ?
 		bne.s	IObjnoshot	; Se no, salta
 		move.b	o_param7(a3),d1
 		ext.w	d1
 		lea	GunObj1(a5),a4
 		move.l	a3,(a4,d1.w*4)	; Se si, inizializza il pun. all'arma
 		bra.s	IObjok1
-IObjnoshot	cmp.b	#5,d1		;L'oggetto è una esplosione?
+IObjnoshot	cmp.b	#5,d1		;L'oggetto  una esplosione?
 		bne.s	IObjnoexpl	; Se no, salta
 		move.w	o_param1(a3),d1
 		lea	ExplObj1(a5),a4
@@ -1151,7 +1151,7 @@ IObjloopsnd2	move.l	(a2),d1		;d1=nome
 		beq.s	IObjsndj1	; Se uguali, salta
 		addq.l	#4,a2		; Altrimenti passa al prossimo sound della lista
 		bra.s	IObjloopsnd2
-IObjsndj1	move.l	(a2),d0		;Legge pun. al sound, oppure 0 se non c'è sound
+IObjsndj1	move.l	(a2),d0		;Legge pun. al sound, oppure 0 se non c' sound
 IObjnosnd	move.l	d0,(a1)+	;Scrive il pun. al sound
 		dbra	d7,IObjloopsnd1
 
@@ -1185,7 +1185,7 @@ IObjinloopi	move.l	a1,obj_listprev(a0)
 	;*****  e la mappa degli oggetti
 
 		move.l	Objects(a5),a0
-;		lea	obj_SIZE(a0),a0		;Salta il primo perchè inutilizzato
+;		lea	obj_SIZE(a0),a0		;Salta il primo perch inutilizzato
 		move.l	Map(a5),a4
 		lea	2(a4),a1
 		move.l	ObjectImages(a5),a2
@@ -1446,11 +1446,11 @@ ITWnexttrig	addq.l	#4,a1
 
 		clr.l	(a1)+
 
-ITWloop4	tst.l	(a0)		;Test se primo effetto lista è < 0
+ITWloop4	tst.l	(a0)		;Test se primo effetto lista  < 0
 		bmi.s	ITWendeffectlist	;Se si, fine liste effetti ed esce
 		move.l	a0,(a1)+	;Scrive puntatore al primo effetto della lista nell'array di puntatori
-		tst.l	(a0)		;Test se primo effetto lista è = 0
-		beq.s	ITWemptylist	; Se si, la lista è vuota e va alla prossima lista
+		tst.l	(a0)		;Test se primo effetto lista  = 0
+		beq.s	ITWemptylist	; Se si, la lista  vuota e va alla prossima lista
 ITWloop5	lea	10(a0),a0
 		tst.l	(a0)		;Testa successivi effetti della lista
 		bne.s	ITWloop5	; e continua a farlo finche' non ne trova uno = 0
@@ -1925,7 +1925,7 @@ Tnochangescreen
 
 ;****************************************************************************
 ;*** Manda a video la palette puntata da a0.
-;*** Tale palette è nel formato RGB 8bit, e viene trasformata
+;*** Tale palette  nel formato RGB 8bit, e viene trasformata
 ;*** nel formato adatto a LoadRGB32.
 
 		xdef	LoadPalette
@@ -1969,10 +1969,10 @@ RPloopP		clr.l	(a0)+
 ;****************************************************************************
 ;* Subroutine per calcolare i pun. nella dir. dei livelli
 ;* al game e al level corrente.
-;* Se il level corrente non è definito nel game corrente,
+;* Se il level corrente non  definito nel game corrente,
 ;* passa al primo level del prossimo game.
-;* Se il game corrente non è definito, segnala che il gioco è finito.
-;* Quindi questa routine è utile anche per passare al prossimo
+;* Se il game corrente non  definito, segnala che il gioco  finito.
+;* Quindi questa routine  utile anche per passare al prossimo
 ;* livello del game corretto.
 
 GetLevelNames
@@ -1980,7 +1980,7 @@ GetLevelNames
 
 		move.w	CurrentGame(a5),d7
 		cmp.w	NumGames(a5),d7		;Confronta con il num. totale di game
-		bgt	GLNendgame		; Se >, allora è finito il gioco
+		bgt	GLNendgame		; Se >, allora  finito il gioco
 
 		subq.w	#1,d7
 		bra.s	GLNnext1
@@ -2007,7 +2007,7 @@ GLNoklev	subq.w	#1,d0
 		rts
 
 GLNendgame
-		st	EndGame(a5)		;Segnala che è finito il gioco
+		st	EndGame(a5)		;Segnala che  finito il gioco
 		rts
 
 ;***********************************************************************
@@ -2021,10 +2021,10 @@ ReadKey		movem.l	d1/a0,-(sp)
 		lea	KeyQueueIndex1(a5),a0
 		move.l	(a0)+,d1		;d1=KeyQueueIndex1
 		cmp.l	(a0)+,d1		;Confronta con KeyQueueIndex2
-		beq	RKnokey			;Se sono uguali, allora la coda è vuota
+		beq	RKnokey			;Se sono uguali, allora la coda  vuota
 		move.w	(a0,d1.l),d0		;d0=scancode tasto
 		addq.l	#2,d1			;Sposta l'indice
-		and.w	#$7f,d1			;Assicura la circolarità dell'indice
+		and.w	#$7f,d1			;Assicura la circolarit dell'indice
 		move.l	d1,KeyQueueIndex1(a5)	;Memorizza l'indice
 		bra.s	RKout
 
@@ -2069,7 +2069,7 @@ ProgramState	ds.b	1	;Stato programma:
 
 MusicState	ds.b	1	;Stato musica: (FALSE=non attiva; TRUE=attiva)
 
-ScreenActive	ds.b	1	;Se<>0, lo schermo di gioco è quello attivo
+ScreenActive	ds.b	1	;Se<>0, lo schermo di gioco  quello attivo
 OldScreenActive	ds.b	1	;ScreenActive al frame precedente
 
 		xdef	FirstMatchLevel
@@ -2078,7 +2078,7 @@ FirstMatchLevel	ds.b	1	;Se<>0, si sta inizializzando il primo livello della part
 
 		ds.b	1	;Usato per allineare
 
-EndLevelFade	ds.b	1	;Se<>0, è in esecuzione il fade di fine livello (perchè finito livello o perchè morto)
+EndLevelFade	ds.b	1	;Se<>0,  in esecuzione il fade di fine livello (perch finito livello o perch morto)
 EndLevelCont	ds.b	1	;Contatore ritardo fine livello
 
 
@@ -2111,15 +2111,15 @@ pause		ds.w	1	;Se<>0, il gioco va in pausa
 showmap		ds.b	1	;Se<>0, mostra la mappa
 Escape		ds.b	1	;Se<>0, bisogna uscire dal ciclo principale
 EscKey		ds.b	1	;Se<>0, l'utente ha premuto Esc per uscire dal gioco
-PlayerDeath	ds.b	1	;Se<>0, il player è morto
-EndGame		ds.b	1	;Se<>0, è finito il gioco
-PlayAgain	ds.b	1	;Se<>0, riparte da un livello già giocato (anche per gestione codici livello)
+PlayerDeath	ds.b	1	;Se<>0, il player  morto
+EndGame		ds.b	1	;Se<>0,  finito il gioco
+PlayAgain	ds.b	1	;Se<>0, riparte da un livello gi giocato (anche per gestione codici livello)
 gopause		ds.b	1	;Se<>0, l'utente ha cambiato schermo e il gioco deve andare in pausa
 
 		ds.b	3	;Usato per allineare
 
 	;*** !!! ATTENZIONE !!! NON SEPARARE I SEGUENTI 3 CAMPI
-TransEffect	ds.w	1	;Se<>0, è il contatore dell'effetto teletrasporto
+TransEffect	ds.w	1	;Se<>0,  il contatore dell'effetto teletrasporto
 TEdir		ds.b	1	;Direzione effetto: FALSE=sale; TRUE=scende
 TEtype		ds.b	1	;Tipo effetto:
 				;	bit 0 : FALSE=black fade
@@ -2211,10 +2211,10 @@ PTModule	ds.l	1	;Pun. al modulo musicale
 		xdef	WeaponOsc,WeaponOscDir
 
 PlayerWeapons	ds.b	8	;Un byte per ogni arma del player:
-				;se=0, l'arma non è posseduta
-				;se=1, l'arma è ad efficienza 1
-				;se=2, l'arma è ad efficienza 2
-				;se=3, l'arma è ad efficienza 3
+				;se=0, l'arma non  posseduta
+				;se=1, l'arma  ad efficienza 1
+				;se=2, l'arma  ad efficienza 2
+				;se=3, l'arma  ad efficienza 3
 
 PlayerActiWeapon ds.w	1	;Arma attiva del player	(Se=-1, nessuna arma)
 

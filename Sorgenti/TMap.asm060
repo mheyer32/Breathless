@@ -1030,7 +1030,7 @@ CASnodispport
 PrepareCleanup:
 
 ;		tst.l	ScrOutputType(a5)	;Test screen output type
-;		bne.s	PCout			;Se non è AGA, esce
+;		bne.s	PCout			;Se non  AGA, esce
 ;
 ; Reset 256 colors palette
 ;
@@ -1176,8 +1176,8 @@ ChunkyPointer	ds.l	1	;pun. al buffer chunky pixel. DEVE essere il primo, in modo
 				; E' usato dalle routine di tracciamento.
 
 ChunkyBuffer	ds.l	1	;pun. al primo byte del buffer chunky pixel corrente.
-				;Se l'output è AGA, corrisponde a FakeChunkyPun;
-				;Se l'output è un vero schermo chunky pixel, corrisponde al buffer corrente in chunky pixel.
+				;Se l'output  AGA, corrisponde a FakeChunkyPun;
+				;Se l'output  un vero schermo chunky pixel, corrisponde al buffer corrente in chunky pixel.
 
 Yoffset		ds.l	WINDOW_MAX_HEIGHT	;Lista di offset alle righe dello schermo chunky pixel. DEVE avere offset rispetto ad a5 di massimo 127.
 

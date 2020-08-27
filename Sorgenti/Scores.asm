@@ -30,7 +30,7 @@
 ;* Gestione player colpito.
 ;* Decrementa livelli di energia e fa diventare rosso lo schermo.
 ;* Richiede:
-;*	d0 = Qtà di energia da togliere al player
+;*	d0 = Qt di energia da togliere al player
 
 		xdef	PlayerHit
 
@@ -65,7 +65,7 @@ PHoksh		sub.w	d1,d2
 		move.w	PlayerHealth(a5),d2
 		sub.w	d0,d2
 		bgt.s	PHnodeath
-		st	PlayerDeath(a5)		;Segnala che il player è morto
+		st	PlayerDeath(a5)		;Segnala che il player  morto
 ;		st	Escape(a5)
 		clr.w	d2
 PHnodeath	move.w	d2,PlayerHealth(a5)
@@ -219,7 +219,7 @@ CInocollect	moveq	#-1,d0		;Segnala che l'oggetto non puo' essere preso
 CollectWeapon	move.l	a0,-(sp)
 
 		lea	PlayerWeapons(a5),a0
-		tst.b	(a0,d0.w)	;L'arma è posseduta ?
+		tst.b	(a0,d0.w)	;L'arma  posseduta ?
 		bne.s	CWnocollect	; Se si, salta
 		addq.b	#1,(a0,d0.w)
 		lea	WeaponsFL(a5),a0
@@ -238,7 +238,7 @@ CollectWeapon	move.l	a0,-(sp)
 BoostWeapon	move.l	a0,-(sp)
 
 		lea	PlayerWeapons(a5),a0
-		cmp.b	#1,(a0,d0.w)	;L'arma è posseduta ed è a potenza 1?
+		cmp.b	#1,(a0,d0.w)	;L'arma  posseduta ed  a potenza 1?
 		bne.s	CWnocollect	; Se no, salta
 		addq.b	#1,(a0,d0.w)
 		lea	WeaponsFL(a5),a0
@@ -269,7 +269,7 @@ InitScores
 ;*** Inizializza ad ogni livello
 
 InitScores2
-		tst.b	PlayAgain(a5)		;Test se ripristinare lo stato di un livello già giocato
+		tst.b	PlayAgain(a5)		;Test se ripristinare lo stato di un livello gi giocato
 		beq.s	ISnoplayagain		; Se no, salta
 
 		move.w	SPlayerHealth(a5),PlayerHealth(a5)

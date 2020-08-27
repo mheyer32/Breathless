@@ -40,7 +40,7 @@ MULU64		MACRO
 		mulu.w	\3,\5		;\5 = cccc*bbbb
 
 		add.l	\2,\5		;\5 = dddd*aaaa + cccc*bbbb
-		bcc.s	M64j1\@		;Salta se non c'è riporto
+		bcc.s	M64j1\@		;Salta se non c' riporto
 		move.l	#$10000,\6
 M64j1\@
 		move.l	\1,\2
@@ -107,7 +107,7 @@ M64n2\@
 		mulu.w	\3,\5		;\5 = cccc*bbbb
 
 		add.l	\2,\5		;\5 = dddd*aaaa + cccc*bbbb
-		bcc.s	M64j1\@		;Salta se non c'è riporto
+		bcc.s	M64j1\@		;Salta se non c' riporto
 		move.l	#$10000,\6
 M64j1\@
 		move.l	\7,\2
@@ -128,7 +128,7 @@ M64j1\@
 
 		move.l	\4,\3		;\3 = Parte bassa del risultato
 
-		tst.b	\8		;Il risultato è negativo ?
+		tst.b	\8		;Il risultato  negativo ?
 		beq.s	M64n3\@		; se no, salta
 		neg.l	\3		;Nega il risultato
 		negx.l	\2
@@ -224,7 +224,7 @@ D64loop\@	add.l	\3,\3
 D64nosub\@	dbra	\6,D64loop\@
 
 		swap	\6
-		tst.w	\6		;Il risultato è negativo ?
+		tst.w	\6		;Il risultato  negativo ?
 		beq.s	D64n3\@		; se no, salta
 		neg.l	\3		;Nega il risultato
 D64n3\@

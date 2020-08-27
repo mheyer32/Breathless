@@ -207,7 +207,7 @@ InputHandlerCode
 		clr.b	ScreenActive(a5)
 		move.l	intuitionbase(pc),a2
 		move.l	myscreen(pc),d1
-		cmp.l	ib_FirstScreen(a2),d1	;Test quale schermo è visualizzato
+		cmp.l	ib_FirstScreen(a2),d1	;Test quale schermo  visualizzato
 		bne	IHCout
 		st	ScreenActive(a5)
 
@@ -256,7 +256,7 @@ IHCnolamiga
 
 		move.w	d0,(a1,d2.l)		;Memorizza tasto premuto
 
-		tst.w	pause(a5)		;Se il gioco è in pausa,
+		tst.w	pause(a5)		;Se il gioco  in pausa,
 		bne	IHCmem			; registra tutti i tasti premuti
 
 	;*** Test se si tratta di tasti di controllo del player
@@ -331,13 +331,13 @@ IHCnolowlook
 
 
 	;*** Se non si tratta di un tasto di controllo del player,
-	;*** sposta l'indice della coda (il codice del tasto è
-	;*** già stato inserito nella coda).
+	;*** sposta l'indice della coda (il codice del tasto 
+	;*** gi stato inserito nella coda).
 IHCmem
 		addq.l	#2,d2			;Sposta l'indice alla coda
-		and.w	#$7f,d2			;Assicura la circolarità dell'indice
+		and.w	#$7f,d2			;Assicura la circolarit dell'indice
 IHCnomem
-		cmp.l	a3,a0			;L'elemento attuale è il primo della lista ?
+		cmp.l	a3,a0			;L'elemento attuale  il primo della lista ?
 		bne.s	IHCnohead		; se no, salta
 		move.l	ie_NextEvent(a0),a3	;Elimina il primo elemento dalla lista
 		bra.s	IHCcont
@@ -373,7 +373,7 @@ IHCnomousepos
 		;*** Per evitare che gli screen blanker creino
 		;*** casini, immette ogni tanto un tasto shift
 		;*** nella coda di input
-		tst.w	keypassed-dati(a6)	;Test se è rimasto almeno un tasto nella coda
+		tst.w	keypassed-dati(a6)	;Test se  rimasto almeno un tasto nella coda
 		bne.s	IHCnokp			; Se si, salta
 		move.l	VBTimer2(a5),d0
 		cmp.l	kptime-dati(a6),d0	;Sono passati 200/50esimi ?
@@ -406,14 +406,14 @@ myscreen	dc.l	0
 inputport	dc.l	0
 inputreq	dc.l	0
 keypressed	dc.l	0	;Pun. all'indice alla coda circolare dei tasti premuti
-flagoff		dc.w	0	;Se<>0 allora IntuitionOff è stata già chiamata con successo
+flagoff		dc.w	0	;Se<>0 allora IntuitionOff  stata gi chiamata con successo
 
 		cnop	0,8
 
 InputHandler	ds.b	IS_SIZE
 
 lastkeycode	dc.w	0
-keypassed	dc.w	0	;Se=TRUE, è rimasto almeno un tasto nella coda di input
+keypassed	dc.w	0	;Se=TRUE,  rimasto almeno un tasto nella coda di input
 kptime		dc.l	0
 
 inputdevicename	dc.b	"input.device",0

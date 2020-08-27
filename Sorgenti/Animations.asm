@@ -278,7 +278,7 @@ DUnoinit	subq.w	#1,d0			;ef_status=1 ?
 		beq	DUpause
 
 DUdown		tst.w	(a6)			;Test comando dall'esterno
-		bmi	DUenemystop		;Se c'è un nemico sui blocchi soggetti all'effetto, si ferma
+		bmi	DUenemystop		;Se c' un nemico sui blocchi soggetti all'effetto, si ferma
 		move.l	PlayerBlockPun(a5),a1
 		move.w	ef_var1(a3),d4
 		cmp.w	d4,d2			;Test se aggiustare num.pixel movimento
@@ -287,12 +287,12 @@ DUdown		tst.w	(a6)			;Test comando dall'esterno
 DUdownaddok	move.l	(a2)+,d5		;d5=Numero blocchi nella lista - 1
 		clr.l	d3
 DUloopdown	move.l	(a2)+,a0		;a0=Block pointer
-		cmp.l	a0,a1			;Test se il player è su questo blocco
+		cmp.l	a0,a1			;Test se il player  su questo blocco
 		bne.s	DUnopl
 		moveq	#1,d3			;Se si, setta flag
 DUnopl		sub.w	d2,bl_CeilHeight(a0)	;decrementa altezza soffitto del blocco
 		dbra	d5,DUloopdown
-		tst.l	d3			;Se il player è su uno dei blocchi della lista
+		tst.l	d3			;Se il player  su uno dei blocchi della lista
 		bne	DUplayerstop		; salta
 		sub.w	d2,ef_var1(a3)		;Decrementa contatore
 		bgt	AWnext			;Se contatore<=0, disabilita animazione
@@ -322,11 +322,11 @@ DUloopup	move.l	(a2)+,a0		;a0=Block pointer
 
 DUpause		move.l	PlayerBlockPun(a5),a1
 		move.l	(a2)+,d5		;d5=Numero blocchi nella lista - 1
-DUpploop	cmp.l	(a2)+,a1		;Test se il player è su questo blocco
+DUpploop	cmp.l	(a2)+,a1		;Test se il player  su questo blocco
 		beq	AWnext			;Se si, esce
 		dbra	d5,DUpploop
 		tst.w	(a6)			;Test comando dall'esterno
-		bmi	AWnext			;Se c'è un nemico sui blocchi soggetti all'effetto, si ferma
+		bmi	AWnext			;Se c' un nemico sui blocchi soggetti all'effetto, si ferma
 		sub.w	d2,ef_var1(a3)		;Decrementa contatore pausa
 		bgt	AWnext
 		move.w	ef_param1(a3),ef_var1(a3)	;ef_var1=contatore
@@ -449,7 +449,7 @@ FDUpause	sub.w	d2,ef_var1(a3)		;Decrementa contatore pausa
 		bra	AWnext
 
 
-	;***** Aumenta la luminosità di una quantità pari al parametro 1
+	;***** Aumenta la luminosit di una quantit pari al parametro 1
 	;*****  nel numero di 50esimi specificati dal parametro 2
 	;***** I due parametri hanno valori da 0 a +127
 LightUp
@@ -461,8 +461,8 @@ LightUp
 		move.w	ef_param1(a3),d0
 		lsl.w	#8,d0
 		move.w	d0,ef_var1(a3)		;ef_var1=contatore durata effetto
-		divu.w	ef_param2(a3),d0	;Calcola la velocità di variazione della luce, dividendo parametro1<<8 e parametro2
-		move.w	d0,ef_param2(a3)	;ef_param2=velocità variazione luminosità. E' relativa al 50esimo di secondo. Formato 8.8
+		divu.w	ef_param2(a3),d0	;Calcola la velocit di variazione della luce, dividendo parametro1<<8 e parametro2
+		move.w	d0,ef_param2(a3)	;ef_param2=velocit variazione luminosit. E' relativa al 50esimo di secondo. Formato 8.8
 		move.w	#0,ef_var2(a3)		;ef_var2=parte decimale del contatore di variazione della luce
 LUnoinit	mulu.w	ef_param2(a3),d2	;d2=Variazione della luce
 		cmp.l	#$7fff,d2		;Troppo grande ?
@@ -474,13 +474,13 @@ LUok1		move.w	ef_var1(a3),d4
 		move.w	d4,d2
 LUaddok		move.w	d2,d3			;Conserva in d3 per aggiornare contatore durata effetto
 		sub.b	d2,ef_var2(a3)		;Sottrae parte decimale
-		bcc.s	LUnoovfl		; se non c'è riporto, salta
-		add.w	#$100,d2		; se c'è riporto, lo somma alla parte intera di d2
+		bcc.s	LUnoovfl		; se non c' riporto, salta
+		add.w	#$100,d2		; se c' riporto, lo somma alla parte intera di d2
 LUnoovfl	lsr.w	#8,d2
 		move.l	(a2)+,d5		;d5=Numero blocchi nella lista - 1
 LUloop		move.l	(a2)+,a0		;a0=Block pointer
-		sub.b	d2,bl_Illumination(a0)	;Aumenta luminosità del blocco
-		bcc.s	LUok2			;Se c'è overflow deve aggiustare il valore di luminosità
+		sub.b	d2,bl_Illumination(a0)	;Aumenta luminosit del blocco
+		bcc.s	LUok2			;Se c' overflow deve aggiustare il valore di luminosit
 		move.b	#0,bl_Illumination(a0)
 LUok2		dbra	d5,LUloop
 		sub.w	d3,ef_var1(a3)		;Decrementa contatore
@@ -488,7 +488,7 @@ LUok2		dbra	d5,LUloop
 		bra	StopEffect2
 
 
-	;***** Diminuisce la luminosità di una quantità pari al parametro 1
+	;***** Diminuisce la luminosit di una quantit pari al parametro 1
 	;*****  nel numero di 50esimi specificati dal parametro 2
 	;***** I due parametri hanno valori da 0 a +127
 LightDown
@@ -500,8 +500,8 @@ LightDown
 		move.w	ef_param1(a3),d0
 		lsl.w	#8,d0
 		move.w	d0,ef_var1(a3)		;ef_var1=contatore durata effetto
-		divu.w	ef_param2(a3),d0	;Calcola la velocità di variazione della luce, dividendo parametro1<<8 e parametro2
-		move.w	d0,ef_param2(a3)	;ef_param2=velocità variazione luminosità. E' relativa al 50esimo di secondo. Formato 8.8
+		divu.w	ef_param2(a3),d0	;Calcola la velocit di variazione della luce, dividendo parametro1<<8 e parametro2
+		move.w	d0,ef_param2(a3)	;ef_param2=velocit variazione luminosit. E' relativa al 50esimo di secondo. Formato 8.8
 		move.w	#0,ef_var2(a3)		;ef_var2=parte decimale del contatore di variazione della luce
 LDnoinit	mulu.w	ef_param2(a3),d2	;d2=Variazione della luce
 		cmp.l	#$7fff,d2		;Troppo grande ?
@@ -513,13 +513,13 @@ LDok1		move.w	ef_var1(a3),d4
 		move.w	d4,d2
 LDaddok		move.w	d2,d3			;Conserva in d3 per aggiornare contatore durata effetto
 		sub.b	d2,ef_var2(a3)		;Sottrae parte decimale
-		bcc.s	LDnoovfl		; se non c'è riporto, salta
-		add.w	#$100,d2		; se c'è riporto, lo somma alla parte intera di d2
+		bcc.s	LDnoovfl		; se non c' riporto, salta
+		add.w	#$100,d2		; se c' riporto, lo somma alla parte intera di d2
 LDnoovfl	lsr.w	#8,d2
 		move.l	(a2)+,d5		;d5=Numero blocchi nella lista - 1
 LDloop		move.l	(a2)+,a0		;a0=Block pointer
-		add.b	d2,bl_Illumination(a0)	;Diminuisce luminosità del blocco
-		bcc.s	LDok2			;Se c'è overflow deve aggiustare il valore di luminosità
+		add.b	d2,bl_Illumination(a0)	;Diminuisce luminosit del blocco
+		bcc.s	LDok2			;Se c' overflow deve aggiustare il valore di luminosit
 		move.b	#0,bl_Illumination(a0)
 LDok2		dbra	d5,LDloop
 		sub.w	d3,ef_var1(a3)		;Decrementa contatore
@@ -545,7 +545,7 @@ D2noinit	subq.w	#1,d0			;ef_status=1 ?
 		beq	D2pause
 
 D2down		tst.w	(a6)			;Test comando dall'esterno
-		bmi	D2enemystop		;Se c'è un nemico sui blocchi soggetti all'effetto, si ferma
+		bmi	D2enemystop		;Se c' un nemico sui blocchi soggetti all'effetto, si ferma
 		move.l	PlayerBlockPun(a5),a1
 		move.w	ef_var1(a3),d4
 		cmp.w	d4,d2			;Test se aggiustare num.pixel movimento
@@ -554,13 +554,13 @@ D2down		tst.w	(a6)			;Test comando dall'esterno
 D2downaddok	move.l	(a2)+,d5		;d5=Numero blocchi nella lista - 1
 		clr.l	d3
 D2loopdown	move.l	(a2)+,a0		;a0=Block pointer
-		cmp.l	a0,a1			;Test se il player è su questo blocco
+		cmp.l	a0,a1			;Test se il player  su questo blocco
 		bne.s	D2nopl
 		moveq	#1,d3			;Se si, setta il flag
 D2nopl		sub.w	d2,bl_CeilHeight(a0)	;decrementa altezza soffitto del blocco
 		add.w	d2,bl_FloorHeight(a0)	;incrementa altezza pavimento del blocco
 		dbra	d5,D2loopdown
-		tst.l	d3			;Se il player è su uno dei blocchi della lista
+		tst.l	d3			;Se il player  su uno dei blocchi della lista
 		bne	D2playerstop		; salta
 		sub.w	d2,ef_var1(a3)		;Decrementa contatore
 		bgt	AWnext			;Se contatore<=0, disabilita animazione
@@ -591,11 +591,11 @@ D2loopup	move.l	(a2)+,a0		;a0=Block pointer
 
 D2pause		move.l	PlayerBlockPun(a5),a1
 		move.l	(a2)+,d5		;d5=Numero blocchi nella lista - 1
-D2pploop	cmp.l	(a2)+,a1		;Test se il player è su questo blocco
+D2pploop	cmp.l	(a2)+,a1		;Test se il player  su questo blocco
 		beq	AWnext			;Se si, esce
 		dbra	d5,D2pploop
 		tst.w	(a6)			;Test comando dall'esterno
-		bmi	AWnext			;Se c'è un nemico sui blocchi soggetti all'effetto, si ferma
+		bmi	AWnext			;Se c' un nemico sui blocchi soggetti all'effetto, si ferma
 		sub.w	d2,ef_var1(a3)		;Decrementa contatore pausa
 		bgt	AWnext
 		move.w	ef_param1(a3),ef_var1(a3)	;ef_var1=contatore
@@ -640,7 +640,7 @@ DDnoinit	subq.w	#1,d0			;ef_status=1 ?
 		beq	DDpause
 
 DDup		tst.w	(a6)			;Test comando dall'esterno
-		bmi	DDenemystop		;Se c'è un nemico sui blocchi soggetti all'effetto, si ferma
+		bmi	DDenemystop		;Se c' un nemico sui blocchi soggetti all'effetto, si ferma
 		move.l	PlayerBlockPun(a5),a1
 		move.w	ef_var1(a3),d4
 		cmp.w	d4,d2			;Test se aggiustare num.pixel movimento
@@ -649,12 +649,12 @@ DDup		tst.w	(a6)			;Test comando dall'esterno
 DDupaddok	move.l	(a2)+,d5		;d5=Numero blocchi nella lista - 1
 		clr.l	d3
 DDloopup	move.l	(a2)+,a0		;a0=Block pointer
-		cmp.l	a0,a1			;Test se il player è su questo blocco
+		cmp.l	a0,a1			;Test se il player  su questo blocco
 		bne.s	DDnopl
 		moveq	#1,d3			;Se si, setta flag
 DDnopl		add.w	d2,bl_FloorHeight(a0)	;Incrementa altezza pavimento del blocco
 		dbra	d5,DDloopup
-		tst.l	d3			;Se il player è su uno dei blocchi della lista
+		tst.l	d3			;Se il player  su uno dei blocchi della lista
 		bne	DDplayerstop		; salta
 		sub.w	d2,ef_var1(a3)		;Decrementa contatore
 		bgt	AWnext			;Se contatore<=0, disabilita animazione
@@ -684,11 +684,11 @@ DDloopdown	move.l	(a2)+,a0		;a0=Block pointer
 
 DDpause		move.l	PlayerBlockPun(a5),a1
 		move.l	(a2)+,d5		;d5=Numero blocchi nella lista - 1
-DDpploop	cmp.l	(a2)+,a1		;Test se il player è su questo blocco
+DDpploop	cmp.l	(a2)+,a1		;Test se il player  su questo blocco
 		beq	AWnext			;Se si, esce
 		dbra	d5,DDpploop
 		tst.w	(a6)			;Test comando dall'esterno
-		bmi	AWnext			;Se c'è un nemico sui blocchi soggetti all'effetto, si ferma
+		bmi	AWnext			;Se c' un nemico sui blocchi soggetti all'effetto, si ferma
 		sub.w	d2,ef_var1(a3)		;Decrementa contatore pausa
 		bgt	AWnext
 		move.w	ef_param1(a3),ef_var1(a3)	;ef_var1=contatore
@@ -709,15 +709,15 @@ DDenemystop	move.w	#1,ef_status(a3)	;Deve riportare giu' il pavimento
 
 
 
-	;***** Modifica la luminosità in base al valore di ef_var1
+	;***** Modifica la luminosit in base al valore di ef_var1
 	;***** di un effetto linkato (in genere effetti di tipo Door).
-	;***** Param1 e' la massima variazione di luminosità da far
+	;***** Param1 e' la massima variazione di luminosit da far
 	;***** corrispondere alla massima variazione di altezza
 	;***** dell'effetto linkato.
 	;***** Param2 e' il trigger number dell'effetto linkato, che
 	;***** deve appartenere alla stessa lista.
 	;***** Questo effetto deve essere applicato solo a blocchi
-	;***** con la stessa luminosità iniziale.
+	;***** con la stessa luminosit iniziale.
 
 LinkedLight
 		tst.w	d0			;Test status
@@ -740,7 +740,7 @@ LLsok		cmp.w	ef_trigger(a0),d0	;Trovato trigger number ?
 		tst.w	ef_param1(a0)		;Test per evitare divisioni per zero
 		beq	StopEffect2
 		move.l	4(a2),a0		;a0=Block pointer
-		move.b	bl_Illumination(a0),ef_var2(a3)	;Salva luminosità iniziale
+		move.b	bl_Illumination(a0),ef_var2(a3)	;Salva luminosit iniziale
 		move.w	#1,ef_status(a3)
 LLnoinit	move.l	(a2)+,d5		;d5=Numero blocchi nella lista - 1
 		move.l	ef_var3(a3),a0		;a0=Pun. effetto linkato
@@ -753,28 +753,28 @@ LLnoinit	move.l	(a2)+,d5		;d5=Numero blocchi nella lista - 1
 
 LLdown		move.w	ef_var1(a0),d1
 		mulu.w	ef_param1(a3),d1
-		divu.w	ef_param1(a0),d1	;d1=entità della variazione di luminosità
+		divu.w	ef_param1(a0),d1	;d1=entit della variazione di luminosit
 		move.b	ef_var2(a3),d0
-		sub.b	d1,d0			;d0=nuovo valore luminosità
+		sub.b	d1,d0			;d0=nuovo valore luminosit
 		bra.s	LLloop
 
 LLup		move.w	ef_param1(a0),d1
 		sub.w	ef_var1(a0),d1
 		mulu.w	ef_param1(a3),d1
-		divu.w	ef_param1(a0),d1	;d1=entità della variazione di luminosità
+		divu.w	ef_param1(a0),d1	;d1=entit della variazione di luminosit
 		move.b	ef_var2(a3),d0
-		sub.b	d1,d0			;d0=nuovo valore luminosità
+		sub.b	d1,d0			;d0=nuovo valore luminosit
 
 LLloop		move.l	(a2)+,a0		;a0=Block pointer
-		move.b	d0,bl_Illumination(a0)	;Modifica luminosità del blocco
+		move.b	d0,bl_Illumination(a0)	;Modifica luminosit del blocco
 		dbra	d5,LLloop
 		bra	AWnext
 
-LLend		addq.w	#1,d0			;Se l'effetto linkato è stato bloccato in maniera definitiva,
-		bne	StopEffect2		; blocca in maniera definitiva anche questo e non ripristina luminosità iniziale
-		move.b	ef_var2(a3),d0		;d0=Luminosità iniziale
+LLend		addq.w	#1,d0			;Se l'effetto linkato  stato bloccato in maniera definitiva,
+		bne	StopEffect2		; blocca in maniera definitiva anche questo e non ripristina luminosit iniziale
+		move.b	ef_var2(a3),d0		;d0=Luminosit iniziale
 LLloopend	move.l	(a2)+,a0		;a0=Block pointer
-		move.b	d0,bl_Illumination(a0)	;Modifica luminosità del blocco
+		move.b	d0,bl_Illumination(a0)	;Modifica luminosit del blocco
 		dbra	d5,LLloopend
 		bra	StopEffect1
 
@@ -814,16 +814,16 @@ Tnoinit		move.l	Canimcounter(a5),d2	;d2=num.pixel movimento, pari al numero di 5
 	;***** Ogni ef_param2 50esimi, le luci si portano per un istante
 	;***** al valore specificato da ef_param1, poi tornano al
 	;***** valore originario.
-	;***** Se ef_param2=0, il numero di 50esimi è random, e varia
+	;***** Se ef_param2=0, il numero di 50esimi  random, e varia
 	;***** tra 0 e 3 sec.
 	;***** Questo effetto deve essere applicato solo a blocchi
-	;***** con la stessa luminosità iniziale.
+	;***** con la stessa luminosit iniziale.
 BlinkingLight
 		tst.w	d0			;Test status
 		bne.s	BLLnoinit		;Jump if no init needed
 		move.w	#50,ef_var1(a3)		;Init contatore
 		move.l	4(a2),a0		;a0=Block pointer
-		move.b	bl_Illumination(a0),ef_var2(a3)	;Salva luminosità iniziale
+		move.b	bl_Illumination(a0),ef_var2(a3)	;Salva luminosit iniziale
 		moveq	#1,d0
 		move.w	d0,ef_status(a3)
 BLLnoinit	move.l	Canimcounter(a5),d2	;d2=num.pixel movimento, pari al numero di 50esimi passati dall'ultima volta
@@ -843,7 +843,7 @@ BLLnornd	move.b	ef_var2(a3),d1		;d1=lights (se status=2)
 		moveq	#1,d2			;d2=new status (se status=2)
 BLLmodifylights	move.l	(a2)+,d5		;d5=Numero blocchi nella lista - 1
 BLLloop		move.l	(a2)+,a0		;a0=Block pointer
-		move.b	d1,bl_Illumination(a0)	;Modifica luminosità del blocco
+		move.b	d1,bl_Illumination(a0)	;Modifica luminosit del blocco
 		dbra	d5,BLLloop
 		move.w	d2,ef_status(a3)
 		move.w	d3,ef_var1(a3)

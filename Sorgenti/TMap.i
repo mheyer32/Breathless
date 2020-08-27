@@ -112,17 +112,17 @@ COSTABLE_OFFSET		EQU	SINTABLE_LEN	;Offset rispetto a sintable per la costable
 PLAYER_WIDTH		EQU	16
 PLAYER_HEIGHT		EQU	56
 PLAYER_EYES_HEIGHT	EQU	54
-PLAYER_MAX_RISE		EQU	24	;Entità massima del dislivello in salita che il player può superare
-PLAYER_WALK_SPEED	EQU	3	;Velocità camminata del player(old=3)
-PLAYER_RUN_SPEED	EQU	5	;Velocità corsa del player (old=5)
+PLAYER_MAX_RISE		EQU	24	;Entit massima del dislivello in salita che il player pu superare
+PLAYER_WALK_SPEED	EQU	3	;Velocit camminata del player(old=3)
+PLAYER_RUN_SPEED	EQU	5	;Velocit corsa del player (old=5)
 PLAYER_ACCEL		EQU	4	;Accelerazione del player per camminata/corsa (old=4)
-PLAYER_ROT_SPEED	EQU	8	;Velocità di rotazione del player mentre è fermo
-PLAYER_ROT_WALK_SPEED	EQU	12	;Velocità di rotazione del player mentre cammina (old=8)
-PLAYER_ROT_RUN_SPEED	EQU	20	;Velocità di rotazione del player mentre corre (old=20)
+PLAYER_ROT_SPEED	EQU	8	;Velocit di rotazione del player mentre  fermo
+PLAYER_ROT_WALK_SPEED	EQU	12	;Velocit di rotazione del player mentre cammina (old=8)
+PLAYER_ROT_RUN_SPEED	EQU	20	;Velocit di rotazione del player mentre corre (old=20)
 PLAYER_ROT_ACCEL	EQU	1	;Accelerazione per la rotazione del player (old=4)
 
-SKY_ROT_WALK_SPEED	EQU	((SKY_STANDARD_WIDTH<<16)/((SINTABLE_LEN<<8)/PLAYER_ROT_WALK_SPEED))	;Velocità di rotazione del cielo, moltiplicata per 256
-SKY_ROT_RUN_SPEED	EQU	((SKY_STANDARD_WIDTH<<16)/((SINTABLE_LEN<<8)/PLAYER_ROT_RUN_SPEED))	;Velocità di rotazione del cielo, moltiplicata per 256
+SKY_ROT_WALK_SPEED	EQU	((SKY_STANDARD_WIDTH<<16)/((SINTABLE_LEN<<8)/PLAYER_ROT_WALK_SPEED))	;Velocit di rotazione del cielo, moltiplicata per 256
+SKY_ROT_RUN_SPEED	EQU	((SKY_STANDARD_WIDTH<<16)/((SINTABLE_LEN<<8)/PLAYER_ROT_RUN_SPEED))	;Velocit di rotazione del cielo, moltiplicata per 256
 
 LOOKHEIGHT_STEP		EQU	1	;Passo della variazione di altezza dello sguardo del player (old=24)
 
@@ -131,10 +131,10 @@ PLAYER_SHIELDS		EQU	100	;Scudi iniziali
 PLAYER_ENERGY		EQU	1000	;Energia iniziale
 PLAYER_CREDITS		EQU	0	;Crediti iniziali
 
-MAX_PLAYER_HEALTH	EQU	100	;Massima qtà di health
-MAX_PLAYER_SHIELDS	EQU	100	;Massima qtà di shields
-MAX_PLAYER_ENERGY	EQU	9999	;Massima qtà di energy
-MAX_PLAYER_CREDITS	EQU	99999	;Massima qtà di credits
+MAX_PLAYER_HEALTH	EQU	100	;Massima qt di health
+MAX_PLAYER_SHIELDS	EQU	100	;Massima qt di shields
+MAX_PLAYER_ENERGY	EQU	9999	;Massima qt di energy
+MAX_PLAYER_CREDITS	EQU	99999	;Massima qt di credits
 
 ;****************************************************************************
 
@@ -200,7 +200,7 @@ OPENLIB		MACRO	lname,lvar
 		ENDM
 
 
-; Prova ad aprire la libreria di nome lname e ne mette il pun. in lvar(a5)ù
+; Prova ad aprire la libreria di nome lname e ne mette il pun. in lvar(a5)
 ; In d0 c'e' il pun. alla libreria e gli status code sono settati in base
 ; al contenuto di d0.
 TRYOPENLIB	MACRO	lname,version,lvar
@@ -326,9 +326,9 @@ CEND	macro	ucl
 
 ;****************************************************************************
 ;
-;	vtable è una tabella contenente WINDOW_WIDTH strutture di
+;	vtable  una tabella contenente WINDOW_WIDTH strutture di
 ;	6 byte ciascuna. Ogni struttura rappresenta una colonna
-;	a video ed è cosi' formata:
+;	a video ed  cosi' formata:
 
 vtsize		EQU	16	;Numero di byte della struttura
 
@@ -348,7 +348,7 @@ tx_Height	EQU	0	;W	Num. righe della texture
 tx_HeightShift	EQU	2	;W	Usato per le moltiplicazioni con tx_Height. (1<<tx_HeightShift) = tx_Height
 tx_Brush	EQU	4	;L	Pun. al brush corrente
 tx_AnimCount	EQU	8	;L	Contatore per l'animazione. E' un offset rispetto a tx_AnimCount, quindi assume valori: 4,8,12,16, ...
-				;	Se la texture non è animata, puo' contenere il pun. ad un'altra texture che puo' essere utilizzata
+				;	Se la texture non  animata, puo' contenere il pun. ad un'altra texture che puo' essere utilizzata
 				;	per effetti particolari. Ad es. per cambiare texture quando viene attivato uno switch.
 tx_FirstBrush	EQU	12	;L	Lista di puntatori ai brush dell'animazione. Deve terminare con uno zero.
 
@@ -359,14 +359,14 @@ tx_FirstBrush	EQU	12	;L	Lista di puntatori ai brush dell'animazione. Deve termin
 
 bl_Effect : Viene attivata una lista di effetti quando il player passa
 	     su un blocco con bl_Effect<>0.
-	    Ogni effetto della lista è formato dai seguenti dati:
+	    Ogni effetto della lista  formato dai seguenti dati:
 
 		dc.w	Trigger,Effect,Param1,Param2
 
-	    Effect è il codice dell'effetto specifico (vedi lista sotto)
+	    Effect  il codice dell'effetto specifico (vedi lista sotto)
 	    da eseguire con parametri Param1 e Param2. Tutti i blocchi
 	    con lo stesso Trigger number saranno soggetti a questo effetto.
-	    Ogni lista di effetti è terminata da una long a zero:
+	    Ogni lista di effetti  terminata da una long a zero:
 
 		dc.w	Trigger,Effect,Param1,Param2
 		....	............................
@@ -422,16 +422,16 @@ bl_CeilHeight	EQU	 2	;W
 bl_FloorTexture	EQU	 4	;W
 bl_CeilTexture	EQU	 6	;W
 bl_BlockNumber	EQU	 8	;W
-bl_Illumination	EQU	10	;W	Il byte alto è l'illuminazione. Se il bit 7 del byte basso è settato, è attiva la nebbia
+bl_Illumination	EQU	10	;W	Il byte alto  l'illuminazione. Se il bit 7 del byte basso  settato,  attiva la nebbia
 bl_Edge1	EQU	12	;L
 bl_Edge2	EQU	16	;L
 bl_Edge3	EQU	20	;L
 bl_Edge4	EQU	24	;L
 bl_Effect	EQU	28	;B	Se<>0 e se il player entra in questo blocco viene eseguita una lista di effetti. Ogni effetto ha un trigger number.
-bl_Trigger2	EQU	29	;B	Se<>0 questo blocco è soggetto all'effetto con lo stesso trigger number.
+bl_Trigger2	EQU	29	;B	Se<>0 questo blocco  soggetto all'effetto con lo stesso trigger number.
 ;bl_Type		EQU	29	;B	Cosa succede al player o al blocco stesso se il player vi entra. Anche usato per effetti luminosi.
 bl_Attributes	EQU	30	;B	Bitmapped attributes
-bl_Trigger	EQU	31	;B	Se<>0 questo blocco è soggetto all'effetto con lo stesso trigger number.
+bl_Trigger	EQU	31	;B	Se<>0 questo blocco  soggetto all'effetto con lo stesso trigger number.
 bl_SIZE		EQU	32
 bl_SIZE_B	EQU	 5
 
@@ -553,7 +553,7 @@ obj_type	EQU	40	;B	Tipo oggetto (NON SEPARARE DAL CAMPO SUCCESSIVO)
 obj_subtype	EQU	41	;B	Sotto-tipo oggetto:
 				;	  oggetto   :
 				;	  player    :
-				;	  nemico    : tipo comportamento (inoltre il bit 7 indica se il nemico sta già emettendo un suono)
+				;	  nemico    : tipo comportamento (inoltre il bit 7 indica se il nemico sta gi emettendo un suono)
 				;	  pick obj  : 0=Health; 1=Shields; 2=Energy; 3=Credits
 				;	  proiettili: 0=Player;  1=Nemico
 				;	  esplosioni:
@@ -570,9 +570,9 @@ obj_playercoll	EQU	53	;B	Contatore per collisione con il player
 obj_strength	EQU	54	;W	Resistenza nemici
 obj_attackdelay	EQU	56	;B	Contatore di ritardo per fire
 obj_bmstatus	EQU	57	;B	Bitmapped:
-				;		bit 5 : Se on, non si può muovere in orizzontale
-				;		bit 6 : Se on, non si può muovere in verticale
-				;		bit 7 : Se on, il nemico è nel campo visivo del player
+				;		bit 5 : Se on, non si pu muovere in orizzontale
+				;		bit 6 : Se on, non si pu muovere in verticale
+				;		bit 7 : Se on, il nemico  nel campo visivo del player
 obj_cont1	EQU	58	;B	Contatore per movimento NON SEPARARE DA obj_cont2
 obj_cont2	EQU	59	;B	Contatore per movimento
 obj_gun		EQU	60	;B	Arma da usare:
@@ -580,9 +580,9 @@ obj_gun		EQU	60	;B	Arma da usare:
 				;		  1 = Colpisce col corpo (pugni, morsi, etc.)
 				;		  2 = Arma con proiettili invisibili
 				;		=>10= Oggetto Shot, con codice =>10
-obj_attackprob	EQU	61	;B	Probabilità di attacco. DEVE essere > 0
-obj_enemyspeed	EQU	62	;B	Velocità massima del nemico
-obj_inactive	EQU	63	;B	Se=0, il nemico è attivo.
+obj_attackprob	EQU	61	;B	Probabilit di attacco. DEVE essere > 0
+obj_enemyspeed	EQU	62	;B	Velocit massima del nemico
+obj_inactive	EQU	63	;B	Se=0, il nemico  attivo.
 				;	Se<>0, contiene il numero del trigger che lo attiva.
 
 
@@ -606,7 +606,7 @@ obj_y0		EQU	62	;W	y iniziale per i proiettili
 
 ;--- Type=5 : Explosion
 
-obj_oldimage	EQU	48	;L	Pun. vecchia immagine, se è l'esplosione di un nemico
+obj_oldimage	EQU	48	;L	Pun. vecchia immagine, se  l'esplosione di un nemico
 
 
 obj_SIZE	EQU	64

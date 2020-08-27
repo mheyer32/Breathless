@@ -130,7 +130,7 @@ AnimateObjects
 ;		tst.w	PlayerWeapon1Auto(a5)	;Test se autofire
 ;		bne.s	AOokauto1		; Se si, salta
 ;		move.w	joyfire1(a5),d0
-;		add.w	d0,Fire1(a5)		;Somma num. di volte che si è premuto fire
+;		add.w	d0,Fire1(a5)		;Somma num. di volte che si  premuto fire
 ;		bra.s	AOnofire1
 ;AOokauto1	tst.w	joyfire1P(a5)		;Tasto fire premuto ?
 ;		beq.s	AOnofire1
@@ -156,7 +156,7 @@ AOnofirepress	tst.w	Fire(a5)		;Ci sono ancora proiettili da sparare ?
 		jsr	BufferedStopSoundFX	;Stop sound
 		bra.s	AOfireout
 AOnoflame	move.w	joyfire(a5),d0
-		add.w	d0,Fire(a5)		;Somma num. di volte che si è premuto fire
+		add.w	d0,Fire(a5)		;Somma num. di volte che si  premuto fire
 AOfireres	clr.w	joyfire(a5)
 AOfireout
 
@@ -263,9 +263,9 @@ AOTout
 		lea	TriggerBlockListPun+6(a5),a4
 		moveq	#0,d7			;d7=flags per gestione illuminazione:
 						;	bit 0 : settato se sono attive esplosioni la cui
-						;		animazione ha superato la metà
+						;		animazione ha superato la met
 						;	bit 1 : settato se sono attive esplosioni la cui
-						;		animazione non ha superato la metà
+						;		animazione non ha superato la met
 		move.l	Map(a5),a2		;a2=Pun. mappa
 		move.l	ObjExplosions(a5),d0
 		beq	AOEout
@@ -278,7 +278,7 @@ AOEloop		move.l	d0,a0
 		bge.s	AOEstop			; Se si, salta
 		move.w	d1,obj_animcont(a0)	;Scrive nuovo cont. frame corrente
 		add.w	d1,d1
-		cmp.w	d0,d1			;L'animazione ha superato la metà ?
+		cmp.w	d0,d1			;L'animazione ha superato la met ?
 		blt.s	AOElan1			; Se no, salta
 		bset	#0,d7
 		bra.s	AOElan2
@@ -291,7 +291,7 @@ AOEstop
 		move.l	obj_listnext(a0),d0
 
 		moveq	#0,d5
-		tst.l	obj_oldimage(a0)	;Test se l'oggetto esploso può lasciare resti
+		tst.l	obj_oldimage(a0)	;Test se l'oggetto esploso pu lasciare resti
 		beq.s	AOESnoresti		; Se no, salta
 		move.w	o_param2(a3),d5		;Test se lasciare resti a terra
 		bne.s	AOESremesc		; Se si, salta
@@ -378,7 +378,7 @@ AOESresnopre	clr.l	obj_listprev(a0)
 		;*** Test se i resti rimangono su una porta
 		move.l	obj_blockpun(a0),a1	;a1=Pun. blocco
 		moveq	#0,d1
-		move.b	bl_Trigger(a1),d1	;Il blocco corrente è soggetto ad un trigger ?
+		move.b	bl_Trigger(a1),d1	;Il blocco corrente  soggetto ad un trigger ?
 		beq.s	AOESnotrig		; Se no, salta
 		move.w	(a4,d1.l*8),d3		;Legge comando precedente
 		and.w	#$7fff,d3		;Preserva bit alto
@@ -392,7 +392,7 @@ AOEout
 	;*** Gestione illuminazione esplosioni
 
 		move.l	GlobalLight(a5),d0
-		cmp.b	#2,d7			;Ci sono esplosioni la cui animazione non ha superato la metà ?
+		cmp.b	#2,d7			;Ci sono esplosioni la cui animazione non ha superato la met ?
 		blt.s	AGLdec			; Se no, salta
 		moveq	#-6,d0
 AGLdec		addq.l	#1,d0
@@ -424,7 +424,7 @@ MNloop		move.l	d0,a6
 		move.l	obj_listnext(a6),d7	;d7=pun. al prossimo nemico
 
 
-		tst.b	obj_inactive(a6)	;Il nemico è attivo ?
+		tst.b	obj_inactive(a6)	;Il nemico  attivo ?
 		bne	MNnext2			; Se no, salta
 
 
@@ -470,11 +470,11 @@ MNinview	bclr	#7,obj_bmstatus(a6)	;Azzera flag nemico in vista
 
 
 	;*** Gestione fire
-		cmp.l	obj_attackdist(a6),d2	;Il player è entro la distanza di attacco ?
+		cmp.l	obj_attackdist(a6),d2	;Il player  entro la distanza di attacco ?
 		bgt.s	MNnoattack		; Se no, salta
 		subq.b	#1,obj_attackdelay(a6)	;Decrementa contatore
 		bgt.s	MNnoattack		; Se>0, non spara
-		tst.b	obj_status(a6)		;Se status<0, non può sparare
+		tst.b	obj_status(a6)		;Se status<0, non pu sparare
 		bmi.s	MNfrj
 		move.b	#4,obj_status(a6)
 		move.w	#$0104,obj_cont1(a6)
@@ -525,7 +525,7 @@ MNnocollcont
 		cmp.w	d3,d2			;Test se l'oggetto ha cambiato blocco
 		beq.s	MNnochgbl		; Se no, salta il test di collisione
 
-;		move.b	bl_Trigger(a3),obj_trigblock(a6)	;Il blocco è soggetto ad un trigger ?
+;		move.b	bl_Trigger(a3),obj_trigblock(a6)	;Il blocco  soggetto ad un trigger ?
 
 		move.w	(a2,d3.w*4),d3		;d3=num. blocco precedente
 		lsl.w	#2,d3
@@ -574,7 +574,7 @@ MNctrlret
 		move.l	(a0,d3.w*4),a0		;a0=Pun. al primo oggetto sul blocco
 		move.l	a0,a3
 MNctrlobjcoll	cmp.b	#2,obj_type(a0)		;Test tipo oggetto
-		ble	MNnewdir		; Se è un nemico o un thing, deve cambiare direzione
+		ble	MNnewdir		; Se  un nemico o un thing, deve cambiare direzione
 MNctrlobjnext	move.l	obj_blocknext(a0),a0	;Prende il prossimo oggetto
 		tst.l	a0
 		bne.s	MNctrlobjcoll
@@ -671,11 +671,11 @@ MNnext
 		move.w	(a2,d3.w*4),d3		;d3=num. nuovo blocco
 		lsl.w	#2,d3
 		clr.l	d4
-		move.b	bl_Trigger(a4,d3.w*8),d4	;Il blocco è soggetto ad un trigger ?
+		move.b	bl_Trigger(a4,d3.w*8),d4	;Il blocco  soggetto ad un trigger ?
 		beq.s	MNnotrigger			; Se no, salta
 		lea	TriggerBlockListPun+6(a5),a0
 		lea	(a0,d4.l*8),a0
-		bset	#7,(a0)			;Segnala alle routine di animazione che il nemico è su un blocco soggetto ad un trigger
+		bset	#7,(a0)			;Segnala alle routine di animazione che il nemico  su un blocco soggetto ad un trigger
 MNnotrigger					; Puo' servire per bloccare una porta che si chiude mentre il nemico vi passa sotto
 MNnext2
 		move.l	d7,d0
@@ -793,7 +793,7 @@ MSctrlobjcoll0	add.w	d2,d3
 		ble	MSctrlobjnext0
 		lea	ObjectsPunList-4(a5),a0
 		move.l	(a0,d3.w*4),a0 		;a0=Pun. al primo oggetto sul blocco
-MSctrlobjcoll1	cmp.b	#2,obj_type(a0)		;Se è un oggetto di tipo >2, non c'è collisione
+MSctrlobjcoll1	cmp.b	#2,obj_type(a0)		;Se  un oggetto di tipo >2, non c' collisione
 		bgt	MSctrlobjnext1
 		move.w	obj_x(a0),d3
 		sub.w	obj_x(a6),d3		;d3=obj_x - obj_x
@@ -803,7 +803,7 @@ MSctrlobjcoll1	cmp.b	#2,obj_type(a0)		;Se è un oggetto di tipo >2, non c'è colli
 		muls.w	d4,d4
 		add.l	d4,d3			;d3=distanza ^ 2
 		move.w	obj_width(a0),d4	;d4=obj_width
-		beq.s	MSctrlobjnext1		;Se width dell'oggetto =0, non c'è collisione
+		beq.s	MSctrlobjnext1		;Se width dell'oggetto =0, non c' collisione
 		add.w	obj_width(a6),d4
 		mulu.w	d4,d4			;!!!OTTIMIZZARE!!! (vedi ToDo.txt)
 		cmp.l	d4,d3
@@ -823,9 +823,9 @@ MSctrlobjnostop	moveq	#0,d3
 		bgt.s	MSctrlobjnodes
 		bsr	DestroyEnemy
 		bra	MSstop
-MSctrlobjnodes	btst	#3,obj_subtype(a0)	;Test se può emettere più suoni in contemporanea
+MSctrlobjnodes	btst	#3,obj_subtype(a0)	;Test se pu emettere pi suoni in contemporanea
 		bne.s	MSplsnd			; Se si, salta
-		btst	#7,obj_subtype(a0)	;Sta già emettendo un suono ?
+		btst	#7,obj_subtype(a0)	;Sta gi emettendo un suono ?
 		bne	MSstop			; Se si, salta
 		bset	#7,obj_subtype(a0)	;Setta il bit
 MSplsnd		moveq	#1,d0			;Hit sound
@@ -985,7 +985,7 @@ MSSnopre	clr.l	obj_listprev(a6)
 		move.l	a6,ObjExplosions(a5)
 
 		clr.l	d0
-		move.l	d0,obj_oldimage(a6)	;oldimage=0 perchè non può lasciare resti
+		move.l	d0,obj_oldimage(a6)	;oldimage=0 perch non pu lasciare resti
 		move.b	o_param9(a3),d0
 		lea	ExplObj1(a5),a3
 		move.l	(a3,d0.l*4),a3		;a3=pun. oggetto esplosione
@@ -1035,7 +1035,7 @@ DestroyEnemy
 		move.l	obj_image(a0),a3
 		move.w	o_param2(a3),d4		;d4=punteggio nemico
 		add.l	d4,PlayerScore(a5)
-		move.b	#1,PlayerScoreFL(a5)	;Segnala che è cambiato il punteggio
+		move.b	#1,PlayerScoreFL(a5)	;Segnala che  cambiato il punteggio
 
 		move.l	obj_image(a6),a3
 		tst.b	o_param9(a3)		;Test se deve esplodere
@@ -1049,11 +1049,11 @@ DestroyEnemy
 
 	;*** Init animazione caduta
 
-		move.b	#-3,obj_status(a0)	;Segnala che il nemico è stato ucciso e sta cadendo
+		move.b	#-3,obj_status(a0)	;Segnala che il nemico  stato ucciso e sta cadendo
 		move.b	#8,obj_cont1(a0)	;Tempo di ritardo per animazione
 		move.w	#42,obj_animcont(a0)	;Primo frame animazione caduta
 		move.w	obj_heading(a6),obj_heading(a0)	;Direzione della caduta
-		move.w	#5,obj_speed(a0)		;Velocità della caduta
+		move.w	#5,obj_speed(a0)		;Velocit della caduta
 		moveq	#2,d0			;Death sound
 		jsr	ObjBufferedPlaySoundFX
 
@@ -1522,7 +1522,7 @@ DOnomy
 		move.l	a2,(a3)+	;Mette il pun. all'oggetto nella lista
 		clr.l	(a3)+		;Azzera puntatore al prossimo nodo
 
-		move.l	d5,d2		;d5 è il puntatore alla testa della lista
+		move.l	d5,d2		;d5  il puntatore alla testa della lista
 		beq.s	DOfirstins
 		move.l	d2,a2
 DOsort		move.l	d2,a1		;a1=Pun. al nodo
@@ -1533,7 +1533,7 @@ DOsort		move.l	d2,a1		;a1=Pun. al nodo
 		bne.s	DOsort		;Se<>0 continua
 		bra.s	DOnohins
 DOins		move.l	a1,-4(a3)
-		cmp.l	a1,a2		;Se Pun.nodo succ. e Pun.nodo prec. sono uguali, allora è un inserimento in testa
+		cmp.l	a1,a2		;Se Pun.nodo succ. e Pun.nodo prec. sono uguali, allora  un inserimento in testa
 		bne.s	DOnohins
 DOfirstins	move.l	d3,d5
 		bra.s	DOnextobj
@@ -1689,8 +1689,8 @@ DOAnimok
 		move.l	GlobalLight(a5),d0
 		tst.b	bl_Illumination+1(a4)	;Test flag nebbia
 		lea	LightingTable(a5),a4	;a3=Pun. alla lighting table
-		bpl.s	MFWnofog		;Se non c'è nebbia, salta
-		lea	8192(a4),a4		;Se c'è nebbia, passa alla lighting table per la nebbia
+		bpl.s	MFWnofog		;Se non c' nebbia, salta
+		lea	8192(a4),a4		;Se c' nebbia, passa alla lighting table per la nebbia
 		moveq	#0,d0			;Azzera global light
 MFWnofog	add.l	d0,d5			;Somma global light
 		bmi.s	MFWlitout
@@ -1716,7 +1716,7 @@ MFWlitout
 		clr.l	d4
 DOnoxminclip
 		move.w	d4,d0
-		add.w	d7,d0			;d0=x+width=num. colonna più a destra
+		add.w	d7,d0			;d0=x+width=num. colonna pi a destra
 		sub.w	window_width+2(a5),d0	;Test if xmaxclip
 		ble.s	DOnoxmaxclip		;Se non clippa, salta
 		sub.w	d0,d7			;Aggiusta width oggetto
@@ -1761,7 +1761,7 @@ DOdistfound
 
 DOdrawloopt	clr.l	d7
 		move.b	(a0)+,d7		;d7=riga iniziale del trattino verticale
-		bmi	DOendcolumn		;Se riga iniziale<0, allora è finita la colonna
+		bmi	DOendcolumn		;Se riga iniziale<0, allora  finita la colonna
 		swap	d7
 		divu.l	d1,d7
 		add.w	6(sp),d7
@@ -1776,7 +1776,7 @@ DOdrawloopt	clr.l	d7
 		divu.l	d1,d6
 
 		cmp.w	d3,d7		;Test se yminclip
-		bgt.s	DOnoyminclip	;Salta se non c'è clipping
+		bgt.s	DOnoyminclip	;Salta se non c' clipping
 		move.w	d3,d5
 		sub.w	d7,d5
 		addq.w	#1,d5
@@ -1859,8 +1859,8 @@ PlayerFire
 		tst.b	PlayerDeath(a5)	;Se player morto, non spara
 		bne	PFnofire
 
-		move.w	Fire(a5),d7	;Legge quante volte è stato premuto il fire
-		beq	PFnofire	;Salta, se non è stato premuto
+		move.w	Fire(a5),d7	;Legge quante volte  stato premuto il fire
+		beq	PFnofire	;Salta, se non  stato premuto
 		move.l	PlayerWeaponPun(a5),d0
 		beq.s	PFnofire	;Se pun. arma usata=0, esce
 		move.l	d0,a4		;a4=pun. arma
@@ -1869,7 +1869,7 @@ PlayerFire
 		bne	PFflame		; Se si, salta
 		move.w	PlayerActiWeapon(a5),d0
 		lea	PlayerWeapons(a5),a0
-		cmp.b	#2,(a0,d0.w)	;L'arma è boost-ata ?
+		cmp.b	#2,(a0,d0.w)	;L'arma  boost-ata ?
 		bne.s	PFfnoboost	; Se no, salta
 		moveq	#-8,d6
 		moveq	#0,d7
@@ -1933,7 +1933,7 @@ PlayerShot
 		sub.w	o_param3(a4),d1		;Decrementa energia player
 		bmi	PFesci2			;Se<0, non spara
 		move.w	d1,PlayerEnergy(a5)
-		move.b	#1,PlayerEnergyFL(a5)	;Segnala che è cambiata l'energia
+		move.b	#1,PlayerEnergyFL(a5)	;Segnala che  cambiata l'energia
 PFnoergloss
 		move.l	obj_listnext(a0),ObjFree(a5)	;Aggiorna lista oggetti liberi
 
@@ -1983,7 +1983,7 @@ PFnopre		clr.l	obj_listprev(a0)
 		move.w	d0,obj_mapoffset(a0)
 
 		lea	2(a1,d0.w*4),a3		;a3=pun. nella mappa degli oggetti
-		move.w	(a3),d1			;Test se c'è già un oggetto sul blocco
+		move.w	(a3),d1			;Test se c' gi un oggetto sul blocco
 		beq.s	PFnoblkobj		; Se no, salta
 		lea	ObjectsPunList-4(a5),a2
 		move.l	(a2,d1.w*4),a2		;a2=Pun. al primo oggetto sul blocco
@@ -2028,7 +2028,7 @@ PFnomipsp	lsr.w	#1,d0
 		lsl.w	#8,d0			;if step=1
 		move.w	d0,obj_hheading(a0)
 
-		clr.b	obj_subtype(a0)		;Segnala che è un proiettile del player
+		clr.b	obj_subtype(a0)		;Segnala che  un proiettile del player
 
 		tst.w	d7
 		bne.s	PFnosound
@@ -2196,7 +2196,7 @@ EFnopre		clr.l	obj_listprev(a0)
 	;*** Aggiunge oggetto alla lista del blocco
 
 		lea	2(a2,d0.w*4),a3		;a3=pun. nella mappa degli oggetti
-		move.w	(a3),d1			;Test se c'è già un oggetto sul blocco
+		move.w	(a3),d1			;Test se c' gi un oggetto sul blocco
 		beq.s	EFnoblkobj		; Se no, salta
 		lea	ObjectsPunList-4(a5),a1
 		move.l	(a1,d1.w*4),a1		;a1=Pun. al primo oggetto sul blocco
@@ -2240,7 +2240,7 @@ EFnoovf		move.w	d0,obj_hheading(a0)
 
 ;		clr.w	obj_hheading(a0)
 
-		move.b	#1,obj_subtype(a0)	;Segnala che è un proiettile nemico
+		move.b	#1,obj_subtype(a0)	;Segnala che  un proiettile nemico
 
 		moveq	#0,d0
 		jsr	ObjBufferedPlaySoundFX
@@ -2310,7 +2310,7 @@ CEDCITnopre	clr.l	obj_listprev(a6)
 		;*** Test se i resti rimangono su una porta
 		move.l	obj_blockpun(a6),a3	;a3=Pun. blocco
 		moveq	#0,d3
-		move.b	bl_Trigger(a3),d3	;Il blocco corrente è soggetto ad un trigger ?
+		move.b	bl_Trigger(a3),d3	;Il blocco corrente  soggetto ad un trigger ?
 		beq.s	CEDCELnotrig		; Se no, salta
 		lea	TriggerBlockListPun+6(a5),a3
 		move.w	(a3,d3.l*8),d4		;Legge comando precedente
@@ -2528,7 +2528,7 @@ CEDwalkanim
 
 ;----------------------------------------------------------------
 
-		dc.l	CEDcaduta	;Status=-3 : cade perchè ucciso
+		dc.l	CEDcaduta	;Status=-3 : cade perch ucciso
 		dc.l	0		;Status=-2 : nessuna azione
 		dc.l	CEDfire		;Status=-1 : spara
 CEDpunlist	dc.l	CEDseek		;Status=0  : cerca il player
@@ -2622,7 +2622,7 @@ NewDirTable	dc.l	NDT0,NDT1,NDT2,NDT3,NDT4,NDT5,NDT6,NDT7
 ;* Serie di routine per il calcolo del prodotto scalare tra
 ;* il vettore direzione del nemico e il vettore differenza tra
 ;* la posizione del player e quella del nemico.
-;* Utilizzata per controllare se il nemico è ruotato verso il player.
+;* Utilizzata per controllare se il nemico  ruotato verso il player.
 ;* Richiede:
 ;*	d0 = PlayerX - obj_x
 ;*	d1 = PlayerZ - obj_z
@@ -2758,14 +2758,14 @@ ROver
 ;		8	L*N	Offset pointers to the data for each column. N=number of column (width).
 ;				The Offset is relative to the field Width.
 ;
-;	A questo punto, ogni colonna è suddivisa in trattini di pixel non
+;	A questo punto, ogni colonna  suddivisa in trattini di pixel non
 ;	trasparenti. Per ogni trattino si ha:
 ;
 ;		0	B	Row to begin drawing (if < 0, the column is finished)
 ;		1	B	Number of pixel - 1
 ;		2	B*N	List of N pixel, where N is Number of pixel
 ;
-;	Se la riga a cui iniziare è < 0 la colonna è terminata.
+;	Se la riga a cui iniziare  < 0 la colonna  terminata.
 
 ;****************************************************************************
 

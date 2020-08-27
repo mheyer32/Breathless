@@ -131,7 +131,7 @@ VBinterrupt	movem.l	d2-d7/a2-a6,-(sp)
 
 		jsr	SoundFXServer
 
-		tst.b	MusicState(a5)		;Test se la musica è attiva
+		tst.b	MusicState(a5)		;Test se la musica  attiva
 		beq.s	VBnomusic		; Se no, salta
 
 		xref	P61_Music
@@ -141,7 +141,7 @@ VBinterrupt	movem.l	d2-d7/a2-a6,-(sp)
 		movem.l	(sp)+,d0-d7/a0-a6
 VBnomusic
 
-		tst.w	pause(a5)		;Se il gioco è in pausa
+		tst.w	pause(a5)		;Se il gioco  in pausa
 		bne.s	VBnogame		; Salta
 
 		addq.l	#1,animcounter(a5)
@@ -175,7 +175,7 @@ VBout
 
 
 VBpresentation
-		tst.b	MusicState(a5)		;Test se la musica è attiva
+		tst.b	MusicState(a5)		;Test se la musica  attiva
 		beq.s	VBnomusicp		; Se no, salta
 
 		xref	P61_Music

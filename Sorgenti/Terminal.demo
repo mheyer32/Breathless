@@ -76,7 +76,7 @@ Textloop
 		clr.l	KeyQueueIndex2(a5)
 
 Tloop
-		tst.l	terminal(a5)		;Il terminale è ancora attivo ?
+		tst.l	terminal(a5)		;Il terminale  ancora attivo ?
 		beq	Tlogout			; Se no, esce
 
 		jsr	TestChangeScreen
@@ -92,10 +92,10 @@ Tloop
 		lea	KeyQueueIndex1(a5),a0
 		move.l	(a0)+,d1		;d1=KeyQueueIndex1
 		cmp.l	(a0)+,d1		;Confronta con KeyQueueIndex2
-		beq	Tloop			;Se sono uguali, allora la coda è vuota
+		beq	Tloop			;Se sono uguali, allora la coda  vuota
 		move.w	(a0,d1.l),d0		;d0=scancode tasto
 		addq.l	#2,d1			;Sposta l'indice
-		and.w	#$7f,d1			;Assicura la circolarità dell'indice
+		and.w	#$7f,d1			;Assicura la circolarit dell'indice
 		move.l	d1,KeyQueueIndex1(a5)	;Memorizza l'indice
 
 		cmp.w	#($4c),d0		;Premuto tasto up ?
@@ -241,7 +241,7 @@ DSbsnoexit	move.l	CurrentPage(a5),a0
 		move.l	6(a0,d5.w*4),a0		;a0=pun. alla stringa corrispondente alla riga selezionata
 		moveq	#0,d1
 		move.w	8(a0),d1		;d1=credits necessari
-		bmi.s	DSnobuy			; Se<0, non si può acquistare
+		bmi.s	DSnobuy			; Se<0, non si pu acquistare
 		move.l	PlayerCredits(a5),d2	;d2=credits posseduti
 		sub.l	d1,d2			;Sottrae crediti
 		bmi.s	DSnobuy			;Se non bastano, segnala errore
@@ -268,7 +268,7 @@ DSacnoexit	move.l	CurrentPage(a5),a0
 		cmp.w	#3,d4
 		blt.s	DSacj1
 		addq.w	#1,d4
-DSacj1		move.w	10(a0),d2		;Qtà da sommare
+DSacj1		move.w	10(a0),d2		;Qt da sommare
 		jsr	CollectItem
 
 
@@ -409,7 +409,7 @@ DSCMkeloop	jsr	TestChangeScreen
 		tst.w	d0
 		bmi.s	DSCMkeloop		;Salta se nessun tasto
 		lea	(a1,d0.w*4),a0		;a0=Pun. alla nuova stringa selezionata
-		tst.l	(a0)			;Test se il tasto è utilizzabile
+		tst.l	(a0)			;Test se il tasto  utilizzabile
 		bne.s	DSCMkeok		; Se si, salta
 		move.w	d2,d0
 		lea	(a1,d0.w*4),a0		;a0=Pun. alla stringa precedente
@@ -453,7 +453,7 @@ DSCMgonoexit	cmp.w	#1,d0			;Selezionato reset code ?
 ;		rts
 DSCMgonorc	cmp.w	#2,d0			;Selezionato save config.?
 ;		bne.s	DSCMgonosaco		; Se no, salta
-		bne	DSCMgonogood		; Se no, segnala che non si può inserire il codice nella demo
+		bne	DSCMgonogood		; Se no, segnala che non si pu inserire il codice nella demo
 		jsr	WriteConfig		;Salva configurazione
 		moveq	#0,d0
 		rts
@@ -980,28 +980,28 @@ CNloope		tst.b	(a1)
 ;*	y	 W	coordinata y in pixel (0-123)
 ;*	color	 W	colore (0/1/2)
 ;*	type	 W	tipo ( -1:menu item; 0:stringa; 1:numero; 2:cycle selector; 3:key selector; 4:levelcode input)
-;*	numpun	 L	presente solo se type=1, è il pun. a una long
+;*	numpun	 L	presente solo se type=1,  il pun. a una long
 ;*			contenente il numero da stampare
-;*	credits  W	presente solo se type=-1, è il num. di crediti
+;*	credits  W	presente solo se type=-1,  il num. di crediti
 ;*			necessario per acquistare l'oggetto
-;*	value	 W	presente solo se type=-1, è la quantità
+;*	value	 W	presente solo se type=-1,  la quantit
 ;*			che si acquista
-;*	cyclex	 W	presente solo se type=2 o 3 o 4, è la coordinata x della stringa di selezione (o di input)
-;*	cycley	 W	presente solo se type=2 o 3 o 4, è la coordinata y della stringa di selezione (o di input)
-;*	cyclepun L	presente solo se type=2, è il pun. alla struttura che
+;*	cyclex	 W	presente solo se type=2 o 3 o 4,  la coordinata x della stringa di selezione (o di input)
+;*	cycley	 W	presente solo se type=2 o 3 o 4,  la coordinata y della stringa di selezione (o di input)
+;*	cyclepun L	presente solo se type=2,  il pun. alla struttura che
 ;*			contiene i pun. alle stringhe selezionabili
-;*	cyclesel L	presente solo se type=2, è il pun. alla word
+;*	cyclesel L	presente solo se type=2,  il pun. alla word
 ;*			che contiene l'indice, all'interno della struttura
 ;*			puntata da cyclepun, della stringa selezionata
-;*	keypun	 L	presente solo se type=3, è il pun. alla lista dei nomi
+;*	keypun	 L	presente solo se type=3,  il pun. alla lista dei nomi
 ;*			dei tasti della tastiera, ordinati per scancode.
-;*			Ogni nome è una stringa di 3 char, terminata con uno zero.
-;*	keysel	 L	presente solo se type=3, è il pun. alla word
+;*			Ogni nome  una stringa di 3 char, terminata con uno zero.
+;*	keysel	 L	presente solo se type=3,  il pun. alla word
 ;*			che contiene lo scancode del tasto selezionato
-;*	destpun  L	presente solo se type=4, è il pun. alla stringa null term. che contiene il
+;*	destpun  L	presente solo se type=4,  il pun. alla stringa null term. che contiene il
 ;*			valore iniziale della stringa di input e che, finito l'input,
 ;*			contiene i caratteri immessi dall'utente
-;*	inputpun L	presente solo se type=4, è il pun. al buffer di input
+;*	inputpun L	presente solo se type=4,  il pun. al buffer di input
 ;*	string	 B	null terminated string. Se type=1, deve essere
 ;*			costituita da un numero di spazi sufficiente
 ;*			a contenere il numero da stampare.
@@ -1723,7 +1723,7 @@ keytable	dc.b	00,49,50,51,52,53,54,55,56,57,48,45,43,92,00,48	;$00
 		xdef	terminal,Protection
 
 terminal	ds.l	1	;Se<>0, contiene il num. del terminale attivo
-				;Se<0, è il menu di configurazione
+				;Se<0,  il menu di configurazione
 
 CurrentPage	ds.l	1	;Pagina corrente
 CurrentPageNum	ds.w	1	;Numero pagina corrente
@@ -1732,7 +1732,7 @@ InitPageInput	ds.w	1	;Se<>0, deve inizializzare l'input sulla pagina
 ChoiceItem1	ds.w	1	;Prima scelta del menu
 ChoiceItem2	ds.w	1	;Ultima scelta del menu
 
-Protection	ds.b	1	;Se=TRUE, è attivo l'input del codice di protezione
+Protection	ds.b	1	;Se=TRUE,  attivo l'input del codice di protezione
 
 		ds.b	3	;Usato per allineare
 

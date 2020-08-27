@@ -188,26 +188,26 @@ StopDoorSoundFX
 ;*	a0 : Pun. al sound
 ;*	d1 : Distanza al quadrato della fonte sonora
 ;*
-;* L'ingresso BPSFXin2 alla routine è impiegato per la gestione
-;* dei suoni composti. Infatti è gestito il parametro code
+;* L'ingresso BPSFXin2 alla routine  impiegato per la gestione
+;* dei suoni composti. Infatti  gestito il parametro code
 ;* passato tramite d0 (normalmente d0 viene azzerato).
 ;* Viene poi gestito il tipo di suono (sound type):
 ;*	-1 : Ferma suono
 ;*	 0 : Global sound o altro
 ;*	 1 : Suono emesso da oggetti
 ;* Se sound type = -1, Code non ha significato
-;* Se sound type = 0, Code può essere il trigger number di un effetto.
-;* Se sound type = 1, Code può essere il codice di un oggetto
+;* Se sound type = 0, Code pu essere il trigger number di un effetto.
+;* Se sound type = 1, Code pu essere il codice di un oggetto
 
 		xdef	BufferedPlaySoundFX
 
 BufferedPlaySoundFX
-;		tst.b	BPSFXsemaphore(a5)	;La routine è occupata ?
+;		tst.b	BPSFXsemaphore(a5)	;La routine  occupata ?
 ;		bne.s	BPSFXexit		; Se si, salta
 		movem.l	d0/a1-a2,-(sp)
 		moveq	#0,d0
 BPSFXin2
-;		st	BPSFXsemaphore(a5)	;Segnala che la routine è occupata
+;		st	BPSFXsemaphore(a5)	;Segnala che la routine  occupata
 
 		tst.l	a0		;Se pun. al sound=0,
 		beq	BPSFXout	; esce
@@ -224,7 +224,7 @@ BPSFXin2
 		lea	AudioBuffer(a5),a2
 BPSFXj1		move.l	a2,ABufPunIn(a5)
 BPSFXout
-;		clr.b	BPSFXsemaphore(a5)	;Segnala che la routine non è occupata
+;		clr.b	BPSFXsemaphore(a5)	;Segnala che la routine non  occupata
 
 		movem.l	(sp)+,d0/a1-a2
 BPSFXexit	rts
@@ -243,7 +243,7 @@ BPSFXexit	rts
 		xdef	ObjBufferedPlaySoundFX
 
 ObjBufferedPlaySoundFX
-;		tst.b	BPSFXsemaphore(a5)	;La routine è occupata ?
+;		tst.b	BPSFXsemaphore(a5)	;La routine  occupata ?
 ;		bne.s	OBPSFXexit		; Se si, salta
 		movem.l	a1-a2/d1,-(sp)
 
@@ -252,7 +252,7 @@ ObjBufferedPlaySoundFX
 		tst.l	a1			;Se pun. sound=0,
 		beq.s	OBPSFXout		; esce
 
-;		st	BPSFXsemaphore(a5)	;Segnala che la routine è occupata
+;		st	BPSFXsemaphore(a5)	;Segnala che la routine  occupata
 
 		move.w	obj_x(a0),d0
 		sub.w	PlayerX(a5),d0
@@ -266,7 +266,7 @@ ObjBufferedPlaySoundFX
 		move.b	CurrBuffer+3(a5),(a2)+
 		clr.b	(a2)+			;Sound type
 		moveq	#0,d0
-		cmp.b	#2,obj_type(a0)		;L'oggetto è un nemico ?
+		cmp.b	#2,obj_type(a0)		;L'oggetto  un nemico ?
 		bne.s	OBPSFXj0		; Se no, salta
 		move.w	obj_number(a0),d0
 OBPSFXj0	move.w	d0,(a2)+		;Code
@@ -278,7 +278,7 @@ OBPSFXj0	move.w	d0,(a2)+		;Code
 		lea	AudioBuffer(a5),a2
 OBPSFXj1	move.l	a2,ABufPunIn(a5)
 OBPSFXout
-;		clr.b	BPSFXsemaphore(a5)	;Segnala che la routine non è occupata
+;		clr.b	BPSFXsemaphore(a5)	;Segnala che la routine non  occupata
 
 		movem.l	(sp)+,a1-a2/d1
 OBPSFXexit	rts
@@ -440,8 +440,8 @@ PSFXout
 ;****************************************************************************
 ;* Subroutine per richiedere al SoundFXServer di suonare un sample.
 ;* L'assegnazione di un canale audio avviene in base alla priorita'.
-;* La priorità di un suono diminuisce in base alla distanza,
-;* viene cioè sottratto un certo valore dalla priorità iniziale
+;* La priorit di un suono diminuisce in base alla distanza,
+;* viene cio sottratto un certo valore dalla priorit iniziale
 ;* in base al valore del volume (che viene calcolato a partire
 ;* dalla distanza). Questi valori sono:
 ;*	volume 64 : 0
@@ -452,7 +452,7 @@ PSFXout
 ;*	volume  2 : 5
 ;*	volume  1 : 6
 ;*	volume  0 : 7
-;* Il volume calcolato in base alla distanza è relativo al valore
+;* Il volume calcolato in base alla distanza  relativo al valore
 ;* massimo di 64. Il volume a cui il sample viene suonato viene poi
 ;* calcolato in relazione al volume indicato nella struttura sound stessa.
 ;*
@@ -468,7 +468,7 @@ AllocSoundFX
 
 		tst.b	snd_mask(a0)		;Test flag alone
 		bpl.s	ASFXnochk		; Se FALSE, salta
-						; altrimLGLD @½    la se il sound puntato da a0 è già in play
+						; altrimLGLD la se il sound puntato da a0 gi in play
 		cmp.l	AUD0_sound(a5),a0
 		beq	ASFXout
 		cmp.l	AUD1_sound(a5),a0
@@ -493,7 +493,7 @@ ASFXnocalvol
 
 		move.b	snd_priority(a0),d3
 		lea	ChgPriTable(pc),a1
-		sub.b	(a1,d1.w),d3		;Modifica priorità in base alla distanza
+		sub.b	(a1,d1.w),d3		;Modifica priorit in base alla distanza
 
 		mulu.w	snd_volume(a0),d1
 		lsr.w	#6,d1			;d1=volume reale
@@ -513,7 +513,7 @@ ASFXnocalvol
 		bcs	ASFXgoch3
 ASFXnofree
 
-		lsr.b	#1,d2			;Si può usare il canale 0 ?
+		lsr.b	#1,d2			;Si pu usare il canale 0 ?
 		bcc.s	ASFXchannel1		; Se no, salta
 		cmp.b	AUD0_priority(a5),d3	;Confronta priorita'
 		blt.s	ASFXchannel1		; Se piu' bassa, salta
@@ -521,7 +521,7 @@ ASFXgoch0	lea	AUD0_sound(a5),a1
 		moveq	#0,d0
 		bra.s	ASFXgo
 ASFXchannel1
-		lsr.b	#1,d2			;Si può usare il canale 1 ?
+		lsr.b	#1,d2			;Si pu usare il canale 1 ?
 		bcc.s	ASFXchannel2		; Se no, salta
 		cmp.b	AUD1_priority(a5),d3	;Confronta priorita'
 		blt.s	ASFXchannel2		; Se piu' bassa, salta
@@ -529,7 +529,7 @@ ASFXgoch1	lea	AUD1_sound(a5),a1
 		moveq	#1,d0
 		bra.s	ASFXgo
 ASFXchannel2
-		lsr.b	#1,d2			;Si può usare il canale 2 ?
+		lsr.b	#1,d2			;Si pu usare il canale 2 ?
 		bcc.s	ASFXchannel3		; Se no, salta
 		cmp.b	AUD2_priority(a5),d3	;Confronta priorita'
 		blt.s	ASFXchannel3		; Se piu' bassa, salta
@@ -537,7 +537,7 @@ ASFXgoch2	lea	AUD2_sound(a5),a1
 		moveq	#2,d0
 		bra.s	ASFXgo
 ASFXchannel3
-		lsr.b	#1,d2			;Si può usare il canale 3 ?
+		lsr.b	#1,d2			;Si pu usare il canale 3 ?
 		bcc.s	ASFXout			; Se no, salta
 		cmp.b	AUD3_priority(a5),d3	;Confronta priorita'
 		blt.s	ASFXout			; Se piu' bassa, salta
@@ -807,9 +807,9 @@ AudioIRQ0
 		tst.b	AUD0_status(a1)		;Deve fermare il canale ?
 		beq.s	A0status1		; Se no, salta
 ;		move.w	#INTF_AUD0,intena(a0)	;Ferma IRQ
-		tst.w	pause(a1)		;Se il gioco è in pausa
+		tst.w	pause(a1)		;Se il gioco  in pausa
 		bne.s	A0stopdma		; Ferma suoni in loop
-		tst.b	AUD0_loop(a1)		;Se c'è loop non ferma il DMA
+		tst.b	AUD0_loop(a1)		;Se c' loop non ferma il DMA
 		bne.s	A0out
 A0stopdma	move.w	#DMAF_AUD0,dmacon(a0)	;Ferma DMA
 		move.w	#INTF_AUD0,intena(a0)	;Ferma IRQ
@@ -823,7 +823,7 @@ A0stopdma	move.w	#DMAF_AUD0,dmacon(a0)	;Ferma DMA
 		tst.b	AUD0_type(a1)		;Sound object ?
 		bne.s	A0out			; Se no, salta
 		move.l	d0,a6
-		bclr	#7,obj_subtype(a6)	;Segnala all'oggetto che il suono è terminato
+		bclr	#7,obj_subtype(a6)	;Segnala all'oggetto che il suono  terminato
 		clr.l	AUD0_code(a1)
 		bra.s	A0out
 A0status1	move.b	#1,AUD0_status(a1)
@@ -841,9 +841,9 @@ AudioIRQ1
 		tst.b	AUD1_status(a1)		;Deve fermare il canale ?
 		beq.s	A1status1		; Se no, salta
 ;		move.w	#INTF_AUD1,intena(a0)	;Ferma IRQ
-		tst.w	pause(a1)		;Se il gioco è in pausa
+		tst.w	pause(a1)		;Se il gioco  in pausa
 		bne.s	A1stopdma		; Ferma suoni in loop
-		tst.b	AUD1_loop(a1)		;Se c'è loop non ferma il DMA
+		tst.b	AUD1_loop(a1)		;Se c' loop non ferma il DMA
 		bne.s	A1out
 A1stopdma	move.w	#DMAF_AUD1,dmacon(a0)	;Ferma DMA
 		move.w	#INTF_AUD1,intena(a0)	;Ferma IRQ
@@ -857,7 +857,7 @@ A1stopdma	move.w	#DMAF_AUD1,dmacon(a0)	;Ferma DMA
 		tst.b	AUD1_type(a1)		;Sound object ?
 		bne.s	A1out			; Se no, salta
 		move.l	d0,a6
-		bclr	#7,obj_subtype(a6)	;Segnala all'oggetto che il suono è terminato
+		bclr	#7,obj_subtype(a6)	;Segnala all'oggetto che il suono  terminato
 		clr.l	AUD1_code(a1)
 		bra.s	A1out
 A1status1	move.b	#1,AUD1_status(a1)
@@ -875,9 +875,9 @@ AudioIRQ2
 		tst.b	AUD2_status(a1)		;Deve fermare il canale ?
 		beq.s	A2status1		; Se no, salta
 ;		move.w	#INTF_AUD2,intena(a0)	;Ferma IRQ
-		tst.w	pause(a1)		;Se il gioco è in pausa
+		tst.w	pause(a1)		;Se il gioco  in pausa
 		bne.s	A2stopdma		; Ferma suoni in loop
-		tst.b	AUD2_loop(a1)		;Se c'è loop non ferma il DMA
+		tst.b	AUD2_loop(a1)		;Se c' loop non ferma il DMA
 		bne.s	A2out
 A2stopdma	move.w	#DMAF_AUD2,dmacon(a0)	;Ferma DMA
 		move.w	#INTF_AUD2,intena(a0)	;Ferma IRQ
@@ -892,7 +892,7 @@ A2stopdma	move.w	#DMAF_AUD2,dmacon(a0)	;Ferma DMA
 		tst.b	AUD2_type(a1)		;Sound object ?
 		bne.s	A2out			; Se no, salta
 		move.l	d0,a6
-		bclr	#7,obj_subtype(a6)	;Segnala all'oggetto che il suono è terminato
+		bclr	#7,obj_subtype(a6)	;Segnala all'oggetto che il suono  terminato
 		clr.l	AUD2_code(a1)
 		bra.s	A2out
 A2status1	move.b	#1,AUD2_status(a1)
@@ -910,9 +910,9 @@ AudioIRQ3
 		tst.b	AUD3_status(a1)		;Deve fermare il canale ?
 		beq.s	A3status1		; Se no, salta
 ;		move.w	#INTF_AUD3,intena(a0)	;Ferma IRQ
-		tst.w	pause(a1)		;Se il gioco è in pausa
+		tst.w	pause(a1)		;Se il gioco  in pausa
 		bne.s	A3stopdma		; Ferma suoni in loop
-		tst.b	AUD3_loop(a1)		;Se c'è loop non ferma il DMA
+		tst.b	AUD3_loop(a1)		;Se c' loop non ferma il DMA
 		bne.s	A3out
 A3stopdma	move.w	#DMAF_AUD3,dmacon(a0)	;Ferma DMA
 		move.w	#INTF_AUD3,intena(a0)	;Ferma IRQ
@@ -926,7 +926,7 @@ A3stopdma	move.w	#DMAF_AUD3,dmacon(a0)	;Ferma DMA
 		tst.b	AUD3_type(a1)		;Sound object ?
 		bne.s	A3out			; Se no, salta
 		move.l	d0,a6
-		bclr	#7,obj_subtype(a6)	;Segnala all'oggetto che il suono è terminato
+		bclr	#7,obj_subtype(a6)	;Segnala all'oggetto che il suono  terminato
 		clr.l	AUD3_code(a1)
 		bra.s	A3out
 A3status1	move.b	#1,AUD3_status(a1)
@@ -991,7 +991,7 @@ AudioBuffer	ds.b	12*64	;Buffer per le richieste di suonare un sample
 EndAudioBuffer:
 
 BPSFXsemaphore	ds.b	1	;Semaforo per l'uso delle routine di play bufferizzato da IRQ
-				;Se<>0, la routine è in esecuzione
+				;Se<>0, la routine  in esecuzione
 
 		xdef	MusicFade
 
@@ -1010,7 +1010,7 @@ ritfade		ds.b	1	;Contatore di ritardo per fade
 ;***		 0 : deve fermare i sample
 
 
-AUD0_sound	ds.l	1	;Pun. al sound attuale (viene azzerato solo quando il suono è finito)
+AUD0_sound	ds.l	1	;Pun. al sound attuale (viene azzerato solo quando il suono  finito)
 AUD0_sample	ds.l	1	;Pun. al sound da suonare (viene azzerato appena il sample viene messo in play)
 AUD0_status	ds.b	1	;Stato
 AUD0_priority	ds.b	1	;Priorita'
@@ -1022,7 +1022,7 @@ AUD0_type	ds.b	1	;Tipo suono (0=object; 1=altro)
 AUD0_code	ds.l	1	;Usato per suonare i suoni composti sempre sullo stesso canale (vedi Door e lift)
 				; e per controllare che un oggetto emetta al massimo un suono alla volta
 
-AUD1_sound	ds.l	1	;Pun. al sound attuale (viene azzerato solo quando il suono è finito)
+AUD1_sound	ds.l	1	;Pun. al sound attuale (viene azzerato solo quando il suono  finito)
 AUD1_sample	ds.l	1	;Pun. al sound da suonare (viene azzerato appena il sample viene messo in play)
 AUD1_status	ds.b	1	;Stato
 AUD1_priority	ds.b	1	;Priorita'
@@ -1034,7 +1034,7 @@ AUD1_type	ds.b	1	;Tipo suono (0=object; 1=altro)
 AUD1_code	ds.l	1	;Usato per suonare i suoni composti sempre sullo stesso canale (vedi Door e lift)
 				; e per controllare che un oggetto emetta al massimo un suono alla volta
 
-AUD2_sound	ds.l	1	;Pun. al sound attuale (viene azzerato solo quando il suono è finito)
+AUD2_sound	ds.l	1	;Pun. al sound attuale (viene azzerato solo quando il suono  finito)
 AUD2_sample	ds.l	1	;Pun. al sound da suonare (viene azzerato appena il sample viene messo in play)
 AUD2_status	ds.b	1	;Stato
 AUD2_priority	ds.b	1	;Priorita'
@@ -1046,7 +1046,7 @@ AUD2_type	ds.b	1	;Tipo suono (0=object; 1=altro)
 AUD2_code	ds.l	1	;Usato per suonare i suoni composti sempre sullo stesso canale (vedi Door e lift)
 				; e per controllare che un oggetto emetta al massimo un suono alla volta
 
-AUD3_sound	ds.l	1	;Pun. al sound attuale (viene azzerato solo quando il suono è finito)
+AUD3_sound	ds.l	1	;Pun. al sound attuale (viene azzerato solo quando il suono  finito)
 AUD3_sample	ds.l	1	;Pun. al sound da suonare (viene azzerato appena il sample viene messo in play)
 AUD3_status	ds.b	1	;Stato
 AUD3_priority	ds.b	1	;Priorita'
