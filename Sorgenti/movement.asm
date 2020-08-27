@@ -789,9 +789,9 @@ CTT12j1		or.w	#8,d5		;z>x
 		bra	DMCCret
 
 
-	;*** !!!PROTEZIONE!!!
+    IFEQ 1	;*** !!!PROTEZIONE!!!
 Checksum1	dc.l	$87d82	;old=$873c6
-	;*** !!!FINE PROTEZIONE!!!
+    ENDIF	;*** !!!FINE PROTEZIONE!!!
 
 
 CollTestTable	dc.l	DMCCret
@@ -1053,7 +1053,7 @@ InitPlayerPos
 
 		IFEQ	DEBUG
 
-	;*** !!!PROTEZIONE!!!
+    IFEQ 1	;*** !!!PROTEZIONE!!!
 	;*** Controlla se la routine tra DSprotection e DSProtectionEnd
 	;***  integra.
 		xref	Protection2,DSprotection,DSprotectionEnd
@@ -1074,7 +1074,7 @@ PPPchecksumloop	add.w	(a0,d1.l),a3		;Loop di calcolo checksum
 ;PROT.REMOVED	move.w	#-20000,PlayerEyesHeight(a5)
 PPPno
 
-	;*** !!!FINE PROTEZIONE!!!
+    ENDIF	;*** !!!FINE PROTEZIONE!!!
 
 		ENDC
 

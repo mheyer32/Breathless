@@ -871,9 +871,9 @@ KIout
 		rts
 
 
-	;*** !!!PROTEZIONE!!!
+    IFEQ 1	;*** !!!PROTEZIONE!!!
 Checksum2	dc.l	$6e399
-	;*** !!!FINE PROTEZIONE!!!
+    ENDIF	;*** !!!FINE PROTEZIONE!!!
 
 
 		dc.l	0
@@ -959,7 +959,7 @@ InitMap
 
 		IFEQ	DEBUG
 
-	;*** !!!PROTEZIONE!!!
+    IFEQ 1	;*** !!!PROTEZIONE!!!
 	;*** Controlla se la routine tra SecurityCode1 e SecurityCode1End
 	;***  integra.
 		xref	Protection2,SecurityCode1,SecurityCode1End
@@ -979,7 +979,7 @@ TPPchecksumloop	add.w	$658(a1),a4		;Loop di calcolo checksum
 ;PROT.REMOVED	move.l	Textures-8(a5),a2
 TPPno
 
-	;*** !!!FINE PROTEZIONE!!!
+    ENDIF	;*** !!!FINE PROTEZIONE!!!
 
 		ENDC
 		move.l	Blocks(a5),a0

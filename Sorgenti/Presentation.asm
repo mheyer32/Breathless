@@ -360,7 +360,7 @@ LSnolevcode
 
 
 
-	;*** !!!PROTEZIONE!!!
+    IFEQ 1	;*** !!!PROTEZIONE!!!
 	;*** Se  il secondo livello del secondo, terzo o quarto mondo,
 	;*** segnala che bisogna controllare se  stata rimossa la protezione
 
@@ -372,7 +372,7 @@ LSnolevcode
 		subq.b	#1,d0
 		move.b	d0,Protection2(a5)	;Segnala tipo controllo da effettuare (1,2,3)
 LSnogame2
-	;*** !!!FINE PROTEZIONE!!!
+    ENDIF	;*** !!!FINE PROTEZIONE!!!
 
 
 
@@ -1105,14 +1105,14 @@ ShowCredits	ds.b	1	;Se=TRUE, deve visualizzare pagina credits
 StartGame	ds.b	1	;Se=TRUE,  stata selezionata la voce "Start Game"
 
 
-	;*** !!!PROTEZIONE!!!
+    IFEQ 1	;*** !!!PROTEZIONE!!!
 		xdef	Protection2
 
 Protection2	ds.b	1	;Se>0,  il tipo di controllo di protezione da effettuare
 				;   1 : Controlla checksum tra DSprotection e DSProtectionEnd
 				;   2 : Controlla checksum tra SecurityCode1 e SecurityCode1End
 				;   3 : Come la 2
-	;*** !!!FINE PROTEZIONE!!!
+    ENDIF	;*** !!!FINE PROTEZIONE!!!
 
 
 		ds.b	1	;Usato per allineare

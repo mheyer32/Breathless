@@ -18,7 +18,7 @@
 ;*
 ;*	d0.l = codice
 
-	;*** !!!PROTEZIONE!!!
+    IFEQ 1	;*** !!!PROTEZIONE!!!
 
 		xdef	SecurityCode1,SecurityCode1End
 
@@ -65,4 +65,4 @@ seccode1	dc.l	0
 
 		cnop	0,8
 
-	;*** !!!FINE PROTEZIONE!!!
+    ENDIF	;*** !!!FINE PROTEZIONE!!!

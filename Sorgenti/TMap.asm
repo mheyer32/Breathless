@@ -269,7 +269,7 @@ OAsprnext	addq.w	#4,a4
 		dbra	d7,OAspritesloop3
 
 
-	;*** !!!PROTEZIONE!!!
+    IFEQ 1	;*** !!!PROTEZIONE!!!
 ; Calcola riga e colonna per il primo codice di sicurezza
 
 		xref	SecCodeRow,SecCodeCol
@@ -285,7 +285,7 @@ OAsprnext	addq.w	#4,a4
 		add.w	#65,d0
 		move.w	d0,a0
 		move.l	a0,$228+4(a1)		;SecCodeCol
-	;*** !!!FINE PROTEZIONE!!!
+    ENDIF	;*** !!!FINE PROTEZIONE!!!
 
 
 

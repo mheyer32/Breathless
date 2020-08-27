@@ -186,8 +186,8 @@ Tloncp
 		xdef	DSprotoffs
 
 DoSelection
-		tst.b	Protection(a5)		;Test se protezione
-DSprotoffs	bne	DSprotection
+;		tst.b	Protection(a5)		;Test se protezione
+;DSprotoffs	bne	DSprotection
 		tst.l	terminal(a5)		;Test se menu configurazione
 		bmi	DSconfig		; Se si, salta
 		move.w	CurrentPageNum(a5),d1
@@ -557,7 +557,7 @@ DSCMnowrap	move.w	d2,(a2)			;Scrive nuovo indice
 
 
 ;--------------------
-	;*** !!!PROTEZIONE!!!
+    IFEQ 1	;*** !!!PROTEZIONE!!!
 
 		xdef	DSprotection,DSprotectionEnd
 
@@ -588,7 +588,7 @@ DSprotnoexit	bsr	DSCMgest
 		rts
 DSprotectionEnd
 
-	;*** !!!FINE PROTEZIONE!!!
+    ENDIF	;*** !!!FINE PROTEZIONE!!!
 
 
 ;--------------------
@@ -794,7 +794,7 @@ InitTerminal	movem.l	d0-d2/a0-a1/a4/a6,-(sp)
 
 		bsr	InitConfigVars		;Inizializza variabili configurazione
 
-	;*** !!!PROTEZIONE!!!
+    IFEQ 1	;*** !!!PROTEZIONE!!!
 		tst.b	Protection(a5)		;Test se protezione
 		beq.s	ITnoprot		; Se no, salta
 		bsr	SetTermPos
@@ -804,7 +804,7 @@ InitTerminal	movem.l	d0-d2/a0-a1/a4/a6,-(sp)
 		move.b	SecCodeCol+3(a5),8(a1)
 		lea	prot_page(pc),a1
 		bra.s	ITnoconf
-	;*** !!!FINE PROTEZIONE!!!
+    ENDIF	;*** !!!FINE PROTEZIONE!!!
 
 ITnoprot	tst.l	terminal(a5)		;Test se terminale o configurazione
 		bgt.s	ITnoconf		; Se terminale, salta
@@ -1630,7 +1630,7 @@ ConfPages	dc.l	conf_page0,conf_page1,conf_page2,conf_page3
 ;****************************************************************************
 ;* Pagina di input codice protezione
 
-	;*** !!!PROTEZIONE!!!
+    IFEQ 1	;*** !!!PROTEZIONE!!!
 
 prot_page	dc.w	0	;Numero pagina
 		dc.w	5,9	;Prima e ultima scelta del menu
@@ -1687,7 +1687,7 @@ pr7		dc.b	'h',0
 pr8		dc.b	'i',0
 pr9		dc.b	'j',0
 
-	;*** !!!FINE PROTEZIONE!!!
+    ENDIF	;*** !!!FINE PROTEZIONE!!!
 
 ;****************************************************************************
 
