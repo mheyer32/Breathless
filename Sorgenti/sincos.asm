@@ -1,5 +1,7 @@
 		opt	p=68020,ALINK,DEBUG,LINE
 
+		section .text,code
+
 		xdef	sintable
 		xdef	costable
 		xdef	arcsintable

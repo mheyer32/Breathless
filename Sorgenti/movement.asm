@@ -935,7 +935,7 @@ DMCOno8
 ;* d2 contiene il codice del primo oggetto della lista degli oggetti sul blocco
 
 CtrlCollObj
-		lea	ObjectsPunList-4(a5),a2
+		lea	ObjectsPunListMinus4(a5),a2
 		move.l	(a2,d2.w*4),a2		;a2=Pun. al primo oggetto sul blocco
 CCOloop		move.w	obj_type(a2),d4
 ;		bmi.s	CCOnext			;Se si tratta dei resti di un nemico, salta

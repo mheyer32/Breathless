@@ -570,7 +570,7 @@ MNctrlret
 		sub.l	a3,a3
 		move.w	2(a2,d2.w*4),d3		;Testa se c'e' un altro oggetto nel nuovo blocco
 		beq.s	MNnonbobj		; Se non c'e', salta
-		lea	ObjectsPunList-4(a5),a0
+		lea	ObjectsPunListMinus4(a5),a0
 		move.l	(a0,d3.w*4),a0		;a0=Pun. al primo oggetto sul blocco
 		move.l	a0,a3
 MNctrlobjcoll	cmp.b	#2,obj_type(a0)		;Test tipo oggetto
@@ -791,7 +791,7 @@ MSctrlobjcoll	clr.l	d4
 MSctrlobjcoll0	add.w	d2,d3
 		move.w	2(a2,d3.w*4),d3
 		ble	MSctrlobjnext0
-		lea	ObjectsPunList-4(a5),a0
+		lea	ObjectsPunListMinus4(a5),a0
 		move.l	(a0,d3.w*4),a0 		;a0=Pun. al primo oggetto sul blocco
 MSctrlobjcoll1	cmp.b	#2,obj_type(a0)		;Se  un oggetto di tipo >2, non c' collisione
 		bgt	MSctrlobjnext1
@@ -878,7 +878,7 @@ MSremesc
 		clr.l	obj_blocknext(a6)
 		move.w	2(a2,d2.w*4),d3		;Testa se c'e' un altro oggetto nel nuovo blocco
 		beq.s	MSnonbobj		; Se non c'e', salta
-		lea	ObjectsPunList-4(a5),a0
+		lea	ObjectsPunListMinus4(a5),a0
 		move.l	(a0,d3.w*4),a0		;a0=Pun. al primo oggetto sul blocco
 		move.l	a0,obj_blocknext(a6)
 		move.l	a6,obj_blockprev(a0)
@@ -1475,7 +1475,7 @@ DrawObjects
 
 DOloop1		move.l	(a0)+,a1		;a1=map pointer
 		move.w	d4,(a1)			;Ripristina numero oggetto nella mappa
-		lea	ObjectsPunList-4(a5),a2
+		lea	ObjectsPunListMinus4(a5),a2
 		move.l	(a2,d4.w*4),a2		;a2=Pun. all'oggetto
 DOloop1.2	move.l	obj_blockpun(a2),a1
 
@@ -1985,7 +1985,7 @@ PFnopre		clr.l	obj_listprev(a0)
 		lea	2(a1,d0.w*4),a3		;a3=pun. nella mappa degli oggetti
 		move.w	(a3),d1			;Test se c' gi un oggetto sul blocco
 		beq.s	PFnoblkobj		; Se no, salta
-		lea	ObjectsPunList-4(a5),a2
+		lea	ObjectsPunListMinus4(a5),a2
 		move.l	(a2,d1.w*4),a2		;a2=Pun. al primo oggetto sul blocco
 		clr.l	obj_blockprev(a0)
 		move.l	a2,obj_blocknext(a0)
@@ -2198,7 +2198,7 @@ EFnopre		clr.l	obj_listprev(a0)
 		lea	2(a2,d0.w*4),a3		;a3=pun. nella mappa degli oggetti
 		move.w	(a3),d1			;Test se c' gi un oggetto sul blocco
 		beq.s	EFnoblkobj		; Se no, salta
-		lea	ObjectsPunList-4(a5),a1
+		lea	ObjectsPunListMinus4(a5),a1
 		move.l	(a1,d1.w*4),a1		;a1=Pun. al primo oggetto sul blocco
 		clr.l	obj_blockprev(a0)
 		move.l	a1,obj_blocknext(a0)
@@ -2669,7 +2669,7 @@ ProdScalTable	dc.l	PST0,PST1,PST2,PST3,PST4,PST5,PST6,PST7
 
 RemoveRemains	movem.l	d2-d4/a0-a2,-(sp)
 
-		lea	ObjectsPunList-4(a5),a0
+		lea	ObjectsPunListMinus4(a5),a0
 		move.l	(a0,d0.w*4),a0		;a0=Pun. all'oggetto
 
 		;*** Elimina oggetto dallo schermo

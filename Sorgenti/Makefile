@@ -17,7 +17,7 @@ CFLAGS += -Werror -Wimplicit -Wstrict-prototypes -Wno-int-conversion -fstrict-al
 
 LFLAGS = -noixemul -lamiga -lstubs
 
-AFLAGS = -Fhunk -phxass -sd -nosym -linedebug
+AFLAGS = -Fhunk -phxass -sd -sdreg=5 -nosym -linedebug
 AFLAGS += -I$(PREFIX)/m68k-amigaos/ndk-include
 AFLAGS += -I$(PREFIX)/m68k-amigaos/ndk/include
 
@@ -57,7 +57,7 @@ clean:
 
 Breathless: $(OBJS) Makefile
 	#$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $@
-	$(LINK) -bamigahunk -L$(PREFIX)/m68k-amigaos/lib/libb -lamiga -o $@ $(OBJS)
+	$(LINK) -b amigahunk -sc -eTMapMain -Mlinker.map -L$(PREFIX)/m68k-amigaos/lib/libb -lamiga -o $@ $(OBJS)
 	$(STRIP) --strip-debug --strip-unneeded $@ -o $(BINDIR)/$@
 
 %.o: %.c Makefile

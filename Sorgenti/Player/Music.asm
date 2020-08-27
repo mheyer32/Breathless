@@ -6,6 +6,7 @@
 
 		opt	p=68020,ALINK,DEBUG,LINE,O-
 
+		section .text,code
 
 		xdef	P61_Master,P61_Play,P61_ofilter
 

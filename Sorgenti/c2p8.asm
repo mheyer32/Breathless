@@ -12,6 +12,8 @@
 
 		opt d+,o+,l+,P=68020,DEBUG,LINE
 
+		section .text,code
+
 		incdir	inc:
 
 		include	"lvo/exec_lib.i"

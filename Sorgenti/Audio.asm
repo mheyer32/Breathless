@@ -354,7 +354,7 @@ SFXBSnornd
 
 		tst.b	d5			;E' un object sound ?
 		bne.s	SFXBSnoobj		; Se no, salta
-		lea	ObjectsPunList-4(a5),a1
+		lea	ObjectsPunListMinus4(a5),a1
 		move.l	(a1,d0.w*4),d4		;d4=Pun. all'oggetto
 SFXBSnoobj
 

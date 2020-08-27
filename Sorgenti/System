@@ -20,5 +20,6 @@
 	include 'hardware/dmabits.i'
 	include 'hardware/intbits.i'
 
-;	basereg __MERGED,a5
-;	near a5
+	near a5
+
+	section .text,code

@@ -1,6 +1,8 @@
 	IFND PLAYER61_I
 PLAYER61_I SET 1
 
+	section .text,code
+
 **	$Filename: Player61.i $
 **	$Release: 6.1A $
 **	$Revision: 610.2 $
@@ -15,7 +17,6 @@ PLAYER61_I SET 1
 	IFND EXEC_TYPES_I
 	include exec/types.i
 	ENDC
-
 **************
 * The header *
 **************
