@@ -5,19 +5,20 @@ PROFILE ?= 0
 CC = m68k-amigaos-gcc
 STRIP=m68k-amigaos-strip
 ASM = vasmm68k_mot
-LINK = vlink
+VLINK = vlink
+LINK = m68k-amigaos-ld
 
 PREFIX = $(shell ./getprefix.sh "$(CC)")
+ROOT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
 CFLAGS = -noixemul
 CFLAGS += -O3 -fbaserel -m68030 -msmall-code -mregparm=4
 CFLAGS += -Werror -Wimplicit -Wstrict-prototypes -Wno-int-conversion -fstrict-aliasing
-
 #CFLAGS += -Wno-int-to-pointer-cast
 
-LFLAGS = -noixemul -lamiga -lstubs
+LFLAGS = -fbaserel -nostartfiles -nostdlib --print-map -Map link.map
 
-AFLAGS = -Fhunk -phxass -sd -sdreg=5 -nosym -linedebug
+AFLAGS = -Fhunk -phxass -sd -sdreg=5 -linedebug
 AFLAGS += -I$(PREFIX)/m68k-amigaos/ndk-include
 AFLAGS += -I$(PREFIX)/m68k-amigaos/ndk/include
 
@@ -55,9 +56,10 @@ all:	Breathless
 clean:
 	rm -rf *.o
 
+#-L$(PREFIX)/m68k-amigaos/lib/libb -lamiga
 Breathless: $(OBJS) Makefile
-	#$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $@
-	$(LINK) -b amigahunk -sc -eTMapMain -Mlinker.map -L$(PREFIX)/m68k-amigaos/lib/libb -lamiga -o $@ $(OBJS)
+	#$(LINK) $(LDFLAGS) $(OBJS) -o $@
+	$(VLINK) -b amigahunk -sc -Mlinker.map  -o $@ $(OBJS)
 	$(STRIP) --strip-debug --strip-unneeded $@ -o $(BINDIR)/$@
 
 %.o: %.c Makefile
