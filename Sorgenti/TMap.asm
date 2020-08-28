@@ -44,7 +44,7 @@
 
 ;* Inizio del programma ********************************
 
-
+_start
 		movem.l	d0-d7/a0-a6,-(sp)
 
 		GETDBASE
@@ -1152,7 +1152,12 @@ PaletteRGB32	dc.l	$01000000
 		dc.l	0
 
 ;***************************************************************************
+	section	TABLES,bss
 
+	xdef stupid
+stupid	ds.l 1
+
+;***************************************************************************
 	section	__MERGED,bss
 
 	xdef	ChunkyPointer,ChunkyBuffer,Yoffset
@@ -1300,7 +1305,6 @@ Palette		ds.b	256*3
 RedPalette	ds.b	256*3
 
 		cnop	0,4
-
 	end
 
 

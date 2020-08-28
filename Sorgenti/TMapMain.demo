@@ -2280,5 +2280,9 @@ GlobalSound10	ds.l	1	;Pun. al global sound 10
 
 		cnop	0,4
 
+; define our own _custom symbol to not have to link against amiga.lib
+		org 0xDFF000
+		xdef _custom
+_custom		ds.l	1
 
 	end
