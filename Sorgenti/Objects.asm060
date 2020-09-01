@@ -1788,7 +1788,7 @@ DOdrawloopt	clr.l	d7
 		move.w	d3,d7
 		addq.w	#1,d7
 DOnoyminclip
-		move.l	Yoffset(a5,d7.w*4),a1
+		move.l	Yoffset.w(a5,d7.w*4),a1
 		add.l	a6,a1			;a1=Pun. a video
 
 		swap	d3

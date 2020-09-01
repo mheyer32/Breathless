@@ -800,6 +800,7 @@ StopAudio
 
 ;***********************************************************************
 ;* Routine di interrupt audio
+		near a1
 
 		xdef	AudioIRQ0
 

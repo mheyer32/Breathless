@@ -43,7 +43,7 @@ ChunkyPointer	EQU	0
 
 ;		xref	ChunkyPointer,ChunkyBuffer,CurrentBitmap
 		xref	ChunkyBuffer,CurrentBitmap
-		xref	Yoffset
+		xref	Yoffset,YoffsetPlus4
 		xref	source_width
 		xref	window_width,window_height
 		xref	window_width2,window_height2,window_size
@@ -101,7 +101,7 @@ MFWtileon\@
 MFWnominclip\@	
 		move.l	a1,-(sp)
 
-		move.l	Yoffset(a5,d7.w*4),a1
+		move.l	Yoffset.w(a5,d7.w*4),a1
 		add.l	ChunkyPointer(a5),a1		;a1=Pun. a video
 
 		move.l	d3,d2
@@ -207,7 +207,9 @@ MFWfillceil\@
 		lsr.w	#1,d0
 		move.b	(a0),d7			;d7=Colore dei pixel superiori
 		add.w	d0,a0			;a0=Pun.colonna texture
-		move.l	Yoffset+4(a5,d1.w*4),a1
+
+		move.l	YoffsetPlus4.w(a5,d1.w*4),a1
+
 		add.l	ChunkyPointer(a5),a1	;a1=Pun. a video
 		subq.w	#1,d6
 
@@ -331,7 +333,7 @@ MFWtileon\@
 MFWnominclip\@	
 		move.l	a1,-(sp)
 
-		move.l	Yoffset(a5,d7.w*4),a1
+		move.l	Yoffset.w(a5,d7.w*4),a1
 		add.l	ChunkyPointer(a5),a1		;a1=Pun. a video
 
 		move.l	d7,d2
@@ -477,7 +479,7 @@ MFWtileon\@
 		move.l	d3,d7
 		addq.l	#1,d7
 MFWnominclip\@	
-		move.l	Yoffset(a5,d7.w*4),a1
+		move.l	Yoffset.w(a5,d7.w*4),a1
 		add.l	ChunkyPointer(a5),a1		;a1=Pun. a video
 
 		add.l	d6,d7
@@ -588,7 +590,7 @@ FCnoclipS\@	move.l	d7,d6
 		move.l	d7,d3
 		move.b	(a0),d7			;d7=Colore dei pixel superiori
 		add.w	d0,a0			;a0=Pun.colonna texture
-		move.l	Yoffset+4(a5,d1.w*4),a1
+		move.l	YoffsetPlus4.w(a5,d1.w*4),a1
 		add.l	ChunkyPointer(a5),a1	;a1=Pun. a video
 
 		move.l	LookHeight(a5),d0
@@ -1104,7 +1106,7 @@ MakeTextFloor
 
 		move.l	window_height(a5),d0
 		subq.l	#1,d0
-		move.l	Yoffset(a5,d0.w*4),d0
+		move.l	Yoffset.w(a5,d0.w*4),d0
 		add.l	ChunkyBuffer(a5),d0
 		move.l	d0,ChunkyPointer(a5)	;Init pun. fake chunky
 

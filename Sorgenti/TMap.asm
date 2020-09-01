@@ -1160,7 +1160,7 @@ stupid	ds.l 1
 ;***************************************************************************
 	section	__MERGED,bss
 
-	xdef	ChunkyPointer,ChunkyBuffer,Yoffset
+	xdef	ChunkyPointer,ChunkyBuffer,Yoffset,YoffsetPlus4
 
 ChunkyPointer	ds.l	1	;pun. al buffer chunky pixel. DEVE essere il primo, in modo che il suo offset rispetto ad a5 sia 0.
 				; E' usato dalle routine di tracciamento.
@@ -1169,7 +1169,8 @@ ChunkyBuffer	ds.l	1	;pun. al primo byte del buffer chunky pixel corrente.
 				;Se l'output ? AGA, corrisponde a FakeChunkyPun;
 				;Se l'output ? un vero schermo chunky pixel, corrisponde al buffer corrente in chunky pixel.
 
-Yoffset		ds.l	WINDOW_MAX_HEIGHT	;Lista di offset alle righe dello schermo chunky pixel. DEVE avere offset rispetto ad a5 di massimo 127.
+Yoffset			ds.l	1
+YoffsetPlus4	ds.l	WINDOW_MAX_HEIGHT-1	;Lista di offset alle righe dello schermo chunky pixel. DEVE avere offset rispetto ad a5 di massimo 127.
 
 
 	xdef	execbase,gfxbase,dosbase,intuitionbase

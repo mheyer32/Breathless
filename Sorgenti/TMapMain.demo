@@ -1576,7 +1576,7 @@ IVnodoub
 IVcont
 	;***** Tabella offset righe fake chunky pixel screen
 
-		lea	Yoffset(a5),a0
+		lea	Yoffset.w(a5),a0
 		move.l	source_width(a5),d1
 		move.w	window_height+2(a5),d7
 		clr.l	d0
