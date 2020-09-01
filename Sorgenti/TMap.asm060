@@ -20,7 +20,7 @@
 ;	include 'Picasso/Picasso'
 	include 'TMap.i'
 
-	include	'misc/easystart.i'
+;	include	'misc/easystart.i'
 
 
 ;... Definizioni esterne

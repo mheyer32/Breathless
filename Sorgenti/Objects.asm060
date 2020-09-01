@@ -2859,9 +2859,10 @@ ObjShots	ds.l	1	;Pun. lista proiettili armi
 ObjExplosions	ds.l	1	;Pun. lista esplosioni
 
 
-		xdef	ObjectsPunList
+		xdef	ObjectsPunList,ObjectsPunListMinus4
 
-ObjectsPunList	ds.l	MAXLEVELOBJECTS	;Lista di pun. ai singoli oggetti
+ObjectsPunListMinus4	ds.l	1
+ObjectsPunList			ds.l	MAXLEVELOBJECTS	;Lista di pun. ai singoli oggetti
 
 ;****************************************************************************
 
@@ -2897,7 +2898,7 @@ if (v - (result * result) >= (result - 1))
 return(result);
 }
 
-
+	ENDIF
 ;****************************************************************
 ;*** Routine in pseudo codice per eliminare un oggetto
 ;*** dalla lista di oggetti di un blocco
@@ -2918,4 +2919,5 @@ return(result);
 ;		.
 ;	.
 
-	ENDIF
+
+	ENDC

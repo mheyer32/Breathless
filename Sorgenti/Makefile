@@ -27,46 +27,55 @@ CFLAGS += -g -ggdb
 LFLAGS += -g -ggdb
 
 # Our application sources
-OBJS  = TMap.o \
-	Presentation.o \
-	TMapMain.o \
-	Map.o \
-	DrawScreen.o \
-	c2p8.o\
-	3d.o \
-	Interrupt.o \
-	movement.o \
-	sincos.o \
-	Text.o \
-	Animations.o \
-	Objects.o \
-	Scores.o \
-	devices.o \
-	Loader.o \
-	FileAccess.o \
-	Terminal.o \
-	Audio.o \
-	SecurityCode1.o \
-	Player/Music.o \
-	Last.o
+OBJS_COMMON  =	sincos.o \
+				Animations.o \
+				Presentation.o \
+				TMapMain.o \
+				Map.o \
+				c2p8.o\
+				Interrupt.o \
+				movement.o \
+				Text.o \
+				Scores.o \
+				devices.o \
+				Loader.o \
+				FileAccess.o \
+				Terminal.o \
+				Audio.o \
+				SecurityCode1.o \
+				Player/Music.o \
+				Last.o
+
+OBJS_030 = TMap.o \
+		   DrawScreen.o \
+		   3d.o \
+		   Objects.o
+
+OBJS_060 = TMap060.o \
+		   DrawScreen060.o \
+		   3d060.o \
+		   Objects060.o
+
 
 # Make all of the applications
-all:	Breathless
+all:	Breathless Breathless060
 
 clean:
 	rm -rf *.o
 
-#-L$(PREFIX)/m68k-amigaos/lib/libb -lamiga
-Breathless: $(OBJS) Makefile
-	#$(LINK) $(LDFLAGS) $(OBJS) -o $@
-	$(VLINK) -b amigahunk -sc -Mlinker.map  -o $@ $(OBJS)
+Breathless: $(OBJS_030) $(OBJS_COMMON) | Makefile
+	$(VLINK) -b amigahunk -sc -Mlinker.map  -o $@ $^
 	$(STRIP) --strip-debug --strip-unneeded $@ -o $(BINDIR)/$@
+
+Breathless060: $(OBJS_060) $(OBJS_COMMON) | Makefile
+		$(VLINK) -b amigahunk -sc -Mlinker.map  -o $@ $^
+		$(STRIP) --strip-debug --strip-unneeded $@ -o $(BINDIR)/$@
 
 %.o: %.c Makefile
 	$(CC) $(CFLAGS) -c $< -o $@
 
 %.o: %.asm | Makefile
-	$(ASM) $(AFLAGS) -m68030 $^
+	$(ASM) $(AFLAGS) -m68030 $^ -o $@
 
-%.o: %.asm060 | Makefile
-	$(ASM) $(AFLAGS) -m68060 $^
+%060.o: %.asm060 | Makefile
+	$(ASM) $(AFLAGS) -m68060 $^ -o $@
