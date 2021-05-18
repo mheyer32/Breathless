@@ -42,7 +42,6 @@ OBJS_COMMON  =	sincos.o \
 				FileAccess.o \
 				Terminal.o \
 				Audio.o \
-				SecurityCode1.o \
 				Player/Music.o \
 				Last.o
 
