@@ -51,9 +51,9 @@ _start
 
 	;*** Azzera tutte le variabili della section __MERGED,BSS
 
-		move.l	a5,a0
+		lea -32766(a5),a0
 		move.l	#LastBSSdata,d0
-		sub.l	a5,d0
+		sub.l	a0,d0
 		lsr.l	#2,d0
 		subq.w	#1,d0
 clrbss		clr.l	(a0)+
