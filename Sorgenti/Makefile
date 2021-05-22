@@ -60,7 +60,7 @@ OBJS_060 = TMap060.o \
 all:	Breathless Breathless060
 
 clean:
-	rm -rf *.o
+	rm -rf $(OBJS_COMMON) $(OBJS_030) $(OBJS_060) Breathless Breathless060
 
 Breathless: $(OBJS_030) $(OBJS_COMMON) | Makefile
 	$(VLINK) -b amigahunk -sc -Mlinker.map  -o $@ $^
