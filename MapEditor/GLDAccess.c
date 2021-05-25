@@ -1238,7 +1238,7 @@ int WriteTexturesGLD() {
 	if(!MakeFileName(filename1, ProjectDir, ProjectPrefix, ProjectTextFileName, ".gld", FILENAME_LEN)) return(1);
 	if(!MakeFileName(filename2, ProjectDir, ProjectPrefix, ProjectTextFileName, ".newgld", FILENAME_LEN)) return(1);
 
-	if((oldfile = Open((STRPTR)filename1, MODE_OLDFILE)) != 0) {
+	if((oldfile = Open((STRPTR)filename1, MODE_OLDFILE)) == 0) {
 		err=IoErr();
 		if(err!=0 && err!=ERROR_OBJECT_NOT_FOUND)
 			if(ErrorReport(err, REPORT_STREAM, (ULONG)oldfile, NULL)) return(TRUE);
@@ -1421,7 +1421,7 @@ int WriteObjectsGLD() {
 
 	printf("WriteObjectsGLD(%ls)\n",filename1);
 
-	if((oldfile = Open((STRPTR)filename1, MODE_OLDFILE)) != 0) {
+	if((oldfile = Open((STRPTR)filename1, MODE_OLDFILE)) == 0) {
 		err=IoErr();
 		if(err!=0 && err!=ERROR_OBJECT_NOT_FOUND)
 			if(ErrorReport(err, REPORT_STREAM, (ULONG)oldfile, NULL)) return(TRUE);
@@ -1584,7 +1584,7 @@ int WriteGfxGLD() {
 
 	printf("WriteGfxGLD(%ls)  ",filename1);
 
-	if((oldfile = Open((STRPTR)filename1, MODE_OLDFILE)) != 0) {
+	if((oldfile = Open((STRPTR)filename1, MODE_OLDFILE)) == 0) {
 		err=IoErr();
 		if(err!=0 && err!=ERROR_OBJECT_NOT_FOUND)
 			if(ErrorReport(err, REPORT_STREAM, (ULONG)oldfile, NULL)) return(TRUE);
@@ -1809,7 +1809,7 @@ int WriteSoundsGLD() {
 
 	printf("WriteSoundsGLD(%ls)  ",filename1);
 
-	if((oldfile = Open((STRPTR)filename1, MODE_OLDFILE)) != 0) {
+	if((oldfile = Open((STRPTR)filename1, MODE_OLDFILE)) == 0) {
 		err=IoErr();
 		if(err!=0 && err!=ERROR_OBJECT_NOT_FOUND)
 			if(ErrorReport(err, REPORT_STREAM, (ULONG)oldfile, NULL)) return(TRUE);
