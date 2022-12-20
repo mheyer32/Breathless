@@ -40,10 +40,10 @@
 		include	'MulDiv64.i'
 		include	'System'
 
-;ChunkyPointer	EQU	0
+;ChunkyPointer	EQU	0  ; This doesn't work, we can't enforce the place of ChunkyPointer in BSS __MERGED this way
 
 		xref	ChunkyPointer,ChunkyBuffer,CurrentBitmap
-		xref	ChunkyBuffer,CurrentBitmap
+;		xref	ChunkyBuffer,CurrentBitmap
 		xref	Yoffset,YoffsetPlus4
 		xref	source_width
 		xref	window_width,window_height
