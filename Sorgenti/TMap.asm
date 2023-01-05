@@ -753,8 +753,8 @@ CCLloop3	move.l	(a3)+,d4
 
 	;*** Installa custom copper list
 
-;		move.l	screen_viewport(a5),a3
-;
+		move.l	screen_viewport(a5),a3
+
 ;		EXECBASE
 ;		CALLSYS	Forbid
 ;
