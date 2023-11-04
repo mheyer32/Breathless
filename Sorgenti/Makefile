@@ -32,7 +32,8 @@ OBJS_COMMON  =	sincos.o \
 				Presentation.o \
 				TMapMain.o \
 				Map.o \
-				c2p8.o\
+				c2pnew.o \
+				c2p1x1_8_c5_040.o \
 				Interrupt.o \
 				movement.o \
 				Text.o \
