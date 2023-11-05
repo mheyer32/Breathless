@@ -37,6 +37,7 @@
 
 
 		include	'TMap.i'
+		include	'MulDiv64.i'
 		include	'System'
 
 ChunkyPointer	EQU	0
@@ -207,9 +208,7 @@ MFWfillceil\@
 		lsr.w	#1,d0
 		move.b	(a0),d7			;d7=Colore dei pixel superiori
 		add.w	d0,a0			;a0=Pun.colonna texture
-
 		move.l	YoffsetPlus4.w(a5,d1.w*4),a1
-
 		add.l	ChunkyPointer(a5),a1	;a1=Pun. a video
 		subq.w	#1,d6
 
@@ -783,7 +782,7 @@ MFWloope	move.l	(a2)+,d2	;d2=distance
 
 		move.l	d2,d1
 		add.l	d1,d1
-		mulu.l	windowYratio(a5),d0:d1	;Aggiusta la distanza in base alle dimensioni della finestra
+		MULU64	windowYratio(a5),d0,d1,d2,d3,d4	;Aggiusta la distanza in base alle dimensioni della finestra
 		move.b	bl_Illumination(a1),d1
 		extb.l	d1
 		add.l	d1,d0			;d0=Indice lighting table
@@ -1016,22 +1015,22 @@ MTCloopx	move.w	(a1)+,d6		;d6=x2
 		divs.l	(sp),d4		;d4=T
 
 		move.l	8(a2,d1.w*8),d2
-		muls.l	d4,d5:d2
+		MULS64	d4,d5,d2,d0,d1,d3,d6,d7
 		move.w	d5,d2
 		swap	d2		;d2=U2
 
 		move.l	12(a2,d1.w*8),d3
-		muls.l	d4,d5:d3
+		MULS64	d4,d5,d3,d0,d1,d2,d6,d7
 		move.w	d5,d3
 		swap	d3		;d3=V2
 
 		move.l	(a2,d1.w*8),d0
-		muls.l	d4,d5:d0
+		MULS64	d4,d5,d0,d1,d2,d3,d6,d7
 		move.w	d5,d0
 		swap	d0		;d0=U1
 
 		move.l	4(a2,d1.w*8),d1
-		muls.l	d4,d5:d1
+		MULS64	d4,d5,d1,d0,d2,d3,d6,d7
 		move.w	d5,d1
 		swap	d1		;d1=V1
 
@@ -1043,7 +1042,7 @@ MTCloopx	move.w	(a1)+,d6		;d6=x2
 
 		neg.l	d4
 		add.l	d4,d4
-		mulu.l	windowYratio(a5),d5:d4	;Aggiusta la distanza in base alle dimensioni della finestra
+		MULU64	windowYratio(a5),d5,d4,d0,d1,d2	;Aggiusta la distanza in base alle dimensioni della finestra
 		move.b	bl_Illumination(a3),d4
 		extb.l	d4
 		add.l	d4,d5			;d5=Indice lighting table
@@ -1151,22 +1150,22 @@ MTFloopx	move.w	(a1)+,d6		;d6=x2
 		divs.l	(sp),d4		;d4=T
 
 		move.l	8(a2,d1.w*8),d2
-		muls.l	d4,d5:d2
+		MULS64	d4,d5,d2,d0,d1,d3,d6,d7
 		move.w	d5,d2
 		swap	d2		;d2=U2
 
 		move.l	12(a2,d1.w*8),d3
-		muls.l	d4,d5:d3
+		MULS64	d4,d5,d3,d0,d1,d2,d6,d7
 		move.w	d5,d3
 		swap	d3		;d3=V2
 
 		move.l	(a2,d1.w*8),d0
-		muls.l	d4,d5:d0
+		MULS64	d4,d5,d0,d1,d2,d3,d6,d7
 		move.w	d5,d0
 		swap	d0		;d0=U1
 
 		move.l	4(a2,d1.w*8),d1
-		muls.l	d4,d5:d1
+		MULS64	d4,d5,d1,d0,d2,d3,d6,d7
 		move.w	d5,d1
 		swap	d1		;d1=V1
 
@@ -1178,7 +1177,7 @@ MTFloopx	move.w	(a1)+,d6		;d6=x2
 
 		neg.l	d4
 		add.l	d4,d4
-		mulu.l	windowYratio(a5),d5:d4	;Aggiusta la distanza in base alle dimensioni della finestra
+		MULU64	windowYratio(a5),d5,d4,d0,d1,d2	;Aggiusta la distanza in base alle dimensioni della finestra
 		move.b	bl_Illumination(a3),d4
 		extb.l	d4
 		add.l	d4,d5			;d5=Indice lighting table

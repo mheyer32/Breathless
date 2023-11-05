@@ -16,6 +16,7 @@
 
 
 	include 'System'
+	include 'MulDiv64.i'
 ;	include 'Picasso/Picasso'
 	include 'TMap.i'
 
@@ -806,8 +807,7 @@ GetTime
 second_time:
 		sub.l	d2,d4
 		subx.l	d1,d3			; d3 now=elapsed time
-
-		mulu.l	MicrosPerEClock(a5),d3:d4
+		MULU64	MicrosPerEClock(a5),d3,d4,d0,d1,d2
 		move.w	d3,d4
 		swap	d4
 		move.l	d4,d0

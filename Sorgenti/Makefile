@@ -81,8 +81,14 @@ Breathless060: $(OBJS_060) $(OBJS_COMMON) | Makefile
 %.o: %.c Makefile
 	$(CC) $(CFLAGS) -c $< -o $@
 
-%.o: %.asm | Makefile
-	$(ASM) $(AFLAGS) -m68030 $^ -o $@
+ASMDEPS=Makefile TMap.i MulDiv64.i
 
-%060.o: %.asm060 | Makefile
-	$(ASM) $(AFLAGS) -m68060 $^ -o $@
+%.o: %.asm $(ASMDEPS)
+	$(ASM) $(AFLAGS) -m68030 $< -o $@
+
+%060.o: %.asm060 $(ASMDEPS)
+	$(ASM) $(AFLAGS) -m68060 $< -o $@
+
+%060.o: %.asm $(ASMDEPS)
+	$(ASM) $(AFLAGS) -m68060 $< -o $@
+

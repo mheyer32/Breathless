@@ -12,6 +12,7 @@
 ;***************************************************************
 
 		include	'TMap.i'
+		include	'MulDiv64.i'
 		include	'System'
 
 WINDOW_WIDTH	EQU	112
@@ -98,12 +99,12 @@ Rxloop
 	;*** Calcola il raggio passante per la colonna d7 a video
 		move.l	PlayerViewDirZ(a5),d0
 		move.l	d0,d3
-		muls.l	d7,d4:d0		;d0=ViewDirZ * X
+		MULS64	d7,d4,d0,d1,d2,d3,d5,d6	;d0=ViewDirZ * X
 		move.w	d4,d0
 		swap	d0
 		move.l	PlayerViewDirX(a5),d1
 		move.l	d1,d2
-		muls.l	d7,d4:d1		;d1=ViewDirX * X
+		MULS64	d7,d4,d1,d0,d2,d3,d5,d6	;d1=ViewDirX * X
 		move.w	d4,d1
 		swap	d1
 		asl.l	#7,d2			;d2=ViewDirX * D ,  con D=128
@@ -111,10 +112,10 @@ Rxloop
 		sub.l	d0,d2			;d2=RayDirX
 		add.l	d1,d3			;d3=RayDirZ
 
-		muls.l	windowYratio(a5),d0:d2
+		MULS64	windowYratio(a5),d0,d2,d1,d3,d4,d5,d6
 		move.w	d0,d2
 		swap	d2
-		muls.l	windowYratio(a5),d0:d3
+		MULS64	windowYratio(a5),d0,d3,d1,d2,d4,d5,d6
 		move.w	d0,d3
 		swap	d3
 
@@ -138,24 +139,24 @@ Rxloop
 
 		clr.l	(a1)		;Segnala la fine della lista di blocchi in vista contenenti oggetti
 
-                IFD     DEVMODE
+        IFD DEVMODE
 	jsr	GetTime
 	move.l	d0,times(a5)	;Ray casting time
-                ENDC    SHOWTIME
+        ENDC
 
 		jsr	MakeFrame
 
-                IFD     DEVMODE
+        IFD DEVMODE
 	jsr	GetTime
 	move.l	d0,times+4(a5)	;Wall rendering time
-                ENDC
+        ENDC
 
 		jsr	DrawObjects
 
-                IFD     DEVMODE
+        IFD DEVMODE
 	jsr	GetTime
 	move.l	d0,times+8(a5)	;Object rendering time
-                ENDC
+        ENDC
 
 		rts
 
@@ -174,24 +175,24 @@ RayCastX	MACRO
 		move.l	d4,a4		;Copia d4 in a4
 
 		move.l	d5,d1
-		muls.l	d2,d3:d1
+		MULS64	d2,d3,d1,d0,d4,d5,d6,d7
 		move.w	d3,d1
 		swap	d1
 		add.l	PlayerZ(a5),d1	;d1=Z+=(contdistx * RayDirZ)
 
-		muls.l	d2,d3:d4
+		MULS64	d2,d3,d4,d0,d1,d5,d6,d7
 		move.w	d3,d4
 		swap	d4
 		move.l	d4,d3		;d3=DZ=(somdistx * RayDirZ)
 
 		move.l	d7,d0
-		muls.l	RayDirX(a5),d4:d0
+		MULS64	RayDirX(a5),d4,d0,d1,d2,d3,d5,d6
 		move.w	d4,d0
 		swap	d0
 		add.l	PlayerX(a5),d0	;d0=X+=(contdistz * RayDirX)
 
 		move.l	d6,d2
-		muls.l	RayDirX(a5),d4:d2
+		MULS64	RayDirX(a5),d4,d2,d0,d1,d3,d5,d6
 		move.w	d4,d2
 		swap	d2		;d2=DX=(somdistz * RayDirX)
 
@@ -358,7 +359,7 @@ RCXOout\@
 
 RayCastZ	MACRO
 		clr.l	d6
-		divs.l	d2,d3:d6	;d6=somdistz=(SZ / RaydirZ) = distanza, lungo il raggio, tra un blocco e il successivo
+		DIVS64	d2,d3,d6,d0,d1,d4	;d6=somdistz=(SZ / RaydirZ) = distanza, lungo il raggio, tra un blocco e il successivo
 
 		move.l	d1,d7
 		sub.l	PlayerZ(a5),d7
@@ -367,30 +368,30 @@ RayCastZ	MACRO
 		ext.l	d3
 		swap	d7
 		clr.w	d7
-		divs.l	d2,d3:d7	;d7=contdistx=((Z-PlayerZ) / RayDirZ)
+		DIVS64	d2,d3,d7,d0,d1,d4	;d7=contdistx=((Z-PlayerZ) / RayDirZ)
 
 
 		move.l	d4,a4		;Copia d4 in a4
 
 		move.l	d5,d1
-		muls.l	d2,d3:d1
+		MULS64	d2,d3,d1,d0,d4,d5,d6,d7
 		move.w	d3,d1
 		swap	d1
 		add.l	PlayerZ(a5),d1	;d1=Z+=(contdistx * RayDirZ)
 
-		muls.l	d2,d3:d4
+		MULS64	d2,d3,d4,d0,d1,d5,d6,d7
 		move.w	d3,d4
 		swap	d4
 		move.l	d4,d3		;d3=DZ=(somdistx * RayDirZ)
 
 		move.l	d7,d0
-		muls.l	RayDirX(a5),d4:d0
+		MULS64	RayDirX(a5),d4,d0,d1,d2,d3,d5,d6
 		move.w	d4,d0
 		swap	d0
 		add.l	PlayerX(a5),d0	;d0=X+=(contdistz * RayDirX)
 
 		move.l	d6,d2
-		muls.l	RayDirX(a5),d4:d2
+		MULS64	RayDirX(a5),d4,d2,d0,d1,d3,d5,d6
 		move.w	d4,d2
 		swap	d2		;d2=DX=(somdistz * RayDirX)
 
@@ -598,7 +599,7 @@ RCXj1
 		add.l	#BLOCK_SIZE<<16,d0	;d0=X+=SX
 
 		clr.l	d4
-		divs.l	d2,d3:d4	;d4=somdistx=(SX / RaydirX) = distanza, lungo il raggio, tra un blocco e il successivo
+		DIVS64	d2,d3,d4,d0,d1,d5	;d4=somdistx=(SX / RaydirX) = distanza, lungo il raggio, tra un blocco e il successivo
 
 		move.l	d0,d5
 		sub.l	PlayerX(a5),d5
@@ -607,14 +608,14 @@ RCXj1
 		ext.l	d3
 		swap	d5
 		clr.w	d5
-		divs.l	d2,d3:d5	;d5=contdistx=((X-PlayerX) / RayDirX)
+		DIVS64	d2,d3,d5,d0,d1,d4	;d5=contdistx=((X-PlayerX) / RayDirX)
 
 		move.l	RayDirZ(a5),d2
 		bmi	RCXrdzmin		;RayDirZ<0 ?
 		bne.s	RCXrdzn1		;RayDirZ=0 ?
 		clr.l	d6			;d6=somdistz
 		clr.l	d7			;d7=contdistz
-		bra.s	RCXrdzmok1
+		bra	RCXrdzmok1
 RCXrdzn1
 
 ;***** Ciclo per raggi con RayDirX>=RayDirZ e RayDirX>0 e RayDirZ>0
@@ -624,7 +625,7 @@ RCXrdzn1
 		move.w	#GRID_SIZE<<2,a2	;a2=sompointerz
 
 		clr.l	d6
-		divs.l	d2,d3:d6	;d6=somdistz=(SZ / RaydirZ) = distanza, lungo il raggio, tra un blocco e il successivo
+		DIVS64	d2,d3,d6,d0,d1,d4	;d6=somdistz=(SZ / RaydirZ) = distanza, lungo il raggio, tra un blocco e il successivo
 
 		move.l	d1,d7
 		sub.l	PlayerZ(a5),d7
@@ -633,7 +634,7 @@ RCXrdzn1
 		ext.l	d3
 		swap	d7
 		clr.w	d7
-		divs.l	d2,d3:d7	;d7=contdistx=((Z-PlayerZ) / RayDirZ)
+		DIVS64	d2,d3,d7,d0,d1,d4	;d7=contdistx=((Z-PlayerZ) / RayDirZ)
 RCXrdzmok1
 		RayCastX bl_Edge3,bl_Edge4,2	;Call macro
 
@@ -646,7 +647,7 @@ RCXrdzmin	move.l	#-(BLOCK_SIZE),d3	;d3=SZ
 		move.w	#-(GRID_SIZE<<2),a2	;a2=sompointerz
 
 		clr.l	d6
-		divs.l	d2,d3:d6	;d6=somdistz=(SZ / RaydirZ) = distanza, lungo il raggio, tra un blocco e il successivo
+		DIVS64	d2,d3,d6,d0,d1,d4	;d6=somdistz=(SZ / RaydirZ) = distanza, lungo il raggio, tra un blocco e il successivo
 
 		move.l	d1,d7
 		sub.l	PlayerZ(a5),d7
@@ -655,7 +656,7 @@ RCXrdzmin	move.l	#-(BLOCK_SIZE),d3	;d3=SZ
 		ext.l	d3
 		swap	d7
 		clr.w	d7
-		divs.l	d2,d3:d7	;d7=contdistx=((Z-PlayerZ) / RayDirZ)
+		DIVS64	d2,d3,d7,d0,d1,d4	;d7=contdistx=((Z-PlayerZ) / RayDirZ)
 
 		RayCastX bl_Edge3,bl_Edge2,2	;Call macro
 
@@ -669,7 +670,7 @@ RCXrdzmin	move.l	#-(BLOCK_SIZE),d3	;d3=SZ
 RCXrdxmin	move.l	#-(BLOCK_SIZE),d3	;d3=SX
 
 		clr.l	d4
-		divs.l	d2,d3:d4	;d4=somdistx=(SX / RaydirX) = distanza, lungo il raggio, tra un blocco e il successivo
+		DIVS64	d2,d3,d4,d0,d1,d5	;d4=somdistx=(SX / RaydirX) = distanza, lungo il raggio, tra un blocco e il successivo
 
 		move.l	d0,d5
 		sub.l	PlayerX(a5),d5
@@ -678,14 +679,14 @@ RCXrdxmin	move.l	#-(BLOCK_SIZE),d3	;d3=SX
 		ext.l	d3
 		swap	d5
 		clr.w	d5
-		divs.l	d2,d3:d5	;d5=contdistx=((X-PlayerX) / RayDirX)
+		DIVS64	d2,d3,d5,d0,d1,d4	;d5=contdistx=((X-PlayerX) / RayDirX)
 
 		move.l	RayDirZ(a5),d2
 		bmi	RCXrdzmin2		;RayDirZ<0 ?
 		bne.s	RCXrdzn2		;RayDirZ=0 ?
 		clr.l	d6			;d6=somdistz
 		clr.l	d7			;d7=contdistz
-		bra.s	RCXrdzmok2
+		bra	RCXrdzmok2
 RCXrdzn2
 
 ;***** Ciclo per raggi con RayDirX>=RayDirZ e RayDirX<0 e RayDirZ>0
@@ -695,7 +696,7 @@ RCXrdzn2
 		move.w	#GRID_SIZE<<2,a2	;a2=sompointerz
 
 		clr.l	d6
-		divs.l	d2,d3:d6	;d6=somdistz=(SZ / RaydirZ) = distanza, lungo il raggio, tra un blocco e il successivo
+		DIVS64	d2,d3,d6,d0,d1,d4	;d6=somdistz=(SZ / RaydirZ) = distanza, lungo il raggio, tra un blocco e il successivo
 
 		move.l	d1,d7
 		sub.l	PlayerZ(a5),d7
@@ -704,7 +705,7 @@ RCXrdzn2
 		ext.l	d3
 		swap	d7
 		clr.w	d7
-		divs.l	d2,d3:d7	;d7=contdistx=((Z-PlayerZ) / RayDirZ)
+		DIVS64	d2,d3,d7,d0,d1,d4	;d7=contdistx=((Z-PlayerZ) / RayDirZ)
 RCXrdzmok2
 		RayCastX bl_Edge1,bl_Edge4,-2	;Call macro
 
@@ -717,7 +718,7 @@ RCXrdzmin2	move.l	#-(BLOCK_SIZE),d3	;d3=SZ
 		move.w	#-(GRID_SIZE<<2),a2	;a2=sompointerz
 
 		clr.l	d6
-		divs.l	d2,d3:d6	;d6=somdistz=(SZ / RaydirZ) = distanza, lungo il raggio, tra un blocco e il successivo
+		DIVS64	d2,d3,d6,d0,d1,d4	;d6=somdistz=(SZ / RaydirZ) = distanza, lungo il raggio, tra un blocco e il successivo
 
 		move.l	d1,d7
 		sub.l	PlayerZ(a5),d7
@@ -726,7 +727,7 @@ RCXrdzmin2	move.l	#-(BLOCK_SIZE),d3	;d3=SZ
 		ext.l	d3
 		swap	d7
 		clr.w	d7
-		divs.l	d2,d3:d7	;d7=contdistx=((Z-PlayerZ) / RayDirZ)
+		DIVS64	d2,d3,d7,d0,d1,d4	;d7=contdistx=((Z-PlayerZ) / RayDirZ)
 
 		RayCastX bl_Edge1,bl_Edge2,-2	;Call macro
 
@@ -756,12 +757,12 @@ RCZj1
 		bne.s	RCZrdxn1		;RayDirX=0 ?
 		clr.l	d4			;d4=somdistx
 		clr.l	d5			;d5=contdistx
-		bra.s	RCZrdxmok1
+		bra	RCZrdxmok1
 RCZrdxn1	move.l	#BLOCK_SIZE,d3		;d3=SX
 		add.l	#BLOCK_SIZE<<16,d0	;d0=X+=SX
 
 		clr.l	d4
-		divs.l	d2,d3:d4	;d4=somdistx=(SX / RaydirX) = distanza, lungo il raggio, tra un blocco e il successivo
+		DIVS64	d2,d3,d4,d0,d1,d5	;d4=somdistx=(SX / RaydirX) = distanza, lungo il raggio, tra un blocco e il successivo
 
 		move.l	d0,d5
 		sub.l	PlayerX(a5),d5
@@ -770,7 +771,7 @@ RCZrdxn1	move.l	#BLOCK_SIZE,d3		;d3=SX
 		ext.l	d3
 		swap	d5
 		clr.w	d5
-		divs.l	d2,d3:d5	;d5=contdistx=((X-PlayerX) / RayDirX)
+		DIVS64	d2,d3,d5,d0,d1,d4	;d5=contdistx=((X-PlayerX) / RayDirX)
 RCZrdxmok1
 		move.l	RayDirZ(a5),d2
 		bmi	RCZrdzmin1		;RayDirZ<0 ?
@@ -801,7 +802,7 @@ RCZrdzmin1	move.l	#-(BLOCK_SIZE),d3	;d3=SZ
 RCZrdxmin	move.l	#-(BLOCK_SIZE),d3	;d3=SX
 
 		clr.l	d4
-		divs.l	d2,d3:d4	;d4=somdistx=(SX / RaydirX) = distanza, lungo il raggio, tra un blocco e il successivo
+		DIVS64	d2,d3,d4,d0,d1,d5	;d4=somdistx=(SX / RaydirX) = distanza, lungo il raggio, tra un blocco e il successivo
 
 		move.l	d0,d5
 		sub.l	PlayerX(a5),d5
@@ -810,7 +811,7 @@ RCZrdxmin	move.l	#-(BLOCK_SIZE),d3	;d3=SX
 		ext.l	d3
 		swap	d5
 		clr.w	d5
-		divs.l	d2,d3:d5	;d5=contdistx=((X-PlayerX) / RayDirX)
+		DIVS64	d2,d3,d5,d0,d1,d4	;d5=contdistx=((X-PlayerX) / RayDirX)
 
 		move.l	RayDirZ(a5),d2
 		bmi	RCZrdzmin2		;RayDirZ<0 ?
@@ -834,6 +835,240 @@ RCZrdzmin2	move.l	#-(BLOCK_SIZE),d3	;d3=SZ
 		RayCastZ bl_Edge2,bl_Edge1,-2	;Call macro
 
 		rts
+
+        ; divs.l    d2,d1:d0
+        ; Thanks to Thomas Richter
+        ;https://eab.abime.net/showthread.php?t=104901
+        ;; signed 64/32 divide, 68060 function
+SDiv64:
+    movem.l    d2-d7/a2-a5,-(sp)
+
+    sub.l    a2,a2        ;sign flag divisor
+    sub.l    a3,a3        ;sign flag dividend
+    move.l    d0,a4
+    move.l    d1,a5        ;save original contents
+
+    move.l    d2,d7        ;save divisor
+    bpl.s    1$        ;make positive
+    addq.w    #1,a2        ;set flag
+    neg.l    d7
+1$:
+
+    move.l    d0,d6
+    move.l    d1,d5        ;save dividend
+    bpl.s    2$
+    addq.w    #1,a3        ;set flag
+    neg.l    d6
+    negx.l    d5        ;invert
+2$:
+    tst.l    d5        ;is the high non-zero? If so, full divide
+    bne.s    3$
+
+    tst.l    d6        ;is low zero?
+    beq.s    10$        ;yes, we are done
+
+    ;; here low <> 0
+    cmp.l    d6,d7        ;is the divisor <= lo (dividend)
+    bls.s    5$        ;yes, use a 32-bit divide
+
+    exg.l    d5,d6        ;q = 0, r = dividend
+    bra.s    6$        ;can't divide, done
+5$:    
+    divul.l    d7,d5:d6                    ;# it's only a 32/32 bit div!
+    bra.b    6$
+3$:    ;; full 64 bit case here. do we have an overflow?
+    cmp.l    d5,d7
+    bls.s    7$        ;yes
+    ;; here full 64/32 divide
+    bsr    AlgorithmD    ;perform classical algorithm D from Knuth
+    ;; remainder in d6, quotient in d5
+6$:    ;done here, check whether there is a sign switch
+    cmp.w    #0,a3
+    beq.s    8$
+    neg.l    d5        ;remainder has the same sign as dividend
+8$:
+    cmp.w    a2,a3        ;same signs of divisor and dividend?
+    beq.s    9$
+
+    cmp.l    #$80000000,d6    ;representable as 32-bit negative number?
+    bhi.s    7$        ;overflow
+    neg.l    d6        ;make a 2s complement for quotient
+    bra.s    10$
+9$:                ;here positive
+    tst.l    d6        ;will fit into 32 bits?
+    bmi.s    7$        ;overflow if not
+10$:                ;here done
+    move.l    d5,d1        ;remainder -> d1
+    move.l    d6,d0        ;quotient -> d0
+    andi.b    #$fc,ccr    ;clear V and C
+    bra.s    11$
+7$:
+    move.l    a4,d0        ;restore original register content
+    move.l    a5,d1
+    ori.b    #$2,ccr        ;set overflow bit
+11$:
+    movem.l    (sp)+,d2-d7/a2-a5
+    rts
+
+    ;; division algorithm. This is either a
+    ;; full algorithmD from Knuth "The Art of Programming", Vol.2
+    ;; or using a 32:16 division in case the divisor fits
+    ;; into 16 bits.
+    ;; This algorithm divides d5:d6 by d7
+AlgorithmD:    
+    swap    d7
+    tst.w    d7
+    bne.s    1$
+    ;; ok, we only need to divide by 16 bits, so
+    ;; things are somewhat simpler
+    swap    d7        ; restore divisor
+    ;; note that we already know that the division
+    ;; does not overflow (checked upwards)
+    moveq    #0,d1
+
+    swap    d5        ; same as r*b if previous step rqd
+    swap    d6        ; get u3 to lsw position
+    move.w    d6,d5        ; rb + u3
+
+    divu.w    d7,d5
+
+    move.w    d5,d1        ; first quotient word
+    swap    d6        ; get u4
+    move.w    d6,d5        ; rb + u4
+
+    divu.w    d7,d5
+
+    swap    d1
+    move.w    d5,d1        ; 2nd quotient 'digit'
+    clr.w    d5        
+    swap    d5        ;now remainder
+    move.l    d1,d6        ; and quotient
+    rts    
+1$:
+    swap d7            ; restore divisor
+    ;; classical algorithm D.
+    ;; In this algorithm, the divisor is treated as a 2 digit (word) number
+    ;; which is divided into a 3 digit (word) dividend to get one quotient
+    ;; digit (word). After subtraction, the dividend is shifted and the
+    ;; process repeated. Before beginning, the divisor and quotient are
+    ;; 'normalized' so that the process of estimating the quotient digit
+    ;; will yield verifiably correct results..
+    moveq    #0,d4                        ;all the flags in d4
+ddnchk:
+    ;; normalize/upshift the divisor to use full 32 bits, adjust dividend with it.
+    ;; the number of shifts goes into d4
+    ;; note that d7 is at least 0x00010000
+    tst.l    d7
+    bmi.b    ddnormalized
+ddnchk2:
+    addq.l    #$1,d4                        ;count in d4
+    lsl.l    #$1,d6                        ;# shift u4,u3 with overflow to u2
+    roxl.l    #$1,d5                        ;# shift u1,u2 
+    lsl.l    #$1,d7                        ;# shift the divisor
+    bpl.b    ddnchk2
+
+    swap    d4                        ;keep lo-word free
+
+ddnormalized:
+    ;; Now calculate an estimate of the quotient words (msw first, then lsw).
+    ;; The comments use subscripts for the first quotient digit determination.
+    move.l    d7,d3                        ;# divisor
+    move.l    d5,d2                        ;# dividend mslw
+    swap    d3
+    swap    d2
+    move.w    #$ffff,d1                    ;# use max trial quotient word
+    cmp.w    d3,d2                        ;# V1 = U1 ?
+    beq.b    ddadj0
+
+    move.l    d5,d1
+    divu.w    d3,d1                        ;# use quotient of mslw/msw
+ddadj0:
+
+    ;; now test the trial quotient and adjust. This step plus the
+    ;; normalization assures (according to Knuth) that the trial
+    ;; quotient will be at worst 2 too large.
+    ;; NOTE: We do not perform step D3 here. This is not required, as
+    ;; D4 is sufficient for adjusting a quotient that has been guessed
+    ;; "too large". At most, it can be off by two (easy to prove).
+
+    move.l    d7,d2        ;V1V2->d2
+
+    ;; at this stage, d1 is scaled by 1<<16. Evaluate the 32x32 product d1'0xd7->d2(hi),d3(lo)
+    ;; d0,d2,d3,d6 are scratches
+
+    move.l    d7,d0        ;V1V2->d0
+    swap     d2        ;get hi of d7 = V1
+    mulu.w    d1,d0        ;V2*q: scaled by 2^16, must be split in higher/lower pair
+    mulu.w    d1,d2        ;V1*q: the upper 32 bit = V1*q, must be scaled by 2^32
+    move.l    d0,d3        ;get lo
+    clr.w    d0        ;clear lo
+    swap    d3        ;part of it
+    swap    d0        ;swap: scale by 2^16: This must be added to hi
+    clr.w    d3        ;shift up by 16
+    add.l    d0,d2        ;add to hi
+
+    sub.l    d3,d6        
+    subx.l    d2,d5        ; subtract double precision
+    bcc.s    dd2nd        ; no carry, do next quotient digit
+
+    ;; need to add back divisor longword to current ms 3 digits of dividend
+    ;; - according to Knuth, this is done only 2 out of 65536 times for random
+    ;; divisor, dividend selection.
+    ;;
+    ;; thor: computations show that this loop is run at most twice.
+    ;; this is better than knuth in this specific case because we
+    ;; avoid the multiplications in D3 and this step here (D4) is 
+    ;; only addition.
+
+    move.l    d7,d3
+    move.l    d7,d2        ; add V1V20 back to U1U2U3U4
+    swap    d3
+    clr.w    d2
+    clr.w    d3
+    swap    d2        ; d3 now ls word of divisor
+ddaddup:
+    subq.l    #$1,d1        ; q is one too large
+    add.l    d3,d6        ; aligned with 3rd word of dividend
+    addx.l    d2,d5
+    bcc    ddaddup        ; until we're positive again
+dd2nd:
+    tst.l    d4
+    bmi.s    ddremain
+
+;# first quotient digit now correct. store digit and shift the
+;# (subtracted) dividend 
+    move.w    d1,d4        ;keep hi-quotient
+    swap    d5
+    swap    d6
+    move.w    d6,d5
+    clr.w    d6        ;shift remainder up by 16 bits
+    bset    #31,d4        ;second digit
+    bra.s    ddnormalized
+ddremain:
+;# add 2nd word to quotient, get the remainder.
+    swap    d1
+    move.w    d4,d1        ;get result of previous division
+    swap    d1        ;restore order
+    swap    d4        ;restore normalization counter
+
+;# shift down one word/digit to renormalize remainder.
+    move.w    d5,d6
+    swap    d6
+    swap    d5
+    clr.l    d7
+    move.b    d4,d7
+    beq.s    ddrn
+    ;; shift d5:d6 to the right by d7 bits, d5 is high
+    move.l    d5,d0
+    lsr.l    d7,d6        ; shift low out
+    ror.l    d7,d0        ; move low bits of high to high
+    lsr.l    d7,d5        ; shift high down
+    eor.l    d5,d0        ; high bits are in d0
+    or.l    d0,d6        ; into d6
+ddrn:
+    move.l    d6,d5        ; remainder
+    move.l    d1,d6
+    rts
 
 
 ;*********************************************************************

@@ -11,6 +11,7 @@
 ;*********************************************************************
 
 		include	'TMap.i'
+		include	'MulDiv64.i'
 		include	'System'
 
 ChunkyPointer	EQU	0
@@ -1680,7 +1681,7 @@ DOAnimok
 	;***** Illuminazione
 
 ;		add.l	d0,d0
-		mulu.l	windowYratio(a5),d5:d0	;Aggiusta la distanza in base alle dimensioni della finestra
+		MULU64	windowYratio(a5),d5,d0,d1,d2,d3	;Aggiusta la distanza in base alle dimensioni della finestra
 		move.l	obj_blockpun(a4),a4
 		move.b	bl_Illumination(a4),d0
 		extb.l	d0

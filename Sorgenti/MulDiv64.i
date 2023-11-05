@@ -1,3 +1,4 @@
+                IFEQ __CPU-68060
 ;****************************************************************************
 ;*
 ;*	Moltiplicazione e divisione a 64 bit
@@ -155,6 +156,9 @@ M64n3\@
 
 ; NOTE: Only used as DIVS d2,d3,dx (where x is not d0/d1)
 DIVS64		MACRO
+                IFNC \1,d2
+                ERROR Only works with \1=d2!
+                ENDC
                 movem.l d0/d1,-(sp)
                 move.l  \2,d1
                 move.l  \3,d0
@@ -163,4 +167,20 @@ DIVS64		MACRO
                 move.l  d0,\3
                 movem.l (sp)+,d0/d1
 		ENDM
+
+                ELSE    ; 68060
+
+MULU64          MACRO
+                mulu.l  \1,\2:\3
+                ENDM
+
+MULS64          MACRO
+                muls.l  \1,\2:\3
+                ENDM
+
+DIVS64          MACRO
+                divs.l  \1,\2:\3
+                ENDM
+
+                ENDC    ; 68060
 
