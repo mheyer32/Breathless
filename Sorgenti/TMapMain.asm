@@ -451,6 +451,9 @@ TMnoclear
 
                 IFD DEVMODE
 
+                btst.b  #0,DevFlags+3(a5)
+                beq     TMnoframerate
+
 		jsr	GetTime
                 move.l  d0,d3
 
@@ -774,12 +777,21 @@ KIno2		cmp.w	#($5a+$80),d0		;Premuto tasto '[' Tast.Num.?
 ;		beq	KIflooronoff
 		cmp.w	#($45+$80),d0		;Premuto tasto Esc ?
 		beq	KIescape
+                IFD     DEVMODE
+		cmp.w	#($57+$80),d0		;F8
+                bne     .NotF7
+                bchg.b  #0,DevFlags+3(a5)
+                rts
+.NotF7
 		cmp.w	#($58+$80),d0		;Premuto tasto F9 ?
 		beq	KIcheat
+		cmp.w	#($59+$80),d0		;F10
+		beq	KIinvincible
 		cmp.w	#($08),d0		;Premuto tasto '8' ?
 		beq	KIjumplevel
 		cmp.w	#($09),d0		;Premuto tasto '9' ?
 		beq	KIjumpgame
+                ENDC    ; DEVMODE
 
 	;* Questi test devono essere gli ultimi e devono rimanere in quest'ordine
 KImp		cmp.w	#($42+$80),d0		;Premuto tasto TAB ?
@@ -947,6 +959,7 @@ ViewSizeTable	;	dc.w	32,20
 
 ;******************************************************************
 ;***** Cheat mode
+                IFD     DEVMODE
 
 KIcheat
 		move.w	#PLAYER_HEALTH,PlayerHealth(a5)
@@ -957,8 +970,17 @@ KIcheat
 		move.b	#1,PlayerShieldsFL(a5)
 		move.b	#1,PlayerEnergyFL(a5)
 		move.b	#1,PlayerCreditsFL(a5)
-
-		rts
+                ; All weapons at max efficiency
+                move.l  #$03030303,PlayerWeapons(a5)
+                move.l  #$03030303,PlayerWeapons+4(a5)
+                ; All keys
+                move.l  #$01010101,GreenKey(a5)
+                lea     CheatMsg(pc),a0
+ShowCheatMessage
+                moveq   #0,d0
+                moveq   #0,d1
+                moveq   #0,d2
+		jmp	SprDelayPrint
 
 KIjumplevel
 		st	Escape(a5)
@@ -969,6 +991,21 @@ KIjumpgame
 		addq.w	#1,CurrentGame(a5)
 		clr.w	CurrentLevel(a5)
 		rts
+
+                xref    Invincible
+KIinvincible
+                lea     InvMsg(pc),a0
+                not.b   Invincible(a5)
+                bne     ShowCheatMessage
+                lea     NoInvMsg(pc),a0
+                bra     ShowCheatMessage
+
+CheatMsg        dc.b    "CHEATING",-2,127,-1,0,0
+InvMsg          dc.b    "INVINCIBLE",-2,127,-1,0,0
+NoInvMsg        dc.b    "NOT INVINCIBLE",-2,127,-1,0,0
+
+                cnop    0,4
+                ENDC    DEVMODE
 
 
 ;******************************************************************
@@ -2333,6 +2370,10 @@ GlobalSound7	ds.l	1	;Pun. al global sound 7
 GlobalSound8	ds.l	1	;Pun. al global sound 8
 GlobalSound9	ds.l	1	;Pun. al global sound 9
 GlobalSound10	ds.l	1	;Pun. al global sound 10
+
+                IFD DEVMODE
+DevFlags        ds.l    1
+                ENDC
 
 		cnop	0,4
 

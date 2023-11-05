@@ -36,6 +36,12 @@
 
 PlayerHit	movem.l	d0-d3/a0-a1/a6,-(sp)
 
+                IFD     DEVMODE
+                tst.b   Invincible(a5)
+                bne     PHout
+
+                ENDC
+
 		tst.b	PlayerDeath(a5)		;Test se player morto
 		bne	PHout
 
@@ -743,6 +749,11 @@ PlayerShields	ds.w	1	;Scudi del player
 PlayerEnergy	ds.w	1	;Energia del player
 PlayerCredits	ds.l	1	;Crediti del player
 PlayerScore	ds.l	1	;Punteggio
+
+                IFD     DEVMODE
+                xdef    Invincible
+Invincible      ds.b    1
+                ENDC
 
 		xdef	GreenKey,YellowKey,RedKey,BlueKey
 
