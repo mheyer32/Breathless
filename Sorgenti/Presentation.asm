@@ -85,7 +85,7 @@ Plmodnook
 
 		st	PresFirstTime(a5)
 
-                ifnd SKIPINTRO
+                IFND DEVMODE
 		move.l	PresPicName1(a5),d4
 		jsr	ShowPic			;Visualizza logo1
 		move.l	#250,d2
@@ -95,7 +95,7 @@ Plmodnook
 		jsr	ShowPic			;Visualizza logo2
 		move.l	#400,d2
 		bsr	Waiting2
-                endc ; SKIPINTRO
+                ENDC ; DEVMODE
 
 	bra.s	PresTit		;!!! DA RIMUOVERE NEL GIOCO FINALE !!!
 
@@ -138,7 +138,9 @@ PresLoop
 		GFXBASE
 		CALLSYS	WaitTOF
 
+                IFND    DEVMODE
 		bra.s	PresLoop
+                ENDC    ; DEVMODE
 
 Pout
 		clr.b	MusicState(a5)

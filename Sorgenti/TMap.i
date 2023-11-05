@@ -279,17 +279,17 @@ PRINTHEX	MACRO	x,y,number
 ; x = valore della coordinata x (0..319)
 ; y = offset rispetto a scorey(a5) della coordinata y
 ; number e pun.screen sono modi di indirizzamento
-PRINTHEXCHUNKY	MACRO	x,y,number
-		movem.l	d0-d2/a0,-(sp)
-		move.w	\1,d0
-		move.w	scorey(a5),d1
-		add.w	\2,d1
-		move.w	\3,d2
-		move.l	CurrentChunkyBuffer(a5),a0
-		xref	PrintHexChunky
-		jsr	PrintHexChunky
-		movem.l	(sp)+,d0-d2/a0
-		ENDM
+;PRINTHEXCHUNKY	MACRO	x,y,number
+;		movem.l	d0-d2/a0,-(sp)
+;		move.w	\1,d0
+;		move.w	scorey(a5),d1
+;		add.w	\2,d1
+;		move.w	\3,d2
+;		move.l	CurrentChunkyBuffer(a5),a0
+;		xref	PrintHexChunky
+;		jsr	PrintHexChunky
+;		movem.l	(sp)+,d0-d2/a0
+;		ENDM
 
 
 CWAIT	macro	ucl,vpos,hpos

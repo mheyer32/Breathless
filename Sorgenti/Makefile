@@ -21,7 +21,7 @@ LFLAGS = -fbaserel -nostartfiles -nostdlib --print-map -Map link.map
 AFLAGS = -Fhunk -phxass -sd -extsd -sdreg=5 -linedebug -nowarn=62 -quiet
 AFLAGS += -I$(PREFIX)/m68k-amigaos/ndk-include
 AFLAGS += -I$(PREFIX)/m68k-amigaos/ndk/include
-AFLAGS += -DSKIPINTRO
+#AFLAGS += -DDEVMODE
 
 #Always	provide symbols, will be stripped away  for target executable
 CFLAGS += -g -ggdb
@@ -62,19 +62,19 @@ OBJS_060 = TMap060.o \
 
 # Make all of the applications
 all:	Breathless Breathless060
-	cp Breathless ../../hd/Breathless/
-	cp Breathless060 ../../hd/Breathless/
+	cp $(BINDIR)/Breathless ../../hd/Breathless/
+	cp $(BINDIR)/Breathless060 ../../hd/Breathless/
 
 clean:
 	rm -rf $(OBJS_COMMON) $(OBJS_030) $(OBJS_060) Breathless Breathless060
 
 Breathless: $(OBJS_030) $(OBJS_COMMON) | Makefile
 	$(VLINK) -b amigahunk -sc -Mlinker.map  -o $@ $^
-	#$(STRIP) --strip-debug --strip-unneeded $@ -o $(BINDIR)/$@
+	$(STRIP) --strip-debug --strip-unneeded $@ -o $(BINDIR)/$@
 
 Breathless060: $(OBJS_060) $(OBJS_COMMON) | Makefile
 		$(VLINK) -b amigahunk -sc -Mlinker.map  -o $@ $^
-		#$(STRIP) --strip-debug --strip-unneeded $@ -o $(BINDIR)/$@
+		$(STRIP) --strip-debug --strip-unneeded $@ -o $(BINDIR)/$@
 
 %.o: %.c Makefile
 	$(CC) $(CFLAGS) -c $< -o $@

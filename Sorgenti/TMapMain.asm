@@ -447,7 +447,33 @@ TMnotranseffect
 		tst.l	CurrentClear(a5)
 		beq.s	TMnoclear
 		bsr	ClearCurrentBitmap
-TMnoclear	move.l	CurrentBitmap(a5),a0
+TMnoclear
+
+                IFD DEVMODE
+		jsr	GetTime
+		add.l	times(a5),d0
+		add.l	times+4(a5),d0
+		add.l	times+8(a5),d0
+		beq.s	TMnoframerate
+		move.l	#1000000,d1
+		divu.l	d0,d1
+
+                ; To BCD (2 digits)
+                divu.w  #10,d1
+                move.w  d1,d2
+                lsl.w   #4,d2
+                swap    d1
+                add.w   d1,d2
+
+                move.w  #320-8*4,d0
+                moveq   #0,d1
+                move.l  ChunkyBuffer(a5),a0
+                jsr     PrintHexChunky
+
+TMnoframerate
+                ENDC    ; DEVMODE
+
+                move.l	CurrentBitmap(a5),a0
 		jsr	c2p8_go
 
 		bsr	KeyboardInput
