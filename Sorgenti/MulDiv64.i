@@ -138,45 +138,6 @@ M64n3\@
 		ENDM
 
 ;****************************************************************************
-;* La moltiplicazione viene eseguita con il metodo classico dei
-;* quozienti parziali
-;****************************************************************************
-
-;****************************************************************************
-;* Emula l'istruzione: divu.l <ea>,dr1:dr2
-;* Parametri :
-;*	\1 : <ea>
-;*	\2 : dr1 (un registro dati)
-;*	\3 : dr2 (un registro dati)
-;*	\4 : dr3 (registro dati di scratch)
-;*	\5 : dr4 (registro dati di scratch)
-;*	\6 : dr4 (registro dati di scratch)
-
-
-DIVU64		MACRO
-
-		movem.l	\4/\5/\6,-(sp)
-
-		moveq	#64-1,\6		;\6 = contatore iterazioni
-		move.l	\1,\5			;\5 = divisore
-		move.l	\2,\4
-		moveq	#0,\2
-
-D64loop\@	add.l	\3,\3
-		addx.l	\4,\4
-		addx.l	\2,\2
-		cmp.l	\2,\5
-		bhi.s	D64nosub\@
-		sub.l	\5,\2
-		addq.l	#1,\3
-D64nosub\@	dbra	\6,D64loop\@
-
-		movem.l	(sp)+,\4/\5/\6
-
-		ENDM
-
-
-;****************************************************************************
 ;* Emula l'istruzione: divs.l <ea>,dr1:dr2
 ;*
 ;* N.B.:
@@ -192,43 +153,14 @@ D64nosub\@	dbra	\6,D64loop\@
 ;*	\6 : dr4 (registro dati di scratch)
 
 
+; NOTE: Only used as DIVS d2,d3,dx (where x is not d0/d1)
 DIVS64		MACRO
-
-		movem.l	\4/\5/\6,-(sp)
-
-			;*** Negazione dei due operandi
-		moveq	#0,\6
-		move.l	\1,\5			;\5 = divisore
-		bpl.s	D64n1\@
-		neg.l	\5
-		moveq	#1,\6
-D64n1\@		tst.l	\2
-		bpl.s	D64n2\@
-		neg.l	\3
-		negx.l	\2
-		eor.b	#1,\6		;\6 = flag di segno del risultato
-D64n2\@
-		swap	\6
-
-		move.w	#64-1,\6		;\6 = contatore iterazioni
-		move.l	\2,\4
-		moveq	#0,\2
-
-D64loop\@	add.l	\3,\3
-		addx.l	\4,\4
-		addx.l	\2,\2
-		cmp.l	\2,\5
-		bhi.s	D64nosub\@
-		sub.l	\5,\2
-		addq.l	#1,\3
-D64nosub\@	dbra	\6,D64loop\@
-
-		swap	\6
-		tst.w	\6		;Il risultato  negativo ?
-		beq.s	D64n3\@		; se no, salta
-		neg.l	\3		;Nega il risultato
-D64n3\@
-		movem.l	(sp)+,\4/\5/\6
-
+                movem.l d0/d1,-(sp)
+                move.l  \2,d1
+                move.l  \3,d0
+                bsr     SDiv64
+                move.l  d1,\2
+                move.l  d0,\3
+                movem.l (sp)+,d0/d1
 		ENDM
 
