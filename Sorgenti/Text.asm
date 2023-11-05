@@ -798,9 +798,11 @@ PrintHexChunky	movem.l	d0-d7/a0-a6,-(sp)
 ONEDIGIT        macro
                 lsl.w   #6,\1
                 lea     caratteri2(pc,\1.w),a2
+                move.l  a0,a3
                 rept 8
-                move.l  (a2)+,0+320*REPTN(a0)
-                move.l  (a2)+,4+320*REPTN(a0)
+                move.l  (a2)+,0(a3)
+                move.l  (a2)+,4(a3)
+                add.l   window_width(a5),a3
                 endr
                 endm
 
@@ -809,7 +811,7 @@ PrintNumChunky:
                 movem.l d0-d7/a0-a6,-(sp)
 
                 move.l  ChunkyBuffer(a5),a0
-                mulu.w  #320,d1
+                mulu.l  window_width(a5),d1
                 add.l   d1,a0
                 ext.l   d0
                 add.l   d0,a0

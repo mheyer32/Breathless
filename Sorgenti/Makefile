@@ -33,7 +33,6 @@ OBJS_COMMON  =	sincos.o \
 				Presentation.o \
 				TMapMain.o \
 				Map.o \
-				c2pnew.o \
 				c2p1x1_8_c5_bm_040.o \
 				c2p2x1_8_c5_bm.o \
 				c2p2x2_8_c5_bm.o \
@@ -48,6 +47,9 @@ OBJS_COMMON  =	sincos.o \
 				Audio.o \
 				Player/Music.o \
 				Last.o
+
+OBJS_COMMON += c2pnew.o
+#OBJS_COMMON += c2p8.o
 
 OBJS_030 = TMap.o \
 		   DrawScreen.o \
