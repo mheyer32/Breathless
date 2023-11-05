@@ -1,5 +1,7 @@
                 section .text,code
+                xref c2p1x1_8_c5_bm_040
                 xref c2p2x1_8_c5_bm
+                xref c2p2x2_8_c5_bm
 
 ; void __asm c2p8_init (register __a0 UBYTE *chunky,	// pointer to chunky data
 ;			register __a1 ULONG mode,	// conversion mode
@@ -13,41 +15,51 @@
 ;			register __d7 ULONG scrwidth,   // screen width
 ;			register __a3 struct GfxBase *GfxBase);
 
-; 320x200
-;  D0 80000000   D1 40000000   D2 00000140   D3 000000C8
-;  D4 00000000   D5 00006A08   D6 00016408   D7 00000140
-;  A0 10099B70   A1 00000000   A2 1001E99C   A3 1000499C
-;  A4 100AA0DC   A5 10089E8E   A6 100A9574   A7 10099ADC
-
-; 160x100
-;  D0 80000000   D1 40000000   D2 000000A0   D3 00000064
-;  D4 00000000   D5 00006A08   D6 00016408   D7 00000140
-;  A0 10099B78   A1 00000000   A2 1001E99C   A3 1000499C
-;  A4 100AA0E4   A5 10089E96   A6 100A957C   A7 10099AE4
-
 ; Mode (a1) bit 0: double x, bit 1: double y
 c2p8_init::
         move.l  a0,chunky
         move.l  d2,cwidth
         move.l  d3,cheight
+
+        move.l  a1,d0
+        btst.l  #0,d0
+        beq     .nodblx
+        add.l   d2,d2
+.nodblx:
+        btst.l  #1,d0
+        beq     .nodbly
+
+        ; FIXME (hack for 1x2 mode)
+        cmp.l   #2,d0
+        beq     .nodbly
+
+        add.l   d3,d3
+.nodbly:
         move.l  #320,d0
         move.l  #200,d1
+
         sub.l   d2,d0
         sub.l   d3,d1
         lsr.l   #1,d0
         lsr.l   #1,d1
         move.l  d0,sxofs
         move.l  d1,syofs
+        move.l  .c2pfuncs(pc,a1*4),c2pfunc
         rts
+.c2pfuncs:
+        dc.l    c2p1x1_8_c5_bm_040      ; 1x1
+        dc.l    c2p2x1_8_c5_bm          ; 2x1
+        dc.l    c2p1x1_8_c5_bm_040      ; 1x2 (FIXME)
+        dc.l    c2p2x2_8_c5_bm
 
 ; void c2p8_go(register __a0 PLANEPTR *planes, // pointer to planes
 ;		);
 c2p8_go::
-        movem.l d2-d3,-(sp)
+        movem.l d2-d3/a2,-(sp)
         lea     -8(a0),a1              ; Move offset to bitmap
-        movem.l cwidth(pc),d0-d3/a0
-        bsr     c2p1x1_8_c5_bm_040
-        movem.l (sp)+,d2-d3
+        movem.l cwidth(pc),d0-d3/a0/a2
+        jsr     (a2)
+        movem.l (sp)+,d2-d3/a2
         rts
 
 c2p8_waitblitter::
@@ -60,3 +72,4 @@ cheight ds.l    1
 sxofs   ds.l    1
 syofs   ds.l    1
 chunky  ds.l    1
+c2pfunc ds.l    1

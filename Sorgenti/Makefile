@@ -35,6 +35,8 @@ OBJS_COMMON  =	sincos.o \
 				Map.o \
 				c2pnew.o \
 				c2p1x1_8_c5_bm_040.o \
+				c2p2x1_8_c5_bm.o \
+				c2p2x2_8_c5_bm.o \
 				Interrupt.o \
 				movement.o \
 				Text.o \
