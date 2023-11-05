@@ -795,6 +795,54 @@ PrintHexChunky	movem.l	d0-d7/a0-a6,-(sp)
 		movem.l	(sp)+,d0-d7/a0-a6
 		rts
 
+ONEDIGIT        macro
+                lsl.w   #6,\1
+                lea     caratteri2(pc,\1.w),a2
+                rept 8
+                move.l  (a2)+,0+320*REPTN(a0)
+                move.l  (a2)+,4+320*REPTN(a0)
+                endr
+                endm
+
+                xdef PrintNumChunky
+PrintNumChunky:
+                movem.l d0-d7/a0-a6,-(sp)
+
+                move.l  ChunkyBuffer(a5),a0
+                mulu.w  #320,d1
+                add.l   d1,a0
+                ext.l   d0
+                add.l   d0,a0
+
+                lea     .Num10(pc),a1
+                move.l  (a1)+,d0
+                moveq   #-1,d1
+.digit:
+                sub.l   d0,d2
+                blo     .zero
+                moveq   #0,d1
+.div10:
+                addq.w  #1,d1
+                sub.l   d0,d2
+                bhs     .div10
+.zero:
+                add.l   d0,d2
+                tst.l   d1
+                bmi     .next
+                and.w   #$f,d1
+                ONEDIGIT d1
+.next:
+                addq.l  #8,a0
+                move.l  (a1)+,d0
+                bne     .digit
+
+                ONEDIGIT d2
+
+                movem.l (sp)+,d0-d7/a0-a6
+                rts
+.Num10:
+                dc.l    1000000000,100000000,10000000,1000000,100000,10000,1000,100,10,0
+
 ;******************************************************************
 
 caratteri2	dc.b	4,4,4,4,4,4,4,0		;0

@@ -138,18 +138,24 @@ Rxloop
 
 		clr.l	(a1)		;Segnala la fine della lista di blocchi in vista contenenti oggetti
 
-;	jsr	GetTime
-;	move.l	d0,times(a5)	;Ray casting time
+                IFD     DEVMODE
+	jsr	GetTime
+	move.l	d0,times(a5)	;Ray casting time
+                ENDC    SHOWTIME
 
 		jsr	MakeFrame
 
-;	jsr	GetTime
-;	move.l	d0,times+4(a5)	;Wall rendering time
+                IFD     DEVMODE
+	jsr	GetTime
+	move.l	d0,times+4(a5)	;Wall rendering time
+                ENDC
 
 		jsr	DrawObjects
 
-;	jsr	GetTime
-;	move.l	d0,times+8(a5)	;Object rendering time
+                IFD     DEVMODE
+	jsr	GetTime
+	move.l	d0,times+8(a5)	;Object rendering time
+                ENDC
 
 		rts
 

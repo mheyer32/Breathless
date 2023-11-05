@@ -450,31 +450,61 @@ TMnotranseffect
 TMnoclear
 
                 IFD DEVMODE
+
 		jsr	GetTime
-		add.l	times(a5),d0
-		add.l	times+4(a5),d0
-		add.l	times+8(a5),d0
-		beq.s	TMnoframerate
-		move.l	#1000000,d1
-		divu.l	d0,d1
+                move.l  d0,d3
 
-                ; To BCD (2 digits)
-                divu.w  #10,d1
-                move.w  d1,d2
-                lsl.w   #4,d2
-                swap    d1
-                add.w   d1,d2
-
-                move.w  #320-8*4,d0
+                move.w  #320-8*10,d0
                 moveq   #0,d1
-                move.l  ChunkyBuffer(a5),a0
-                jsr     PrintHexChunky
+
+                ; Ray casting time
+                move.l  times(a5),d2
+                jsr     PrintNumChunky
+                addq.l  #8,d1
+
+                ; Wall rendering time
+                move.l  times+4(a5),d2
+                jsr     PrintNumChunky
+                addq.l  #8,d1
+
+                ; Object rendering time
+                move.l  times+8(a5),d2
+                jsr     PrintNumChunky
+                addq.l  #8,d1
+
+                ; C2P time
+                move.l  times+12(a5),d2
+                jsr     PrintNumChunky
+                addq.l  #8,d1
+
+                ; Other
+                move.l  d3,d2
+                jsr     PrintNumChunky
+                addq.l  #8,d1
+
+                ; Total frame time
+                add.l   times(a5),d3
+                add.l   times+4(a5),d3
+                add.l   times+8(a5),d3
+                add.l   times+12(a5),d3
+                move.l  d3,d2
+                jsr     PrintNumChunky
+                addq.l  #8,d1
+
+		move.l	#1000000*100,d2
+		divu.l	d3,d2
+                jsr     PrintNumChunky
 
 TMnoframerate
                 ENDC    ; DEVMODE
 
                 move.l	CurrentBitmap(a5),a0
 		jsr	c2p8_go
+
+                IFD     DEVMODE
+                jsr     GetTime
+                move.l  d0,times+12(a5)
+                endc
 
 		bsr	KeyboardInput
 		tst.b	gopause(a5)		;Deve andare in pausa forzata da un cambio di schermo ?
@@ -2160,7 +2190,7 @@ TEtype		ds.b	1	;Tipo effetto:
 framerate	ds.w	1	; Numero frame al secondo
 
 	xdef	times
-times		ds.l	4	; Microsecondi impiegati dalle varie sezioni di codice. Usato per testing
+times		ds.l	8	; Microsecondi impiegati dalle varie sezioni di codice. Usato per testing
 
 
 scorey		ds.w	1	; Coordinata y della sezione di schermo relativa ai punteggi

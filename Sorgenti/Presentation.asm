@@ -138,9 +138,7 @@ PresLoop
 		GFXBASE
 		CALLSYS	WaitTOF
 
-                IFND    DEVMODE
 		bra.s	PresLoop
-                ENDC    ; DEVMODE
 
 Pout
 		clr.b	MusicState(a5)
@@ -1006,7 +1004,9 @@ Wloop		jsr	TestChangeScreen
 		tst.b	d0
 		bpl.s	WLMB
 		cmp.l	VBTimer2(a5),d2
+                ifnd    DEVMODE
 		bgt.s	Wloop
+                endc
 
 		moveq	#1,d0
 		rts
@@ -1027,7 +1027,9 @@ W2loop		GFXBASE
 		CALLSYS	WaitTOF
 		jsr	TestChangeScreen
 		cmp.l	VBTimer2(a5),d2
+                ifnd    DEVMODE
 		bgt.s	W2loop
+                endc
 
 		rts
 
