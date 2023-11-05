@@ -1560,15 +1560,15 @@ Sout		movem.l	(sp)+,d0-d7/a0-a5
 
 ;************************************************************************
 
-configname	dc.b	'BREATHLESS:Config',0	;Nome file di configurazione
+configname	dc.b	'Config',0	;Nome file di configurazione
 configid	dc.b	'CON1',0
 
-filepath	dc.b	'BREATHLESS:',0		;Path dei file
+filepath	dc.b	'',0		;Path dei file
 disk1path	dc.b	'BREATHLESS1:',0	;Path dei file per disk 1
 disk2path	dc.b	'BREATHLESS2:',0	;Path dei file per disk 2
 disk3path	dc.b	'BREATHLESS3:',0	;Path dei file per disk 3
 
-nomeMGLD	dc.b	'BREATHLESS:Breathless.gld',0
+nomeMGLD	dc.b	'Breathless.gld',0
 disknomeMGLD	dc.b	'BREATHLESS1:Breathless.gld',0
 
 nomeWTOM	dc.b	'S:BREATHLESS_WTOM',0	;Se  presente questo file, il caricamento avviene da dischetti
