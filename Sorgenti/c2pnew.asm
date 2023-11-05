@@ -1,5 +1,5 @@
-                xref c2p1x1_8_c5_040_init
-                xref c2p1x1_8_c5_040
+                section .text,code
+                xref c2p2x1_8_c5_bm
 
 ; void __asm c2p8_init (register __a0 UBYTE *chunky,	// pointer to chunky data
 ;			register __a1 ULONG mode,	// conversion mode
@@ -20,39 +20,22 @@
 ;  A4 100AA0DC   A5 10089E8E   A6 100A9574   A7 10099ADC
 
 c2p8_init::
-        tst.l   d2
-        beq     .out
-        tst.l   d3
-        beq     .out
-        movem.l	d2-d7/a2-a6,-(sp)
-
-        lea     chunky(pc),a2
-        move.l  a0,(a2)
-
-        move.l  d2,d0
-        move.l  d3,d1
-        moveq   #0,d2
-        moveq   #0,d3
-        move.l  d0,d4
-        lsr.l   #3,d4
-        move.l  d0,d5
-        mulu.w  d1,d5
-        lsr.l   #3,d5
-        move.l  d0,d6
-
-        bsr     c2p1x1_8_c5_040_init
-        movem.l	(sp)+,d2-d7/a2-a6
-.out:
+        lea     chunky(pc),a1
+        move.l  a0,(a1)
         rts
 
 ; void c2p8_go(register __a0 PLANEPTR *planes, // pointer to planes
 ;		);
 c2p8_go::
-        movem.l d0-d7/a0-a6,-(sp)
-        move.l  (a0),a1
+        movem.l d2-d3,-(sp)
+        lea     -8(a0),a1              ; Move offset to bitmap
+        move.w  #320,d0
+        move.w  #200,d1
+        moveq   #0,d2
+        moveq   #0,d3
         move.l  chunky(pc),a0
-        bsr     c2p1x1_8_c5_040
-        movem.l (sp)+,d0-d7/a0-a6
+        bsr     c2p1x1_8_c5_bm_040
+        movem.l (sp)+,d2-d3
         rts
 
 c2p8_waitblitter::

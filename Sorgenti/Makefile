@@ -21,6 +21,7 @@ LFLAGS = -fbaserel -nostartfiles -nostdlib --print-map -Map link.map
 AFLAGS = -Fhunk -phxass -sd -extsd -sdreg=5 -linedebug -nowarn=62 -quiet
 AFLAGS += -I$(PREFIX)/m68k-amigaos/ndk-include
 AFLAGS += -I$(PREFIX)/m68k-amigaos/ndk/include
+AFLAGS += -DSKIPINTRO
 
 #Always	provide symbols, will be stripped away  for target executable
 CFLAGS += -g -ggdb
@@ -33,7 +34,7 @@ OBJS_COMMON  =	sincos.o \
 				TMapMain.o \
 				Map.o \
 				c2pnew.o \
-				c2p1x1_8_c5_040.o \
+				c2p1x1_8_c5_bm_040.o \
 				Interrupt.o \
 				movement.o \
 				Text.o \
