@@ -45,6 +45,48 @@
 
 ;* Inizio del programma ********************************
 
+STACK_SIZE=16*1024-20 ; 8K seems to work, but let's play it safe
+
+entry
+                move.l  $4.w,a6
+                cmp.w   #37,LIB_VERSION(a6)
+                blo     .error
+                sub.l   a2,a2           ; a2 = stack swap pointer
+                move.l  ThisTask(a6),a0
+                move.l  #STACK_SIZE+12,d0
+                move.l  TC_SPUPPER(a0),d1
+                sub.l   TC_SPLOWER(a0),d1
+                cmp.l   d0,d1
+                bhs     .stackok
+                moveq   #1,d1
+                jsr     _LVOAllocMem(a6)
+                tst.l   d0
+                beq     .error
+                move.l  d0,a0
+                move.l  d0,a2
+                add.l   #12,d0
+                move.l  d0,(a0)
+                add.l   #STACK_SIZE,d0
+                move.l  d0,4(a0)
+                move.l  d0,8(a0)
+                jsr     _LVOStackSwap(a6)
+.stackok:
+                move.l  a2,-(sp)
+                bsr     _start
+                move.l  (sp)+,d2
+                beq     .out
+                move.l  d2,a0
+                jsr     _LVOStackSwap(a6)
+                move.l  d2,a1
+                move.l  #STACK_SIZE+12,d0
+                jsr     _LVOFreeMem(a6)
+.out:
+                moveq   #0,d0
+                rts
+.error:
+                moveq   #-1,d0
+                rts
+
 _start
 		movem.l	d0-d7/a0-a6,-(sp)
 
