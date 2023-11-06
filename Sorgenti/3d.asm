@@ -99,25 +99,17 @@ Rxloop
 	;*** Calcola il raggio passante per la colonna d7 a video
 		move.l	PlayerViewDirZ(a5),d0
 		move.l	d0,d3
-		MULS64	d7,d4,d0,d1,d2,d3,d5,d6	;d0=ViewDirZ * X
-		move.w	d4,d0
-		swap	d0
+		FIXMUL	d7,d4,d0,d1,d2,d3,d5,d6	;d0=ViewDirZ * X
 		move.l	PlayerViewDirX(a5),d1
 		move.l	d1,d2
-		MULS64	d7,d4,d1,d0,d2,d3,d5,d6	;d1=ViewDirX * X
-		move.w	d4,d1
-		swap	d1
+		FIXMUL	d7,d4,d1,d0,d2,d3,d5,d6	;d1=ViewDirX * X
 		asl.l	#7,d2			;d2=ViewDirX * D ,  con D=128
 		asl.l	#7,d3			;d3=ViewDirZ * D ,  con D=128
 		sub.l	d0,d2			;d2=RayDirX
 		add.l	d1,d3			;d3=RayDirZ
 
-		MULS64	windowYratio(a5),d0,d2,d1,d3,d4,d5,d6
-		move.w	d0,d2
-		swap	d2
-		MULS64	windowYratio(a5),d0,d3,d1,d2,d4,d5,d6
-		move.w	d0,d3
-		swap	d3
+		FIXMUL	windowYratio(a5),d0,d2,d1,d3,d4,d5,d6
+		FIXMUL	windowYratio(a5),d0,d3,d1,d2,d4,d5,d6
 
 		move.l	d2,RayDirX(a5)
 		move.l	d3,RayDirZ(a5)
@@ -175,26 +167,19 @@ RayCastX	MACRO
 		move.l	d4,a4		;Copia d4 in a4
 
 		move.l	d5,d1
-		MULS64	d2,d3,d1,d0,d4,d5,d6,d7
-		move.w	d3,d1
-		swap	d1
+		FIXMUL	d2,d3,d1,d0,d4,d5,d6,d7
 		add.l	PlayerZ(a5),d1	;d1=Z+=(contdistx * RayDirZ)
 
-		MULS64	d2,d3,d4,d0,d1,d5,d6,d7
-		move.w	d3,d4
-		swap	d4
+		FIXMUL	d2,d3,d4,d0,d1,d5,d6,d7
 		move.l	d4,d3		;d3=DZ=(somdistx * RayDirZ)
 
 		move.l	d7,d0
-		MULS64	RayDirX(a5),d4,d0,d1,d2,d3,d5,d6
-		move.w	d4,d0
-		swap	d0
+		FIXMUL	RayDirX(a5),d4,d0,d1,d2,d3,d5,d6
 		add.l	PlayerX(a5),d0	;d0=X+=(contdistz * RayDirX)
 
 		move.l	d6,d2
-		MULS64	RayDirX(a5),d4,d2,d0,d1,d3,d5,d6
-		move.w	d4,d2
-		swap	d2		;d2=DX=(somdistz * RayDirX)
+		FIXMUL	RayDirX(a5),d4,d2,d0,d1,d3,d5,d6
+                ;d2=DX=(somdistz * RayDirX)
 
 		;*** Compilazione condizionale per far si che
 		;*** i brush di Edge2 e Edge3 non abbiano lo stesso
@@ -374,26 +359,19 @@ RayCastZ	MACRO
 		move.l	d4,a4		;Copia d4 in a4
 
 		move.l	d5,d1
-		MULS64	d2,d3,d1,d0,d4,d5,d6,d7
-		move.w	d3,d1
-		swap	d1
+		FIXMUL	d2,d3,d1,d0,d4,d5,d6,d7
 		add.l	PlayerZ(a5),d1	;d1=Z+=(contdistx * RayDirZ)
 
-		MULS64	d2,d3,d4,d0,d1,d5,d6,d7
-		move.w	d3,d4
-		swap	d4
+		FIXMUL	d2,d3,d4,d0,d1,d5,d6,d7
 		move.l	d4,d3		;d3=DZ=(somdistx * RayDirZ)
 
 		move.l	d7,d0
-		MULS64	RayDirX(a5),d4,d0,d1,d2,d3,d5,d6
-		move.w	d4,d0
-		swap	d0
+		FIXMUL	RayDirX(a5),d4,d0,d1,d2,d3,d5,d6
 		add.l	PlayerX(a5),d0	;d0=X+=(contdistz * RayDirX)
 
 		move.l	d6,d2
-		MULS64	RayDirX(a5),d4,d2,d0,d1,d3,d5,d6
-		move.w	d4,d2
-		swap	d2		;d2=DX=(somdistz * RayDirX)
+		FIXMUL	RayDirX(a5),d4,d2,d0,d1,d3,d5,d6
+		;d2=DX=(somdistz * RayDirX)
 
 		;*** Compilazione condizionale per far si che
 		;*** i brush di Edge2 e Edge3 non abbiano lo stesso
@@ -836,6 +814,10 @@ RCZrdzmin2	move.l	#-(BLOCK_SIZE),d3	;d3=SZ
 
 		rts
 
+
+                IFEQ __CPU-68060
+                IFND USEFPU
+
         ; divs.l    d2,d1:d0
         ; Thanks to Thomas Richter
         ;https://eab.abime.net/showthread.php?t=104901
@@ -1069,6 +1051,8 @@ ddrn:
     move.l    d6,d5        ; remainder
     move.l    d1,d6
     rts
+                ENDC    ; !USEFPU
+                ENDC    ; 68060
 
 
 ;*********************************************************************

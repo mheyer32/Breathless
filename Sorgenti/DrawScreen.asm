@@ -1015,24 +1015,20 @@ MTCloopx	move.w	(a1)+,d6		;d6=x2
 		divs.l	(sp),d4		;d4=T
 
 		move.l	8(a2,d1.w*8),d2
-		MULS64	d4,d5,d2,d0,d1,d3,d6,d7
-		move.w	d5,d2
-		swap	d2		;d2=U2
+		FIXMUL	d4,d5,d2,d0,d1,d3,d6,d7
+		;d2=U2
 
 		move.l	12(a2,d1.w*8),d3
-		MULS64	d4,d5,d3,d0,d1,d2,d6,d7
-		move.w	d5,d3
-		swap	d3		;d3=V2
+		FIXMUL	d4,d5,d3,d0,d1,d2,d6,d7
+		;d3=V2
 
 		move.l	(a2,d1.w*8),d0
-		MULS64	d4,d5,d0,d1,d2,d3,d6,d7
-		move.w	d5,d0
-		swap	d0		;d0=U1
+		FIXMUL	d4,d5,d0,d1,d2,d3,d6,d7
+		;d0=U1
 
 		move.l	4(a2,d1.w*8),d1
-		MULS64	d4,d5,d1,d0,d2,d3,d6,d7
-		move.w	d5,d1
-		swap	d1		;d1=V1
+		FIXMUL	d4,d5,d1,d0,d2,d3,d6,d7
+		;d1=V1
 
 
 		sub.l	d0,d2		;d2=DU
@@ -1150,24 +1146,20 @@ MTFloopx	move.w	(a1)+,d6		;d6=x2
 		divs.l	(sp),d4		;d4=T
 
 		move.l	8(a2,d1.w*8),d2
-		MULS64	d4,d5,d2,d0,d1,d3,d6,d7
-		move.w	d5,d2
-		swap	d2		;d2=U2
+		FIXMUL	d4,d5,d2,d0,d1,d3,d6,d7
+		;d2=U2
 
 		move.l	12(a2,d1.w*8),d3
-		MULS64	d4,d5,d3,d0,d1,d2,d6,d7
-		move.w	d5,d3
-		swap	d3		;d3=V2
+		FIXMUL	d4,d5,d3,d0,d1,d2,d6,d7
+		;d3=V2
 
 		move.l	(a2,d1.w*8),d0
-		MULS64	d4,d5,d0,d1,d2,d3,d6,d7
-		move.w	d5,d0
-		swap	d0		;d0=U1
+		FIXMUL	d4,d5,d0,d1,d2,d3,d6,d7
+		;d0=U1
 
 		move.l	4(a2,d1.w*8),d1
-		MULS64	d4,d5,d1,d0,d2,d3,d6,d7
-		move.w	d5,d1
-		swap	d1		;d1=V1
+		FIXMUL	d4,d5,d1,d0,d2,d3,d6,d7
+		;d1=V1
 
 
 		sub.l	d0,d2		;d2=DU

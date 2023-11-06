@@ -66,20 +66,65 @@ M64j1\@
 
 		ENDM
 
+                IFD     USEFPU
+
+DIVS64          MACRO
+                tst.l   \3
+                bpl.b   .pos\@
+                addq.l  #1,\2 ; add 2**32 (can't overflow if result is <= 2**31)
+.pos\@
+                fmove.l \2,fp0
+                fmul.x  fp6,fp0 ; 1<<32
+                fadd.l  \3,fp0
+                fdiv.l  \1,fp0
+                fintrz.x fp0
+                fmove.l fp0,\3
+                ENDM
+
+
+FIXMUL          MACRO
+                fmove.l \1,fp0
+                fmul.l  \3,fp0
+                fmul.x  fp7,fp0 ; fp7=1/65536
+                fmove.l fp0,\3
+                ENDM
+
+                ELSE    ; USEFPU
+
 ;****************************************************************************
-;* Emula l'istruzione: muls.l <ea>,dr1:dr2
+;* Emula l'istruzione: divs.l <ea>,dr1:dr2
+;*
+;* N.B.:
+;*	Il resto ha il segno sbagliato in alcuni casi, ma siccome
+;*	del resto non mi frega nulla, lo lascio stare cosi'.
+;*
 ;* Parametri :
 ;*	\1 : <ea>
 ;*	\2 : dr1 (un registro dati)
 ;*	\3 : dr2 (un registro dati)
 ;*	\4 : dr3 (registro dati di scratch)
 ;*	\5 : dr4 (registro dati di scratch)
-;*	\6 : dr5 (registro dati di scratch)
-;*	\7 : dr6 (registro dati di scratch)
-;*	\8 : dr7 (registro dati di scratch)
+;*	\6 : dr4 (registro dati di scratch)
 
-MULS64		MACRO
 
+; NOTE: Only used as DIVS d2,d3,dx (where x is not d0/d1)
+; Remained is not used
+DIVS64		MACRO
+                IFNC \1,d2
+                ERROR Only works with \1=d2!
+                ENDC
+                movem.l d0/d1,-(sp)
+                move.l  \2,d1
+                move.l  \3,d0
+                bsr     SDiv64
+                move.l  d1,\2
+                move.l  d0,\3
+                movem.l (sp)+,d0/d1
+		ENDM
+
+; \3 = (\1*\3) >> 16, \4-\8 scratch registers (preserved), \2 trashed
+FIXMUL          MACRO
+                ; MULS64
 		movem.l	\4/\5/\6/\7/\8,-(sp)
 
 			;*** Negazione dei due moltiplicandi
@@ -135,38 +180,12 @@ M64j1\@
 		negx.l	\2
 M64n3\@
 		movem.l	(sp)+,\4/\5/\6/\7/\8
+                ; >>= 16
+                move.w  \2,\3
+                swap    \3
+                ENDM
 
-		ENDM
-
-;****************************************************************************
-;* Emula l'istruzione: divs.l <ea>,dr1:dr2
-;*
-;* N.B.:
-;*	Il resto ha il segno sbagliato in alcuni casi, ma siccome
-;*	del resto non mi frega nulla, lo lascio stare cosi'.
-;*
-;* Parametri :
-;*	\1 : <ea>
-;*	\2 : dr1 (un registro dati)
-;*	\3 : dr2 (un registro dati)
-;*	\4 : dr3 (registro dati di scratch)
-;*	\5 : dr4 (registro dati di scratch)
-;*	\6 : dr4 (registro dati di scratch)
-
-
-; NOTE: Only used as DIVS d2,d3,dx (where x is not d0/d1)
-DIVS64		MACRO
-                IFNC \1,d2
-                ERROR Only works with \1=d2!
-                ENDC
-                movem.l d0/d1,-(sp)
-                move.l  \2,d1
-                move.l  \3,d0
-                bsr     SDiv64
-                move.l  d1,\2
-                move.l  d0,\3
-                movem.l (sp)+,d0/d1
-		ENDM
+                ENDC    ; USEFPU
 
                 ELSE    ; 68060
 
@@ -174,12 +193,14 @@ MULU64          MACRO
                 mulu.l  \1,\2:\3
                 ENDM
 
-MULS64          MACRO
-                muls.l  \1,\2:\3
-                ENDM
-
 DIVS64          MACRO
                 divs.l  \1,\2:\3
+                ENDM
+
+FIXMUL          MACRO
+                muls.l  \1,\2:\3
+                move.w  \2,\3
+                swap    \3
                 ENDM
 
                 ENDC    ; 68060

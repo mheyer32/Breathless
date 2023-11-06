@@ -23,6 +23,8 @@ AFLAGS += -I$(PREFIX)/m68k-amigaos/ndk-include
 AFLAGS += -I$(PREFIX)/m68k-amigaos/ndk/include
 AFLAGS += -DDEVMODE
 
+AFLAGS060 = $(AFLAGS) -m68060 -DUSEFPU
+
 #Always	provide symbols, will be stripped away  for target executable
 CFLAGS += -g -ggdb
 LFLAGS += -g -ggdb
@@ -87,8 +89,8 @@ ASMDEPS=Makefile TMap.i MulDiv64.i
 	$(ASM) $(AFLAGS) -m68030 $< -o $@
 
 %060.o: %.asm060 $(ASMDEPS)
-	$(ASM) $(AFLAGS) -m68060 $< -o $@
+	$(ASM) $(AFLAGS060) $< -o $@
 
 %060.o: %.asm $(ASMDEPS)
-	$(ASM) $(AFLAGS) -m68060 $< -o $@
+	$(ASM) $(AFLAGS060) $< -o $@
 

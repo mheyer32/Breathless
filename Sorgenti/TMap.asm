@@ -90,6 +90,12 @@ entry
 _start
 		movem.l	d0-d7/a0-a6,-(sp)
 
+                IFD     USEFPU
+                ; Load some commonly used constants into registers
+                fmove.s #$4F800000,fp6  ; 1<<32
+                fmove.s #$37800000,fp7  ; 1/65536
+                ENDC
+
 		GETDBASE
 
 	;*** Azzera tutte le variabili della section __MERGED,BSS
