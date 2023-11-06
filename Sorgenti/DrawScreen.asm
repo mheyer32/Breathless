@@ -58,6 +58,34 @@ ChunkyPointer	EQU	0
 
 ;*********************************************************************
 
+; \1 = Masking/tiling (with d7)
+; d2.l must be 0
+MFWINNERLOOP    MACRO
+.loop\@	
+                REPT    2
+                IFEQ    __CPU-68060
+                move.b	(a0,d0.w),d2
+		addx.l	d1,d0
+		move.b	(a3,d2.l),d2
+                IFNE    \1
+		and.w	d7,d0
+                ENDC
+                move.b  d2,(a1)
+		adda.l	a4,a1
+                ELSE
+                move.b	(a0,d0.w),d2
+		move.b	(a3,d2.w),(a1)
+		addx.l	d1,d0
+		adda.l	a4,a1
+                IFNE \1
+		and.w	d7,d0
+                ENDC
+                ENDC    ; 68060
+                ENDR
+                dbra	d6,.loop\@
+                ENDM
+
+
 StretchUpperTexture	MACRO
 
 		move.w	(a2),d2			;d2=brush column offset
@@ -147,18 +175,8 @@ MFWnomaxclip\@
 		dbra	d6,MFWcopyloopT\@
 		bra.s	MFWendstretch\@
 		cnop	0,8
-MFWcopyloopT\@	move.b	(a0,d0.w),d2
-		move.b	(a3,d2.w),(a1)
-		addx.l	d1,d0
-		adda.l	a4,a1
-		and.w	d7,d0
-		move.b	(a0,d0.w),d2
-		move.b	(a3,d2.w),(a1)
-		addx.l	d1,d0
-		adda.l	a4,a1
-		and.w	d7,d0
-MFWclnextT\@	dbra	d6,MFWcopyloopT\@
-		bra.s	MFWendstretch\@
+MFWcopyloopT\@	MFWINNERLOOP 1
+                bra.s	MFWendstretch\@
 
 			;***** No vertical tile
 MFWnotile2\@
@@ -169,19 +187,11 @@ MFWnotile2\@
 		dbra	d6,MFWcopyloop\@
 		bra.s	MFWendstretch\@
 		cnop	0,8
-MFWcopyloop\@	move.b	(a0,d0.w),d2
-		move.b	(a3,d2.w),(a1)
-		addx.l	d1,d0
-		adda.l	a4,a1
-		move.b	(a0,d0.w),d2
-		move.b	(a3,d2.w),(a1)
-		addx.l	d1,d0
-		adda.l	a4,a1
-		dbra	d6,MFWcopyloop\@
+MFWcopyloop\@	MFWINNERLOOP 0
 MFWendstretch\@	tst.l	d6
 		bpl.s	MFWfff\@
 		move.b	(a0,d0.w),d2
-		move.b	(a3,d2.w),(a1)
+		move.b	(a3,d2.l),(a1)
 MFWfff\@
 
 		move.l	(sp)+,d1	;y1
@@ -246,11 +256,11 @@ FCnolowlook\@	move.l	SkyYratio(a5),d1
 		bra.s	FCendloopS\@
 		cnop	0,8
 FCloopS\@	move.b	(a0,d0.w),(a1)
-		addx.l	d1,d0
 		adda.l	a4,a1
+		addx.l	d1,d0
 		move.b	(a0,d0.w),(a1)
-		addx.l	d1,d0
 		adda.l	a4,a1
+		addx.l	d1,d0
 		dbra	d6,FCloopS\@
 FCendloopS\@	tst.l	d6
 		bpl.s	FCout\@
@@ -369,18 +379,8 @@ MFWnomaxclip\@
 		dbra	d6,MFWcopyloopT\@
 		bra.s	MFWendstretch\@
 		cnop	0,8
-MFWcopyloopT\@	move.b	(a0,d0.w),d2
-		move.b	(a3,d2.w),(a1)
-		addx.l	d1,d0
-		adda.l	a4,a1
-		and.w	d7,d0
-		move.b	(a0,d0.w),d2
-		move.b	(a3,d2.w),(a1)
-		addx.l	d1,d0
-		adda.l	a4,a1
-		and.w	d7,d0
-MFWclnextT\@	dbra	d6,MFWcopyloopT\@
-		bra.s	MFWendstretch\@
+MFWcopyloopT\@	MFWINNERLOOP 1
+                bra.s	MFWendstretch\@
 
 			;***** No vertical tile
 MFWnotile2\@
@@ -391,15 +391,7 @@ MFWnotile2\@
 		dbra	d6,MFWcopyloop\@
 		bra.s	MFWendstretch\@
 		cnop	0,8
-MFWcopyloop\@	move.b	(a0,d0.w),d2
-		move.b	(a3,d2.w),(a1)
-		addx.l	d1,d0
-		adda.l	a4,a1
-		move.b	(a0,d0.w),d2
-		move.b	(a3,d2.w),(a1)
-		addx.l	d1,d0
-		adda.l	a4,a1
-MFWclnext\@	dbra	d6,MFWcopyloop\@
+MFWcopyloop\@	MFWINNERLOOP 0
 MFWendstretch\@	tst.l	d6
 		bpl.s	MFWfff\@
 		move.b	(a0,d0.w),d2
@@ -508,17 +500,7 @@ MFWnomaxclip\@
 		dbra	d6,MFWcopyloopT\@
 		bra.s	MFWendstretch\@
 		cnop	0,8
-MFWcopyloopT\@	move.b	(a0,d0.w),d2
-		move.b	(a3,d2.w),(a1)
-		addx.l	d1,d0
-		adda.l	a4,a1
-		and.w	d7,d0
-		move.b	(a0,d0.w),d2
-		move.b	(a3,d2.w),(a1)
-		addx.l	d1,d0
-		adda.l	a4,a1
-		and.w	d7,d0
-MFWclnextT\@	dbra	d6,MFWcopyloopT\@
+MFWcopyloopT\@	MFWINNERLOOP 1
 		bra.s	MFWendstretch\@
 
 			;***** No vertical tile
@@ -530,19 +512,11 @@ MFWnotile2\@
 		dbra	d6,MFWcopyloop\@
 		bra.s	MFWendstretch\@
 		cnop	0,8
-MFWcopyloop\@	move.b	(a0,d0.w),d2
-		move.b	(a3,d2.w),(a1)
-		addx.l	d1,d0
-		adda.l	a4,a1
-		move.b	(a0,d0.w),d2
-		move.b	(a3,d2.w),(a1)
-		addx.l	d1,d0
-		adda.l	a4,a1
-MFWclnext\@	dbra	d6,MFWcopyloop\@
+MFWcopyloop\@	MFWINNERLOOP 0
 MFWendstretch\@	tst.l	d6
 		bpl.s	MFWntnext\@
 		move.b	(a0,d0.w),d2
-		move.b	(a3,d2.w),(a1)
+		move.b	(a3,d2.l),(a1)
 		bra.s	MFWntnext\@
 
 MFWnext\@
@@ -626,11 +600,11 @@ FCnolowlook\@	move.l	SkyYratio(a5),d1
 		bra.s	FCendloopS\@
 		cnop	0,8
 FCloopS\@	move.b	(a0,d0.w),(a1)
-		addx.l	d1,d0
 		adda.l	a4,a1
+		addx.l	d1,d0
 		move.b	(a0,d0.w),(a1)
-		addx.l	d1,d0
 		adda.l	a4,a1
+		addx.l	d1,d0
 		dbra	d6,FCloopS\@
 FCendloopS\@	tst.l	d6
 		bpl.s	FCout\@
@@ -1062,6 +1036,7 @@ MTClitout
 		lsl.l	#6,d3
 		clr.l	d4
 
+                ; TODO: See if this can be optimized
 MTCfill		and.l	d7,d0
 		move.l	d1,d5
 		and.l	d6,d5
