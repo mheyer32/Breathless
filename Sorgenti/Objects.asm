@@ -14,7 +14,7 @@
 		include	'MulDiv64.i'
 		include	'System'
 
-ChunkyPointer	EQU	0
+;ChunkyPointer	EQU	0
 
 ;		xref	ChunkyPointer,ChunkyBuffer
 		xref	ChunkyBuffer
