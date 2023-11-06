@@ -1,5 +1,5 @@
 *.o
 Sorgenti/Breathless
 Sorgenti/Breathless060
-Sorgenti/linker.map
+Sorgenti/*.map
 Sorgenti/bin

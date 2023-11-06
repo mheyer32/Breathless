@@ -66,18 +66,16 @@ OBJS_060 = TMap060.o \
 
 # Make all of the applications
 all:	Breathless Breathless060
-	cp $(BINDIR)/Breathless ../../hd/Breathless/
-	cp $(BINDIR)/Breathless060 ../../hd/Breathless/
 
 clean:
-	rm -rf $(OBJS_COMMON) $(OBJS_030) $(OBJS_060) Breathless Breathless060
+	rm -rf $(OBJS_COMMON) $(OBJS_030) $(OBJS_060) *.map Breathless Breathless060
 
 Breathless: $(OBJS_030) $(OBJS_COMMON) | Makefile
-	$(VLINK) -b amigahunk -sc -Mlinker.map  -o $@ $^
+	$(VLINK) -b amigahunk -sc -M$@.map -o $@ $^
 	$(STRIP) --strip-debug --strip-unneeded $@ -o $(BINDIR)/$@
 
 Breathless060: $(OBJS_060) $(OBJS_COMMON) | Makefile
-		$(VLINK) -b amigahunk -sc -Mlinker.map  -o $@ $^
+		$(VLINK) -b amigahunk -sc -M$@.map -o $@ $^
 		$(STRIP) --strip-debug --strip-unneeded $@ -o $(BINDIR)/$@
 
 %.o: %.c Makefile

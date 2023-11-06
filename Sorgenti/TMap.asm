@@ -98,17 +98,15 @@ _start
 
 		GETDBASE
 
-	;*** Azzera tutte le variabili della section __MERGED,BSS
 
-		lea -32766(a5),a0
-		move.l	#LastBSSdata,d0
-		sub.l	a0,d0
-		lsr.l	#2,d0
+                ; Clear small data BSS
+                ; Since it's all BSS for now..
+                move.l  #__BSSBAS,a0
+                move.l  #__BSSLEN,d0
+
 		subq.w	#1,d0
 clrbss		clr.l	(a0)+
 		dbra	d0,clrbss
-
-
 
 		move.l	4,execbase(a5)
 ;		move.l	sp,savesp(a5)
