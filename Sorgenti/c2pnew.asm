@@ -28,11 +28,6 @@ c2p8_init::
 .nodblx:
         btst.l  #1,d0
         beq     .nodbly
-
-        ; FIXME (hack for 1x2 mode)
-        cmp.l   #2,d0
-        beq     .nodbly
-
         add.l   d3,d3
 .nodbly:
         move.l  #320,d0
@@ -44,13 +39,23 @@ c2p8_init::
         lsr.l   #1,d1
         move.l  d0,sxofs
         move.l  d1,syofs
-        move.l  .c2pfuncs(pc,a1*4),c2pfunc
+        move.l  a1,d0
+        and.w   #3,d0
+        move.l  .c2pfuncs(pc,d0.w*4),c2pfunc
         rts
 .c2pfuncs:
         dc.l    c2p1x1_8_c5_bm_040      ; 1x1
         dc.l    c2p2x1_8_c5_bm          ; 2x1
-        dc.l    c2p1x1_8_c5_bm_040      ; 1x2 (FIXME)
-        dc.l    c2p2x2_8_c5_bm
+        dc.l    c2p8_1x2                ; 1x2
+        dc.l    c2p2x2_8_c5_bm          ; 2x2
+
+c2p8_1x2:
+        ; HACK: Double BytesPerRow per row (and restore)
+        move.l  a1,a2
+        lsl.l   (a2)
+        jsr     c2p1x1_8_c5_bm_040
+        lsr.r   (a2)
+        rts
 
 ; void c2p8_go(register __a0 PLANEPTR *planes, // pointer to planes
 ;		);

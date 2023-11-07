@@ -1208,6 +1208,7 @@ stupid	ds.l 1
 
 	xdef	ChunkyPointer,ChunkyBuffer,Yoffset,YoffsetPlus4
 
+        ; XXX FIXME Not located at (a5) since switching to vasm
 ChunkyPointer	ds.l	1	;pun. al buffer chunky pixel. DEVE essere il primo, in modo che il suo offset rispetto ad a5 sia 0.
 				; E' usato dalle routine di tracciamento.
 
