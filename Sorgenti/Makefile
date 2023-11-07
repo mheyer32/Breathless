@@ -24,7 +24,7 @@ AFLAGS += -I$(PREFIX)/m68k-amigaos/ndk/include
 AFLAGS += -DCHEATS
 #AFLAGS += -DDEVMODE
 
-AFLAGS060 = $(AFLAGS) -m68060 -DUSEFPU
+AFLAGS060 = $(AFLAGS) -m68060
 
 #Always	provide symbols, will be stripped away  for target executable
 CFLAGS += -g -ggdb
@@ -59,23 +59,26 @@ OBJS_030 = TMap.o \
 		   3d.o \
 		   Objects.o
 
-OBJS_060 = TMap060.o \
-		   DrawScreen060.o \
-		   3d060.o \
-		   Objects060.o
+OBJS_060 = $(patsubst %.o,%060.o,$(OBJS_030))
+OBJS_LC060 = $(patsubst %.o,%lc060.o,$(OBJS_030))
 
+TARGETS=Breathless Breathless060 BreathlessLC060
 
 # Make all of the applications
-all:	Breathless Breathless060
+all: $(TARGETS)
 
 clean:
-	rm -rf $(OBJS_COMMON) $(OBJS_030) $(OBJS_060) *.map Breathless Breathless060
+	rm -rf *.o *.map $(TARGETS)
 
 Breathless: $(OBJS_030) $(OBJS_COMMON) | Makefile
 	$(VLINK) -b amigahunk -sc -M$@.map -o $@ $^
 	$(STRIP) --strip-debug --strip-unneeded $@ -o $(BINDIR)/$@
 
 Breathless060: $(OBJS_060) $(OBJS_COMMON) | Makefile
+		$(VLINK) -b amigahunk -sc -M$@.map -o $@ $^
+		$(STRIP) --strip-debug --strip-unneeded $@ -o $(BINDIR)/$@
+
+BreathlessLC060: $(OBJS_LC060) $(OBJS_COMMON) | Makefile
 		$(VLINK) -b amigahunk -sc -M$@.map -o $@ $^
 		$(STRIP) --strip-debug --strip-unneeded $@ -o $(BINDIR)/$@
 
@@ -87,9 +90,9 @@ ASMDEPS=Makefile TMap.i MulDiv64.i
 %.o: %.asm $(ASMDEPS)
 	$(ASM) $(AFLAGS) -m68030 $< -o $@
 
-%060.o: %.asm060 $(ASMDEPS)
-	$(ASM) $(AFLAGS060) $< -o $@
-
 %060.o: %.asm $(ASMDEPS)
+	$(ASM) $(AFLAGS060) -DUSEFPU $< -o $@
+
+%lc060.o: %.asm $(ASMDEPS)
 	$(ASM) $(AFLAGS060) $< -o $@
 
