@@ -21,7 +21,8 @@ LFLAGS = -fbaserel -nostartfiles -nostdlib --print-map -Map link.map
 AFLAGS = -Fhunk -phxass -sd -extsd -sdreg=5 -linedebug -nowarn=62 -quiet
 AFLAGS += -I$(PREFIX)/m68k-amigaos/ndk-include
 AFLAGS += -I$(PREFIX)/m68k-amigaos/ndk/include
-AFLAGS += -DDEVMODE
+AFLAGS += -DCHEATS
+#AFLAGS += -DDEVMODE
 
 AFLAGS060 = $(AFLAGS) -m68060 -DUSEFPU
 

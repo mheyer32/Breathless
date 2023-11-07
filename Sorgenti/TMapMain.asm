@@ -449,10 +449,10 @@ TMnotranseffect
 		bsr	ClearCurrentBitmap
 TMnoclear
 
-                IFD DEVMODE
-
                 btst.b  #0,DevFlags+3(a5)
                 beq     TMnoframerate
+
+                IFD DEVMODE
 
 		jsr	GetTime
                 move.l  d0,d3
@@ -498,8 +498,20 @@ TMnoclear
 		divu.l	d3,d2
                 jsr     PrintNumChunky
 
-TMnoframerate
+                ELSE    ; DEVMODE
+
+                jsr     GetTime
+                tst.l   d0
+                beq     TMnoframerate
+		move.l	#1000000*100,d2
+		divu.l	d0,d2
+                move.w  #320-8*10,d0
+                moveq   #0,d1
+                jsr     PrintNumChunky
+
                 ENDC    ; DEVMODE
+
+TMnoframerate
 
                 move.l	CurrentBitmap(a5),a0
 		jsr	c2p8_go
@@ -777,12 +789,12 @@ KIno2		cmp.w	#($5a+$80),d0		;Premuto tasto '[' Tast.Num.?
 ;		beq	KIflooronoff
 		cmp.w	#($45+$80),d0		;Premuto tasto Esc ?
 		beq	KIescape
-                IFD     DEVMODE
 		cmp.w	#($57+$80),d0		;F8
                 bne     .NotF7
                 bchg.b  #0,DevFlags+3(a5)
                 rts
 .NotF7
+                IFD     CHEATS
 		cmp.w	#($58+$80),d0		;Premuto tasto F9 ?
 		beq	KIcheat
 		cmp.w	#($59+$80),d0		;F10
@@ -791,7 +803,7 @@ KIno2		cmp.w	#($5a+$80),d0		;Premuto tasto '[' Tast.Num.?
 		beq	KIjumplevel
 		cmp.w	#($09),d0		;Premuto tasto '9' ?
 		beq	KIjumpgame
-                ENDC    ; DEVMODE
+                ENDC    ; CHEATS
 
 	;* Questi test devono essere gli ultimi e devono rimanere in quest'ordine
 KImp		cmp.w	#($42+$80),d0		;Premuto tasto TAB ?
@@ -959,7 +971,7 @@ ViewSizeTable	;	dc.w	32,20
 
 ;******************************************************************
 ;***** Cheat mode
-                IFD     DEVMODE
+                IFD     CHEATS
 
 KIcheat
 		move.w	#PLAYER_HEALTH,PlayerHealth(a5)
@@ -975,6 +987,12 @@ KIcheat
                 move.l  #$03030303,PlayerWeapons+4(a5)
                 ; All keys
                 move.l  #$01010101,GreenKey(a5)
+                ; Signal update of panel
+                moveq   #-1,d0
+		move.l  d0,WeaponsFL(a5)
+		move.l  d0,WeaponsFL+4(a5)
+                move.l  d0,GreenKeyFL(a5)
+
                 lea     CheatMsg(pc),a0
 ShowCheatMessage
                 moveq   #0,d0
@@ -1005,7 +1023,7 @@ InvMsg          dc.b    "INVINCIBLE",-2,127,-1,0,0
 NoInvMsg        dc.b    "NOT INVINCIBLE",-2,127,-1,0,0
 
                 cnop    0,4
-                ENDC    DEVMODE
+                ENDC    CHEATS
 
 
 ;******************************************************************
@@ -2371,9 +2389,7 @@ GlobalSound8	ds.l	1	;Pun. al global sound 8
 GlobalSound9	ds.l	1	;Pun. al global sound 9
 GlobalSound10	ds.l	1	;Pun. al global sound 10
 
-                IFD DEVMODE
 DevFlags        ds.l    1
-                ENDC
 
 		cnop	0,4
 

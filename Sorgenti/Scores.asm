@@ -36,7 +36,7 @@
 
 PlayerHit	movem.l	d0-d3/a0-a1/a6,-(sp)
 
-                IFD     DEVMODE
+                IFD     CHEATS
                 tst.b   Invincible(a5)
                 bne     PHout
 
@@ -750,7 +750,7 @@ PlayerEnergy	ds.w	1	;Energia del player
 PlayerCredits	ds.l	1	;Crediti del player
 PlayerScore	ds.l	1	;Punteggio
 
-                IFD     DEVMODE
+                IFD     CHEATS
                 xdef    Invincible
 Invincible      ds.b    1
                 ENDC
