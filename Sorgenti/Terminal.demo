@@ -186,8 +186,8 @@ Tloncp
 		xdef	DSprotoffs
 
 DoSelection
-		tst.b	Protection(a5)		;Test se protezione
-DSprotoffs	bne	DSprotection
+;		tst.b	Protection(a5)		;Test se protezione
+;DSprotoffs	bne	DSprotection
 		tst.l	terminal(a5)		;Test se menu configurazione
 		bmi	DSconfig		; Se si, salta
 		move.w	CurrentPageNum(a5),d1

@@ -62,6 +62,27 @@ OBJS_030 = TMap.o \
 OBJS_060 = $(patsubst %.o,%060.o,$(OBJS_030))
 OBJS_LC060 = $(patsubst %.o,%lc060.o,$(OBJS_030))
 
+OBJS_DEMO  =	TMap.o \
+				DrawScreen.o \
+				3d.o \
+				Objects.o\
+				sincos.o \
+				Animations.o \
+				Presentation.o \
+				TMapMainDemo.o \
+				Map.o \
+				TerminalDemo.o \
+				Interrupt.o \
+				movement.o \
+				Text.o \
+				Scores.o \
+				devices.o \
+				LoaderDemo.o \
+				FileAccess.o \
+				Audio.o \
+				Player/Music.o \
+				Last.o
+
 TARGETS=Breathless Breathless060 BreathlessLC060
 
 # Make all of the applications
@@ -80,6 +101,12 @@ Breathless060: $(OBJS_060) $(OBJS_COMMON) | Makefile
 
 BreathlessLC060: $(OBJS_LC060) $(OBJS_COMMON) | Makefile
 		$(VLINK) -b amigahunk -sc -M$@.map -o $@ $^
+#		$(LINK) $(LFLAGS) -o $@ $^
+		$(STRIP) --strip-debug --strip-unneeded $@ -o $(BINDIR)/$@
+		
+BreathlessDemo: $(OBJS_DEMO) | Makefile
+		$(VLINK) -b amigahunk -sc -Mlinker.map  -o $@ $^
+#		$(LINK) $(LFLAGS) -o $@ $^
 		$(STRIP) --strip-debug --strip-unneeded $@ -o $(BINDIR)/$@
 
 %.o: %.c Makefile

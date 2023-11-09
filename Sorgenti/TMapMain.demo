@@ -2045,10 +2045,9 @@ InitKeyQueue
 
 ;**********************************************************************
 
-panelpic	incbin	"graphic/panel04.raw"
-background	incbin	"graphic/Background01.raw"
-mirino01	incbin	"graphic/Mirino01.raw"
-
+panelpic	incbin	"Graphic/Panel04.raw"
+background	incbin	"Graphic/Background01.raw"
+mirino01	incbin	"Graphic/Mirino01.raw"
 
 ;**********************************************************************
 
